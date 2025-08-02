@@ -49,4 +49,10 @@ public class StudentDetails {
 
     @Column(name = "last_updated_at")
     private LocalDateTime lastUpdatedAt = LocalDateTime.now();
+
+    @Column(name = "assigned_to")
+    private String assignedTo;
+
+    @Column(name = "is_assigned")
+    private Boolean isAssigned = false;
 }
