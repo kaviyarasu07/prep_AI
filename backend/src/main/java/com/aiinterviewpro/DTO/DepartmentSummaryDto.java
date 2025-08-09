@@ -12,6 +12,8 @@ public class DepartmentSummaryDto {
     private String assignedAdmins;
     private int numberOfStudents;
     private String status;
+    private int roleId;
+
 
 
 

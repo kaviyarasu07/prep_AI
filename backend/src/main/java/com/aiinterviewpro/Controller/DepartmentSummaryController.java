@@ -4,10 +4,7 @@ import com.aiinterviewpro.DTO.DepartmentSummaryDto;
 import com.aiinterviewpro.Service.DepartmentSummaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,6 +27,11 @@ public class DepartmentSummaryController {
         DepartmentSummaryDto dto = departmentsummaryservice.getDepartmentSummaryById(id);
         return ResponseEntity.ok(dto);
 
+    }
+    @PutMapping("/update")
+    public ResponseEntity<String> updateDepartment(@RequestBody DepartmentSummaryDto dto) {
+        departmentsummaryservice.updateDepartmentAndAdmin(dto);
+        return ResponseEntity.ok("Department and Admin updated successfully.");
     }
 
 

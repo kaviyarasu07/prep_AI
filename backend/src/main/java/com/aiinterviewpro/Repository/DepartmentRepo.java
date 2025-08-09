@@ -3,10 +3,14 @@ package com.aiinterviewpro.Repository;
 import com.aiinterviewpro.DTO.DepartmentSummaryDto;
 import com.aiinterviewpro.Entity.Department;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+
 @Repository
 
 public interface DepartmentRepo extends JpaRepository<Department, Integer> {
@@ -32,6 +36,39 @@ public interface DepartmentRepo extends JpaRepository<Department, Integer> {
     GROUP BY d.id, dm.department_name
     """, nativeQuery = true)
 	List<Object[]> getActiveDepartmentSummary();
+
+	@Modifying
+	@Query(value = """
+        UPDATE tb_department d
+        SET department_master_id = dm.id,
+            is_active = :status
+        FROM tb_department_master dm
+        WHERE d.id = :departmentId
+          AND dm.department_name = :departmentName
+    """, nativeQuery = true)
+	int updateDepartmentSummary(
+			@Param("departmentId") int departmentId,
+			@Param("departmentName") String departmentName,
+			@Param("status") String status
+	);
+
+
+
+//	@Modifying
+//	@Query(value = """
+//        DELETE FROM tb_department d
+//        USING tb_department_master dm, tb_staff_details sd
+//        WHERE d.department_master_id = dm.id
+//          AND d.staff_id = sd.id
+//          AND d.id = :departmentId
+//          AND dm.department_name = :departmentName
+//          AND sd.id = :staffId
+//    """, nativeQuery = true)
+//	int deleteDepartmentSummary(
+//			@Param("departmentId") Long departmentId,
+//			@Param("departmentName") String departmentName,
+//			@Param("staffId") Long staffId
+//	);
 
 
 

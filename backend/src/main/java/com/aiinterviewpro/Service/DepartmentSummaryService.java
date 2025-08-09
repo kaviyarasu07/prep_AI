@@ -9,6 +9,7 @@ import com.aiinterviewpro.Repository.StudentDetailsRepo;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,9 @@ public class DepartmentSummaryService {
     private StaffDetailsRepo staffdetailsrepo;
     @Autowired
     private StudentDetailsRepo studentdetailsrepo;
+    @Autowired
+    private StaffDetailsRepo staffrepo;
+
 //    --->Active Department Summary(Get all)-->
 
     public List<DepartmentSummaryDto> getActiveDepartmentSummaries() {
@@ -75,7 +79,7 @@ public class DepartmentSummaryService {
         int numberOfStudents = studentdetailsrepo.countByDepartmentId(id);
 
         DepartmentSummaryDto dto = new DepartmentSummaryDto();
-        dto.setId(department.getId()); // Only if DTO has `id`
+        dto.setId(department.getId());
         dto.setDepartmentName(departmentName);
         dto.setAssignedAdmins(assignedAdmins);
         dto.setNumberOfStudents(numberOfStudents);
@@ -83,4 +87,35 @@ public class DepartmentSummaryService {
 
         return dto;
     }
+
+
+     @Transactional
+            public void updateDepartmentAndAdmin(DepartmentSummaryDto dto){
+
+
+            // Step 1: Update department
+            int deptRows = departmentrepo.updateDepartmentSummary(
+            dto.getId(),
+            dto.getDepartmentName(),
+            dto.getStatus()
+    );
+
+            if (deptRows == 0) {
+                throw new RuntimeException("Department update failed. Check department ID and name.");
+            }
+
+
+         int staffRows = staffrepo.updateAdminNameByDepartment(
+                 dto.getId(),
+                 dto.getRoleId(),
+                 dto.getAssignedAdmins()
+         );
+
+         if (staffRows == 0) {
+             throw new RuntimeException("No admin found for this department with the given role to update.");
+         }
+     }
 }
+
+
+
