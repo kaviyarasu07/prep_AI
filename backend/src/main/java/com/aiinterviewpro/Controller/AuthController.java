@@ -6,16 +6,23 @@ import com.aiinterviewpro.DTO.RegisterRequestDto;
 import com.aiinterviewpro.Security.JwtUtil;
 import com.aiinterviewpro.Service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequiredArgsConstructor
+
 @RequestMapping("/auth")
 public class AuthController {
     private final AuthService authService;
     private final JwtUtil jwtUtil;
+
+    @Autowired
+    public AuthController(AuthService authService, JwtUtil jwtUtil) {
+        this.authService = authService;
+        this.jwtUtil = jwtUtil;
+    }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequestDto request) {

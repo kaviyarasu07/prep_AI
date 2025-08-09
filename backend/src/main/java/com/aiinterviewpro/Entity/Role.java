@@ -20,6 +20,14 @@ public class Role {
     @Column(name="name")
     private String name;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 

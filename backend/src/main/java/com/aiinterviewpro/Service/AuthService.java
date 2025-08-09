@@ -24,6 +24,8 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final RoleRepo roleRepository;
 
+
+
     public void register(RegisterRequestDto request) {
         if (request.getEmail() == null || request.getEmail().isBlank()) {
             throw new RuntimeException("Email must not be empty");
