@@ -30,9 +30,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .userDetailsService(userDetailsService)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/auth/**","/dashBoard/**","/department/**").permitAll()
                         .requestMatchers("/sa/**").hasRole("SUPER_ADMIN")
                         .requestMatchers("/ca/**").hasRole("COLLEGE_ADMIN")
+                        .requestMatchers("/da/**").hasRole("DEPARTMENT_ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->

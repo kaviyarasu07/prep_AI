@@ -30,7 +30,12 @@ public class JwtUtil {
 
     @PostConstruct
     public void init() {
-        this.secretKey = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+        if (jwtSecret == null || jwtSecret.isEmpty()) {
+            throw new IllegalStateException("JWT secret is missing.");
+        }
+
+        byte[] decodedKey = java.util.Base64.getDecoder().decode(jwtSecret);
+        this.secretKey = Keys.hmacShaKeyFor(decodedKey);
     }
 
     private String buildToken(String userName, Role role, long durationMs) {
