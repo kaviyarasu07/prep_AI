@@ -62,7 +62,7 @@ const LandingPage = () => {
             <a
               className="btn btn-primary fw-bold"
               href="#"
-              onClick={() => navigate("/LoginPage")}
+              onClick={() => navigate("/CollegeRegisterForm")}
             >
               Login
             </a>
