@@ -1,62 +1,13 @@
-<<<<<<< Updated upstream
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
-
-*{
-  font-family: 'Montserrat', sans-serif;
-}
-
-=======
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 
 *{
   font-family: 'Montserrat', sans-serif;
 }
->>>>>>> Stashed changes
 body {
   margin: 0;
   padding: 0;
   width: 100%;
   overflow-x: hidden;
   box-sizing: border-box;
-}
-.card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: none;
-}
-<<<<<<< Updated upstream
-
-.card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-  background-color: rgba(106, 165, 252, 1);
-  color: white;
-}
-
-.card img {
-  transition: transform 0.3s ease;
-}
-
-.card:hover img {
-  transform: scale(1.02);
-=======
-input::-webkit-inner-spin-button,
-input::-webkit-outer-spin-button{
-	-webkit-appearance:none;
->>>>>>> Stashed changes
-}
-
-.card .card-body-img {
-  transition: background-color 0.3s ease;
-}
-
-.card:hover .card-body {
-  background-color: #dde1e4;
-}
-.icon-hover:hover svg {
-  color: #d3d9e2; 
-  transition: color 0.3s ease;
-}
-.card-body-img small:hover {
-  color: black;
 }

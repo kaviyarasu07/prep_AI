@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import img2 from "../assets/img2.jpg"
 import img1 from "../assets/img1.jpg"
 import admin from "../assets/admin.jpg"
 import user from "../assets/user.jpg"
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
+
 
 // Yup validation schema
 const validationSchema = Yup.object({
@@ -25,7 +25,7 @@ const validationSchema = Yup.object({
 });
 
 
-export default function CollegeRegistration() {
+export default function CollegeRegisterForm() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -54,9 +54,9 @@ export default function CollegeRegistration() {
   return (
     <div className="container py-5">
       <div className="row justify-content-center">
-        <div className="col-lg-6">
-          <div className="card shadow-sm border-0">
-            <div className="card-body bg-light">
+        <div className="col-lg-7">
+          <div className="custom-card shadow-lg border-0 p-4">
+            <div className="card-body">
               <h3 className="fw-bold mb-2">Prep AI College Registration</h3>
               <p className="text-muted mb-4">
                 Please fill out the form below to register your college on our AI-powered interview preparation platform.
@@ -70,7 +70,7 @@ export default function CollegeRegistration() {
                   <input
                     type="text"
                     name="collegeName"
-                    className={`form-control ${formik.touched.collegeName && formik.errors.collegeName ? "is-invalid" : ""}`}
+                    className={`form-control custom-input ${formik.touched.collegeName && formik.errors.collegeName ? "is-invalid" : ""}`}
                     value={formik.values.collegeName}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -85,7 +85,7 @@ export default function CollegeRegistration() {
                   <label className="form-label">College Type <small className="text-danger">*</small></label>
                   <select
                     name="collegeType"
-                    className={`form-select ${formik.touched.collegeType && formik.errors.collegeType ? "is-invalid" : ""}`}
+                    className={`form-select custom-input ${formik.touched.collegeType && formik.errors.collegeType ? "is-invalid" : ""}`}
                     value={formik.values.collegeType}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -106,7 +106,7 @@ export default function CollegeRegistration() {
                   <input
                     type="text"
                     name="counselingCode"
-                    className={`form-control ${formik.touched.counselingCode && formik.errors.counselingCode ? "is-invalid" : ""}`}
+                    className={`form-control custom-input ${formik.touched.counselingCode && formik.errors.counselingCode ? "is-invalid" : ""}`}
                     value={formik.values.counselingCode}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -122,7 +122,7 @@ export default function CollegeRegistration() {
                   <input
                     type="url"
                     name="collegeWebsite"
-                    className={`form-control ${formik.touched.collegeWebsite && formik.errors.collegeWebsite ? "is-invalid" : ""}`}
+                    className={`form-control custom-input ${formik.touched.collegeWebsite && formik.errors.collegeWebsite ? "is-invalid" : ""}`}
                     value={formik.values.collegeWebsite}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -138,7 +138,7 @@ export default function CollegeRegistration() {
                   <input
                     type="email"
                     name="officialEmail"
-                    className={`form-control ${formik.touched.officialEmail && formik.errors.officialEmail ? "is-invalid" : ""}`}
+                    className={`form-control custom-input ${formik.touched.officialEmail && formik.errors.officialEmail ? "is-invalid" : ""}`}
                     value={formik.values.officialEmail}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -155,7 +155,7 @@ export default function CollegeRegistration() {
                   <input
                     type="text"
                     name="adminName"
-                    className={`form-control ${formik.touched.adminName && formik.errors.adminName ? "is-invalid" : ""}`}
+                    className={`form-control custom-input ${formik.touched.adminName && formik.errors.adminName ? "is-invalid" : ""}`}
                     value={formik.values.adminName}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -171,7 +171,7 @@ export default function CollegeRegistration() {
                   <input
                     type="email"
                     name="adminEmail"
-                    className={`form-control ${formik.touched.adminEmail && formik.errors.adminEmail ? "is-invalid" : ""}`}
+                    className={`form-control custom-input ${formik.touched.adminEmail && formik.errors.adminEmail ? "is-invalid" : ""}`}
                     value={formik.values.adminEmail}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -187,66 +187,66 @@ export default function CollegeRegistration() {
                   <input
                     type="number"
                     name="phoneNumber"
-                    className="form-control"
+                    className="form-control custom-input"
                     value={formik.values.phoneNumber}
                     onChange={formik.handleChange}
                   />
                 </div>
 
-                {/* Password */}
-                <div className="mb-3 position-relative">
+               {/* Password */}
+                <div className="mb-3">
                   <h4 className="fw-bold">Login Details</h4>
                   <label className="form-label">Password <small className="text-danger">*</small></label>
-                  <input
+                  <div className="d-flex">
+                    <input
                     type={showPassword ? "text" : "password"}
                     name="password"
-                    className={`form-control ${formik.touched.password && formik.errors.password ? "is-invalid" : ""}`}
+                    className={`form-control custom-input ${formik.touched.password && formik.errors.password ? "is-invalid" : ""}`}
                     value={formik.values.password}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
 
                   />
                   <span onClick={() => setShowPassword(!showPassword)}
+                   className="mt-1 px-1"
                     style={{
-                      position: "absolute",
-                      right: "35px",
-                      top: "73px",
                       cursor: "pointer",
                       color: "#6c757d"
                     }}>
                     {showPassword ? <FaEyeSlash /> : <FaEye />}
                   </span>
 
+                  </div>
                   {formik.touched.password && formik.errors.password && (
                     <div className="invalid-feedback">{formik.errors.password}</div>
                   )}
                 </div>
 
                 {/* Confirm Password */}
-                <div className="mb-3 position-relative">
+                <div className="mb-3">
                   <label className="form-label">Confirm Password <small className="text-danger">*</small></label>
-                  <input
+                  <div className="d-flex">
+                    <input
                     type={showConfirmPassword ? "text" : "password"}
                     name="confirmPassword"
-                    className={`form-control ${formik.touched.confirmPassword && formik.errors.confirmPassword ? "is-invalid" : ""}`}
+                    className={`form-control custom-input ${formik.touched.confirmPassword && formik.errors.confirmPassword ? "is-invalid" : ""}`}
                     value={formik.values.confirmPassword}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                   />
                   <span onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="mt-1 px-1"
                     style={{
-                      position: "absolute",
-                      right: "35px",
-                      top: "39px",
                       cursor: "pointer",
-                      color: "#6c757d"
+                      color: "#6c757d",
                     }}>
                     {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                   </span>
+                  </div>
                   {formik.touched.confirmPassword && formik.errors.confirmPassword && (
                     <div className="invalid-feedback">{formik.errors.confirmPassword}</div>
                   )}
-                </div>
+                </div> 
 
                 {/* Submit */}
                 <div className="text-center">
@@ -260,13 +260,13 @@ export default function CollegeRegistration() {
         </div>
 
         {/* Side Image */}
-        <div className="col-lg-6 d-none d-lg-block">
-          <div>
+        <div className="col-lg-5 d-none d-lg-block mt-5">
+          <div className="mt-5">
             <img
             src={img1}
             alt="Illustration"
             style={{ width: "400px", height: "250px" }}
-            className="img-fluid rounded "
+            className="img-fluid rounded mt-5"
           />
           </div>
           

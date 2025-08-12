@@ -1,0 +1,56 @@
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  background-color: rgba(106, 165, 252, 1);
+  color: white;
+}
+
+.card img {
+  transition: transform 0.3s ease;
+}
+
+.card:hover img {
+  transform: scale(1.02);
+}
+
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button{
+	-webkit-appearance:none;
+}
+
+.card .card-body-img {
+  transition: background-color 0.3s ease;
+}
+
+.card:hover .card-body {
+  background-color: #dde1e4;
+}
+.icon-hover:hover svg {
+  color: #d3d9e2; 
+  transition: color 0.3s ease;
+}
+.card-body-img small:hover {
+  color: black;
+}
+
+.custom-card {
+  background-color: #f8f9fa; /* Light gray background */
+  border-radius: 15px;
+  border: 2px solid #6f42c1; /* Purple border */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.custom-card:hover {
+  
+  box-shadow: 0 8px 20px rgba(111, 66, 193, 0.3);
+}
+.custom-input {
+  width: 400px; /* Fixed width */
+  max-width: 100%; /* Prevent overflow on small screens */
+}
+

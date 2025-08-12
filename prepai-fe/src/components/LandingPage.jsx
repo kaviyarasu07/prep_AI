@@ -5,7 +5,7 @@ import { BsCalendar2DateFill, BsRobot, BsBuildingsFill } from "react-icons/bs";
 import { RiRobot3Fill, RiUserVoiceFill } from "react-icons/ri";
 import { GiUnicorn } from "react-icons/gi";
 import { useNavigate } from "react-router-dom";
-
+import "./Landing.css"
 
 const LandingPage = () => {
 
@@ -20,7 +20,7 @@ const LandingPage = () => {
       <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
         <div className="container">
           <a className="navbar-brand fw-bold ml-2" href="#">
-            <GiUnicorn size={32} color="#0d0d0eff" className="mb-3" />
+            <GiUnicorn size={32} className="mb-3" />
             Prep AI
           </a>
           <button
@@ -59,13 +59,13 @@ const LandingPage = () => {
                 </a>
               </li>
             </ul>
-            <a
+            <button
               className="btn btn-primary fw-bold"
               href="#"
-              onClick={() => navigate("/CollegeRegisterForm")}
+              onClick={() => navigate("LoginPage")}
             >
               Login
-            </a>
+            </button>
           </div>
         </div>
       </nav>
@@ -84,7 +84,7 @@ const LandingPage = () => {
             <div className="w-100 ps-md-5">
               <h1 className="fw-bold mb-3">Prep AI</h1>
               <p className="mb-4">Your AI Assistant for Interview Success</p>
-              <button className="btn btn-primary btn-lg fw-bold">Get Started</button>
+              <button className="btn btn-primary btn-lg fw-bold" onClick={()=> navigate("CollegeRegisterForm")}>Get Started</button>
             </div>
           </div>
         </div>

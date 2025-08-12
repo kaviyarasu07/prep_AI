@@ -1,27 +1,18 @@
 import React from 'react'
-<<<<<<< Updated upstream
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-import LandingPage from './components/LandingPage'
-=======
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';
-import CollegeRegistration from './components/CollegeRegisterForm'
->>>>>>> Stashed changes
+import LandingPage from './components/LandingPage';
+import CollegeRegisterForm from './components/CollegeRegisterForm';
 
 const App = () => {
   return (
     <>
     <BrowserRouter>
-<<<<<<< Updated upstream
-      <Routes>
-        <Route path='/' element={<LandingPage/>}/>
-      </Routes>
-=======
      <Routes>
-      <Route path='/' element={<CollegeRegistration />}/>
+      <Route path='/' element={<LandingPage />}/>
+      <Route path='/CollegeRegisterForm' element={<CollegeRegisterForm />}/>
      </Routes>
-      <ToastContainer position="top-right" autoClose={3000}  theme="colored"  hideProgressBar={false}/>
->>>>>>> Stashed changes
+      <ToastContainer position="top-right" autoClose={3000}  theme="colored" hideProgressBar={false}/>
     </BrowserRouter>
     </>
   )
