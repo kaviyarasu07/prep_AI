@@ -41,12 +41,9 @@ const Login = () => {
     }
 
     if (valid) {
-      if (email === "superadmin@prepai.com" && password === "Admin@12") {
-        dispatch(loginRequest({ email, password }));
-      } else {
-        setLoginError("Invalid username or password");
-      }
-    }
+  dispatch(loginRequest({ email, password }));
+}
+
   };
 
   return (

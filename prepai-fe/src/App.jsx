@@ -38,6 +38,7 @@
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./Components/Login";
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function App() {
   return (
