@@ -36,6 +36,9 @@ public class College {
     @Column(name = "affiliated_to")
     private AffiliationType affiliationType;
 
+    @Column(name = "affiliated_university")
+    private String affiliatedUniversity;
+
     @Column(name = "status")
     private String status;
 

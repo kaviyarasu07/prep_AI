@@ -11,6 +11,9 @@ CollegeRegistrationRequest {
     private String collegeName;
     private String collegeType;
     private String affiliationType;
+
+    private String affiliatedUniversity; //if affiliationType == AFFILIATED
+
     private String counselingCode;
     private String website;
     private String officialEmail;
@@ -21,6 +24,6 @@ CollegeRegistrationRequest {
     private String phone;
 
     // Login Details
-    private String username;
+
     private String password;
 }

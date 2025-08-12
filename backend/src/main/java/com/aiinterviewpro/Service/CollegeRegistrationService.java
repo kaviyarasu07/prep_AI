@@ -1,15 +1,9 @@
 package com.aiinterviewpro.Service;
 
 import com.aiinterviewpro.DTO.CollegeRegistrationRequest;
-import com.aiinterviewpro.Entity.College;
-import com.aiinterviewpro.Entity.CollegeType;
-import com.aiinterviewpro.Entity.Login;
-import com.aiinterviewpro.Entity.StaffDetails;
+import com.aiinterviewpro.Entity.*;
 import com.aiinterviewpro.Enum.AffiliationType;
-import com.aiinterviewpro.Repository.CollegeRepo;
-import com.aiinterviewpro.Repository.CollegeTypeRepo;
-import com.aiinterviewpro.Repository.LoginRepo;
-import com.aiinterviewpro.Repository.StaffDetailsRepo;
+import com.aiinterviewpro.Repository.*;
 import com.aiinterviewpro.Util.ValidationUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,8 +16,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CollegeRegistrationService {
     private final StaffDetailsRepo staffDetailsRepo;
-    private final CollegeRepo collegeRepo ;
+    private final CollegeRepo collegeRepo;
     private final LoginRepo loginRepo;
+    private final RoleRepo roleRepo;
     private final PasswordEncoder passwordEncoder;
     private final CollegeTypeRepo collegeTypeRepo;
 
@@ -32,7 +27,7 @@ public class CollegeRegistrationService {
         validateCollegeRegistration(dto);
 
         // Map enum to CollegeType entity
-        CollegeType collegeType = collegeTypeRepo.findByName(dto.getCollegeType().name())
+        CollegeType collegeType = collegeTypeRepo.findByName(dto.getCollegeType())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid college type"));
 
         // Create and save College
@@ -40,36 +35,48 @@ public class CollegeRegistrationService {
         college.setCollegeName(dto.getCollegeName());
         college.setCollegeType(collegeType);
         college.setAffiliationType(AffiliationType.valueOf(dto.getAffiliationType()));
+        if (AffiliationType.valueOf(dto.getAffiliationType()) == AffiliationType.AFFILIATED) {
+            if (dto.getAffiliatedUniversity() == null || dto.getAffiliatedUniversity().isBlank()) {
+                throw new IllegalArgumentException("Affiliated university is required when type is AFFILIATED.");
+            }
+            college.setAffiliatedUniversity(dto.getAffiliatedUniversity());
+        } else {
+            college.setAffiliatedUniversity(null);
+        }
         college.setCounselingCode(dto.getCounselingCode());
         college.setWebsite(dto.getWebsite());
         college.setEmail(dto.getOfficialEmail());
         college = collegeRepo.save(college);
 
-        // Create and save Login with all required fields
+        Role collegeAdminRole = roleRepo.findByName("College Admin")
+                .orElseThrow(() -> new RuntimeException("Role not found: COLLEGE_ADMIN"));
+
         Login login = new Login();
-        login.setEmail(dto.getUsername());
+        login.setEmail(dto.getAdminEmail());
         login.setPassword(passwordEncoder.encode(dto.getPassword()));
-        login.setRole("COLLEGE_ADMIN"); // Set the role
+        login.setRole(collegeAdminRole);
         login.setIsActive(true);
         login.setCreatedAt(LocalDateTime.now());
-        login.setLastLoginTime(null); // Explicitly set to null
-        login = loginRepo.save(login);
+        login.setLastLoginAt(null);
 
-        // Create and save StaffDetails
+        loginRepo.save(login);
+
         StaffDetails staff = new StaffDetails();
         staff.setStaffName(dto.getAdminName());
         staff.setEmail(dto.getAdminEmail());
         staff.setPhoneNumber(dto.getPhone());
+        staff.setRole(collegeAdminRole);
         staff.setCollege(college);
         staff.setIsActive(true);
-        staff.setLogin(login); // This links the staff record to the login
+        staff.setLogin(login);
         staffDetailsRepo.save(staff);
     }
+
     private void validateCollegeRegistration(CollegeRegistrationRequest dto) {
         if (dto.getCollegeName() == null || dto.getCollegeType() == null || dto.getAffiliationType() == null ||
                 dto.getCounselingCode() == null || dto.getOfficialEmail() == null ||
                 dto.getAdminName() == null || dto.getAdminEmail() == null ||
-                dto.getUsername() == null || dto.getPassword() == null) {
+                dto.getPassword() == null) {
             throw new IllegalArgumentException("All fields marked with * are required.");
         }
 
@@ -92,7 +99,7 @@ public class CollegeRegistrationService {
         if (collegeRepo.existsByCounselingCode(dto.getCounselingCode())) {
             throw new IllegalArgumentException("College with this counseling code already exists.");
         }
-        if (collegeRepo.existsByOfficialEmail(dto.getOfficialEmail())) {
+        if (collegeRepo.existsByEmail(dto.getOfficialEmail())) {
             throw new IllegalArgumentException("College with this official email already exists.");
         }
         if (staffDetailsRepo.existsByEmail(dto.getAdminEmail())) {
@@ -101,10 +108,10 @@ public class CollegeRegistrationService {
         if (collegeRepo.existsByCollegeEmail(dto.getAdminEmail())) {
             throw new RuntimeException("Admin email already used as a college email");
         }
-        if (dto.getPhone() != null && staffDetailsRepo.existsByPhone(dto.getPhone())) {
+        if (dto.getPhone() != null && staffDetailsRepo.existsByPhoneNumber(dto.getPhone())) {
             throw new IllegalArgumentException("Admin phone already exists.");
         }
-        if (loginRepo.existsByEmail(dto.getUsername())) {
+        if (loginRepo.existsByEmail(dto.getAdminEmail())) {
             throw new IllegalArgumentException("Username already taken.");
         }
     }
