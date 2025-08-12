@@ -30,13 +30,21 @@ public class JwtUtil {
 
     @PostConstruct
     public void init() {
-        if (jwtSecret == null || jwtSecret.isEmpty()) {
-            throw new IllegalStateException("JWT secret is missing.");
-        }
+        try{
+            if (jwtSecret == null || jwtSecret.isEmpty()) {
+                throw new IllegalStateException("JWT secret is missing.");
+            }
+
+
 
         byte[] decodedKey = java.util.Base64.getDecoder().decode(jwtSecret);
         this.secretKey = Keys.hmacShaKeyFor(decodedKey);
-    }
+    } catch (Exception e) {
+            System.err.println("❌ JWT initialization failed: " + e.getMessage());
+            throw new RuntimeException(e);
+
+        }
+        }
 
     private String buildToken(String userName, Role role, long durationMs) {
         return Jwts.builder()

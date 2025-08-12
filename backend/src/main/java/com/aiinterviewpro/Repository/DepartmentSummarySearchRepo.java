@@ -15,7 +15,7 @@ public interface DepartmentSummarySearchRepo extends JpaRepository<Department,In
             SELECT
     d.id AS departmentId,
     dm.department_name AS departmentName,
-    sd.staff_name AS assignedAdmin,
+    sd.staff_name AS assignedAdmins,
     COALESCE(COUNT(DISTINCT st.student_id), 0) AS numberOfStudents,
     CASE WHEN d.is_active = true THEN 'Active' ELSE 'Inactive' END AS status,
     sd.role_id AS roleId
@@ -26,7 +26,7 @@ public interface DepartmentSummarySearchRepo extends JpaRepository<Department,In
     AND sd.role_id = (SELECT id FROM tb_role WHERE name = 'DEPARTMENT_ADMIN')
     LEFT JOIN tb_student_details st ON st.department_id = d.id
     WHERE (:departmentName IS NULL OR LOWER(dm.department_name) LIKE LOWER(CONCAT('%', :departmentName, '%')))
-    AND (:assignedAdmin IS NULL OR LOWER(sd.staff_name) LIKE LOWER(CONCAT('%', :assignedAdmin, '%')))
+    AND (:assignedAdmins IS NULL OR LOWER(sd.staff_name) LIKE LOWER(CONCAT('%', :assignedAdmins, '%')))
     AND (:status IS NULL OR
             (:status = 'Active' AND d.is_active = true) OR
        (:status = 'Inactive' AND d.is_active = false))
@@ -37,7 +37,7 @@ public interface DepartmentSummarySearchRepo extends JpaRepository<Department,In
 
     List<Object[]> searchDepartmentSummary(
             @Param("departmentName") String departmentName,
-            @Param("assignedAdmin") String assignedAdmin,
+            @Param("assignedAdmins") String assignedAdmins,
             @Param("status") String status,
             @Param("numberOfStudents") Integer numberOfStudents // Changed to Integer
     );

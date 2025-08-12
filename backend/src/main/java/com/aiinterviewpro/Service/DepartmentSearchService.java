@@ -5,7 +5,9 @@ import com.aiinterviewpro.Repository.DepartmentSummarySearchRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DepartmentSearchService {
@@ -14,12 +16,17 @@ public class DepartmentSearchService {
 
     public List<DepartmentSummaryDto> searchDepartmentSummary(
             String departmentName,
-            String assignedAdmin,
+            String assignedAdmins,
             String status,
             Integer numberOfStudents
     ) {
+
+        departmentName = normalizeInput(departmentName);
+       assignedAdmins = normalizeInput(assignedAdmins);
+       status = normalizeInput(status);
+
         List<Object[]> results = searchrepo.searchDepartmentSummary(
-                departmentName, assignedAdmin, status, numberOfStudents
+                departmentName, assignedAdmins, status, numberOfStudents
         );
 
         return results.stream().map(row -> {
@@ -38,6 +45,29 @@ public class DepartmentSearchService {
             return dto;
         }).toList();
     }
-}
+
+
+    private String normalizeInput(String input) {
+        if (input == null || input.isBlank()) return input;
+
+
+        input = input.trim().replaceAll("\\s{2,}", " ");
+
+
+        if (input.matches("([A-Za-z]\\s+)+[A-Za-z]")) {
+            input = input.replaceAll("\\s+", "");
+        }
+
+
+        input = input.replaceAll("([a-z])([A-Z])", "$1 $2");
+
+
+        return Arrays.stream(input.trim().split("\\s+"))
+                .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase())
+                .collect(Collectors.joining(" "));
+
+    }
+    }
+
 
 

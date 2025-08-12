@@ -91,5 +91,14 @@ public class Login implements UserDetails {
     public boolean isEnabled() {
         return Boolean.TRUE.equals(isActive);
     }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
 }
 

@@ -23,12 +23,12 @@ public class DepartmentSearchController {
     @GetMapping("/summary")
     public ResponseEntity<?> searchDepartments(
             @RequestParam(required = false) String departmentName,
-            @RequestParam(required = false) String assignedAdmin,
+            @RequestParam(required = false) String assignedAdmins,
             @RequestParam(required = false) String status,
             @RequestParam(required = false) Integer numberOfStudents
     ) {
         List<DepartmentSummaryDto> results = searchService.searchDepartmentSummary(
-                departmentName, assignedAdmin, status, numberOfStudents
+                departmentName, assignedAdmins, status, numberOfStudents
         );
 
         if (results.isEmpty()) {
