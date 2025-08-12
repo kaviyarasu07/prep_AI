@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .userDetailsService(userDetailsService)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/test/**").permitAll()
-                        .requestMatchers("/auth/register", "/auth/login", "/auth/forgot-password", "/auth/refresh-token").permitAll()
+                        .requestMatchers("/auth/register", "/auth/login", "/auth/forgot-password", "/auth/refresh-token","/dept/**").permitAll()
                         .requestMatchers("/auth/reset-password").authenticated()
                         .requestMatchers("/sa/**").hasRole("SUPER_ADMIN")
                         .requestMatchers("/ca/**").hasRole("COLLEGE_ADMIN")

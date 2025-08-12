@@ -55,4 +55,6 @@ public class StudentDetails {
 
     @Column(name = "is_assigned")
     private Boolean isAssigned = false;
+
+
 }
