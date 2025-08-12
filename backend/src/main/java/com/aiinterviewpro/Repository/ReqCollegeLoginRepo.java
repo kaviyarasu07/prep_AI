@@ -1,8 +1,8 @@
-package com.aiinterviewpro.Repository;
-
-import com.aiinterviewpro.Entity.RequestCollegeLogin;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface ReqCollegeLoginRepo extends JpaRepository<RequestCollegeLogin,Integer> {
-    boolean existsByUsername(String username);
-}
+//package com.aiinterviewpro.Repository;
+//
+//import com.aiinterviewpro.Entity.RequestCollegeLogin;
+//import org.springframework.data.jpa.repository.JpaRepository;
+//
+//public interface ReqCollegeLoginRepo extends JpaRepository<RequestCollegeLogin,Integer> {
+//
+//}

@@ -1,6 +1,6 @@
 package com.aiinterviewpro.Enum;
 
-public enum CollegeType {
+public enum CollegeTypeEnum {
     ENGINEERING,
     MEDICAL,
     ARTS,

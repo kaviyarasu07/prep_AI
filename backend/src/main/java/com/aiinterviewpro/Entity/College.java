@@ -1,5 +1,6 @@
 package com.aiinterviewpro.Entity;
 
+import com.aiinterviewpro.Enum.AffiliationType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,10 +20,10 @@ public class College {
     private Integer id;
 
     @Column(name = "name")
-    private String name;
+    private String collegeName;
 
     @Column(name = "code")
-    private String code;
+    private String counselingCode;
 
     @ManyToOne
     @JoinColumn(name = "college_type")
@@ -31,8 +32,9 @@ public class College {
     @Column(name = "degree_type")
     private String degreeType;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "affiliated_to")
-    private String affiliatedTo;
+    private AffiliationType affiliationType;
 
     @Column(name = "status")
     private String status;
@@ -43,6 +45,7 @@ public class College {
     @Column(name = "city")
     private String city;
 
+
     @Column(name = "state")
     private String state;
 
@@ -50,7 +53,10 @@ public class College {
     private String pincode;
 
     @Column(name = "contact_email")
-    private String contactEmail;
+    private String email;
+
+    @Column(name = "website")
+    private String website;
 
     @Column(name = "contact_phone")
     private String contactPhone;
