@@ -35,6 +35,7 @@ public class CollegeRegistrationService {
         CollegeType collegeType = collegeTypeRepo.findByName(dto.getCollegeType().name())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid college type"));
 
+        // Create and save College
         College college = new College();
         college.setCollegeName(dto.getCollegeName());
         college.setCollegeType(collegeType);
@@ -44,23 +45,26 @@ public class CollegeRegistrationService {
         college.setEmail(dto.getOfficialEmail());
         college = collegeRepo.save(college);
 
+        // Create and save Login with all required fields
         Login login = new Login();
         login.setEmail(dto.getUsername());
         login.setPassword(passwordEncoder.encode(dto.getPassword()));
+        login.setRole("COLLEGE_ADMIN"); // Set the role
         login.setIsActive(true);
         login.setCreatedAt(LocalDateTime.now());
+        login.setLastLoginTime(null); // Explicitly set to null
         login = loginRepo.save(login);
 
+        // Create and save StaffDetails
         StaffDetails staff = new StaffDetails();
         staff.setStaffName(dto.getAdminName());
         staff.setEmail(dto.getAdminEmail());
         staff.setPhoneNumber(dto.getPhone());
         staff.setCollege(college);
         staff.setIsActive(true);
-        staff.setLogin(login);
+        staff.setLogin(login); // This links the staff record to the login
         staffDetailsRepo.save(staff);
     }
-
     private void validateCollegeRegistration(CollegeRegistrationRequest dto) {
         if (dto.getCollegeName() == null || dto.getCollegeType() == null || dto.getAffiliationType() == null ||
                 dto.getCounselingCode() == null || dto.getOfficialEmail() == null ||
@@ -100,7 +104,7 @@ public class CollegeRegistrationService {
         if (dto.getPhone() != null && staffDetailsRepo.existsByPhone(dto.getPhone())) {
             throw new IllegalArgumentException("Admin phone already exists.");
         }
-        if (loginRepo.existsByUsername(dto.getUsername())) {
+        if (loginRepo.existsByEmail(dto.getUsername())) {
             throw new IllegalArgumentException("Username already taken.");
         }
     }
