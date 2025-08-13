@@ -7,6 +7,7 @@ import user from "../assets/user.jpg"
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 
 // Yup validation schema
@@ -26,6 +27,9 @@ const validationSchema = Yup.object({
 
 
 export default function CollegeRegisterForm() {
+
+  const navigate = useNavigate();
+
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -55,7 +59,7 @@ export default function CollegeRegisterForm() {
     <div className="container py-5">
       <div className="row justify-content-center">
         <div className="col-lg-7">
-          <div className="custom-card shadow-lg border-0 p-4">
+          <div className="regiter-card shadow-lg border-0 p-4 rounded">
             <div className="card-body">
               <h3 className="fw-bold mb-2">Prep AI College Registration</h3>
               <p className="text-muted mb-4">
@@ -193,66 +197,66 @@ export default function CollegeRegisterForm() {
                   />
                 </div>
 
-               {/* Password */}
+                {/* Password */}
                 <div className="mb-3">
                   <h4 className="fw-bold">Login Details</h4>
-                  <label className="form-label">Password <small className="text-danger">*</small></label>
-                  <div className="d-flex">
+                  <label className="form-label">
+                    Password <small className="text-danger">*</small>
+                  </label>
+                  <div className="position-relative w-100">
                     <input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    className={`form-control custom-input ${formik.touched.password && formik.errors.password ? "is-invalid" : ""}`}
-                    value={formik.values.password}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-
-                  />
-                  <span onClick={() => setShowPassword(!showPassword)}
-                   className="mt-1 px-1"
-                    style={{
-                      cursor: "pointer",
-                      color: "#6c757d"
-                    }}>
-                    {showPassword ? <FaEyeSlash /> : <FaEye />}
-                  </span>
-
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      className={`form-control custom-input pe-5 ${formik.touched.password && formik.errors.password ? "is-invalid" : ""}`}
+                      value={formik.values.password}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    <span
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="password-toggle-icon"
+                    >
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </span>
+                    {formik.touched.password && formik.errors.password && (
+                      <div className="invalid-feedback">{formik.errors.password}</div>
+                    )}
                   </div>
-                  {formik.touched.password && formik.errors.password && (
-                    <div className="invalid-feedback">{formik.errors.password}</div>
-                  )}
                 </div>
 
                 {/* Confirm Password */}
                 <div className="mb-3">
-                  <label className="form-label">Confirm Password <small className="text-danger">*</small></label>
-                  <div className="d-flex">
+                  <label className="form-label">
+                    Confirm Password <small className="text-danger">*</small>
+                  </label>
+                  <div className="position-relative w-100">
                     <input
-                    type={showConfirmPassword ? "text" : "password"}
-                    name="confirmPassword"
-                    className={`form-control custom-input ${formik.touched.confirmPassword && formik.errors.confirmPassword ? "is-invalid" : ""}`}
-                    value={formik.values.confirmPassword}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                  <span onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="mt-1 px-1"
-                    style={{
-                      cursor: "pointer",
-                      color: "#6c757d",
-                    }}>
-                    {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-                  </span>
+                      type={showConfirmPassword ? "text" : "password"}
+                      name="confirmPassword"
+                      className={`form-control custom-input pe-5 ${formik.touched.confirmPassword && formik.errors.confirmPassword ? "is-invalid" : ""}`}
+                      value={formik.values.confirmPassword}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    <span
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      className="password-toggle-icon"
+                    >
+                      {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                    </span>
+                    {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+                      <div className="invalid-feedback">{formik.errors.confirmPassword}</div>
+                    )}
                   </div>
-                  {formik.touched.confirmPassword && formik.errors.confirmPassword && (
-                    <div className="invalid-feedback">{formik.errors.confirmPassword}</div>
-                  )}
-                </div> 
+                </div>
+
 
                 {/* Submit */}
                 <div className="text-center">
                   <button type="submit" className="btn btn-primary px-4 fw-bold">
                     Request Registration
                   </button>
+                  
                 </div>
               </form>
             </div>
@@ -263,30 +267,34 @@ export default function CollegeRegisterForm() {
         <div className="col-lg-5 d-none d-lg-block mt-5">
           <div className="mt-5">
             <img
-            src={img1}
-            alt="Illustration"
-            style={{ width: "400px", height: "250px" }}
-            className="img-fluid rounded mt-5"
-          />
+              src={img1}
+              alt="Illustration"
+              style={{ width: "400px", height: "250px" }}
+              className="img-fluid rounded mt-5"
+            />
           </div>
-          
+
           <div className="mt-5">
             <img
-            src={admin}
-            alt="Illustration"
-            style={{ width: "400px", height: "250px"}}
-            className="img-fluid rounded mt-5"
-          />
+              src={admin}
+              alt="Illustration"
+              style={{ width: "400px", height: "250px" }}
+              className="img-fluid rounded mt-5"
+            />
           </div>
-          
+
           <div className="mt-5">
             <img
-            src={user}
-            alt="Illustration"
-            style={{ width: "400px", height: "250px" }}
-            className="img-fluid rounded mt-5"
-          />
+              src={user}
+              alt="Illustration"
+              style={{ width: "400px", height: "250px" }}
+              className="img-fluid rounded mt-5"
+            />
           </div>
+          <button className="btn btn-primary fw-bold"
+                  href="#"
+                  onClick={() => navigate("/CollegeAdminDashboard")}
+                  >college</button>
         </div>
       </div>
     </div>

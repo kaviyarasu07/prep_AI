@@ -39,18 +39,31 @@ input::-webkit-outer-spin-button{
 }
 
 .custom-card {
-  background-color: #f8f9fa; /* Light gray background */
+  background-color: #f8f9fa; 
   border-radius: 15px;
-  border: 2px solid #6f42c1; /* Purple border */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .custom-card:hover {
-  
+  transform: translateY(-15px);
+  background-color: whitesmoke;
   box-shadow: 0 8px 20px rgba(111, 66, 193, 0.3);
 }
+.password-toggle-icon {
+  position: absolute;
+  top: 30%;
+  right: 12px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #6c757d;
+  font-size: 1.2rem;
+}
+
 .custom-input {
-  width: 400px; /* Fixed width */
-  max-width: 100%; /* Prevent overflow on small screens */
+   padding-right: 2.5rem;
+}
+input[type="password"].is-invalid,
+input[type="text"].is-invalid {
+  background-image: none !important;
 }
 

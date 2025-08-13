@@ -185,7 +185,7 @@ const LandingPage = () => {
         <h2 className="text-center mb-5">Testimonials</h2>
         <div className="row justify-content-center">
           <div className="col-md-4 mb-4 d-flex">
-            <div className="card h-100 text-center shadow-sm">
+            <div className="custom-card h-100 text-center shadow-sm">
               <img src="https://randomuser.me/api/portraits/men/46.jpg"
                 className="card-img-top rounded" alt="Person 1" />
               <div className="card-body-img">
@@ -197,7 +197,7 @@ const LandingPage = () => {
             </div>
           </div>
           <div className="col-md-4 mb-4 d-flex">
-            <div className="card h-100 text-center shadow-sm">
+            <div className="custom-card h-100 text-center shadow-sm">
               <img src="https://randomuser.me/api/portraits/women/44.jpg" className="card-img-top rounded" alt="Person 2" />
               <div className="card-body-img">
                 <p className="card-text">
@@ -208,7 +208,7 @@ const LandingPage = () => {
             </div>
           </div>
           <div className="col-md-4 mb-4 d-flex">
-            <div className="card h-100 text-center shadow-sm">
+            <div className="custom-card h-100 text-center shadow-sm">
               <img src="https://randomuser.me/api/portraits/women/65.jpg" className="card-img-top rounded" alt="Person 3" />
               <div className="card-body-img">
                 <p className="card-text">
