@@ -8,18 +8,38 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface CollegeRepo extends JpaRepository<College, Integer> {
-    @Query(value="SELECT COUNT(*) FROM tb_college  c", nativeQuery= true)
-    long getTotalColleges();
+    // 1. Total Registration Requests (all records)
+    @Query(value = "SELECT COUNT(*) FROM tb_college", nativeQuery = true)
+    long getTotalRequests();
 
-    @Query(value ="SELECT COUNT(*) FROM tb_college c WHERE LOWER(c.tb_college_type.name) = LOWER('Engineering')",nativeQuery = true)
+    // 2. Total Colleges Onboarded (Approved only)
+    @Query(value = "SELECT COUNT(*) FROM tb_college c WHERE LOWER(c.status) = LOWER('Approved')", nativeQuery = true)
+    long getTotalOnboarded();
+
+    // 3. Engineering Colleges Count (Approved only)
+    @Query(value = """
+        SELECT COUNT(*) 
+        FROM tb_college c 
+        JOIN tb_college_type t ON c.college_type = t.id
+        WHERE LOWER(t.name) = LOWER('Engineering') 
+          AND LOWER(c.status) = LOWER('Approved')
+        """, nativeQuery = true)
     long getEngineeringCount();
 
-    @Query(value ="SELECT COUNT(*) FROM tb_college c WHERE LOWER(c.tb_college_type.name) = LOWER('Arts')",nativeQuery = true)
+    // 4. Arts Colleges Count (Approved only)
+    @Query(value = """
+        SELECT COUNT(*) 
+        FROM tb_college c 
+        JOIN tb_college_type t ON c.college_type = t.id
+        WHERE LOWER(t.name) = LOWER('Arts') 
+          AND LOWER(c.status) = LOWER('Approved')
+        """, nativeQuery = true)
     long getArtsCount();
 
-
-
-
-    @Query("SELECT COUNT(c) FROM College c JOIN c.collegeType t WHERE LOWER(t.name) = LOWER(:typeName)")
-    long countByType(@Param("typeName") String typeName);
+    // 5. Optional — JPQL version for dynamic type
+    @Query("SELECT COUNT(c) FROM College c JOIN c.collegeType t " +
+            "WHERE LOWER(t.name) = LOWER(:typeName) " +
+            "AND LOWER(c.status) = LOWER('Approved')")
+    long countApprovedByType(@Param("typeName") String typeName);
 }
+

@@ -16,32 +16,36 @@ public class SaRequestedColService {
         this.collegeRepo = collegeRepo;
     }
 
+    // Fetch all requested colleges with correct actions
     public List<SaRequestCollegeDTO> getRequestedColleges() {
         return collegeRepo.findAll().stream()
                 .map(this::mapToDtoWithActions)
                 .collect(Collectors.toList());
     }
 
+    // Update the college status
+    public boolean updateCollegeStatus(Integer id, String status) {
+        return collegeRepo.findById(id).map(c -> {
+            c.setStatus(status);
+            collegeRepo.save(c);
+            return true;
+        }).orElse(false);
+    }
 
-
+    // Map entity to DTO with actions
     private SaRequestCollegeDTO mapToDtoWithActions(College c) {
         SaRequestCollegeDTO dto = mapToDto(c);
-        List<String> actions;
-        switch (c.getStatus()) {
-            case "Pending":
-                actions = List.of("Approve", "Reject", "View");
-                break;
-            case "Approved":
-            case "Rejected":
-                actions = List.of("View");
-                break;
-            default:
-                actions = List.of();
+
+        if ("Pending".equalsIgnoreCase(c.getStatus())) {
+            dto.setActions(List.of("Approve", "Reject", "View"));
+        } else {
+            dto.setActions(List.of("View"));
         }
-        dto.setActions(actions);
+
         return dto;
     }
 
+    // Map entity to DTO without actions
     private SaRequestCollegeDTO mapToDto(College c) {
         SaRequestCollegeDTO dto = new SaRequestCollegeDTO();
         dto.setCollegeName(c.getName());
@@ -53,3 +57,4 @@ public class SaRequestedColService {
         return dto;
     }
 }
+
