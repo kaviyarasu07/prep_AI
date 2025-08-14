@@ -4,5 +4,10 @@ public enum RoleEnum {
     SUPER_ADMIN,
     COLLEGE_ADMIN,
     DEPARTMENT_ADMIN,
-    STUDENT
+    STUDENT;
+
+
+//    public int getId() {
+//        return id;
+//    }
 }

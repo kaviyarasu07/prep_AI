@@ -32,6 +32,8 @@ public class LogInService {
     private final EmailService emailService;
 
     public void register(RegisterRequestDto request) {
+        String email = request.getEmail();
+        String password = request.getPassword();
         if (request.getEmail() == null || request.getEmail().isBlank()) {
             throw new RuntimeException("Email must not be empty");
         }
@@ -47,7 +49,7 @@ public class LogInService {
         if (request.getRole() == null ) {
             throw new RuntimeException("Role must not be empty");
         }
-        if (loginRepo.findByEmail(request.getEmail()).isPresent()) {
+        if (loginRepo.findByEmail(request.getEmail()).isPresent()){
             throw new RuntimeException("User already exists with this email");
         }
 
@@ -157,7 +159,7 @@ public class LogInService {
             throw new RuntimeException("You can only reset your password if you have a temporary password");
         }
 
-        if (newPassword.length() < 10) {
+        if (newPassword == null||newPassword.length() < 10) {
             throw new RuntimeException("Password must be at least 10 characters long");
         }
 

@@ -33,4 +33,7 @@ public class Department {
 
     @Column(name = "last_updated_at")
     private LocalDateTime lastUpdatedAt = LocalDateTime.now();
+
+    public void totalNoOfStudents(int totalNoOfStudents) {
+    }
 }

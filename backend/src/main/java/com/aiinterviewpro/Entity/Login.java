@@ -103,4 +103,8 @@ public class Login implements UserDetails {
     }
 
 
+    public void getRole(Role role) {
+    }
+
+
 }
