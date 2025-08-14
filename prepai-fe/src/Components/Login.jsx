@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginRequest } from "../Redux-Saga/Actions/LoginAction";
 
@@ -7,13 +7,12 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [loginError, setLoginError] = useState("");
   const [emailTouched, setEmailTouched] = useState(false);
   const [passwordTouched, setPasswordTouched] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.login);
+  const { loading, error } = useSelector((state) => state.login);
 
   const validateEmail = (email) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -23,7 +22,6 @@ const Login = () => {
     setPasswordTouched(true);
     setEmailError("");
     setPasswordError("");
-    setLoginError("");
 
     let valid = true;
 
@@ -41,19 +39,23 @@ const Login = () => {
     }
 
     if (valid) {
-  dispatch(loginRequest({ email, password }));
-}
-
+      dispatch(loginRequest({ email, password }));
+    }
   };
 
   return (
     <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh" }}>
-      <div className="login-container" style={{ width: "400px", display: "flex", flexDirection: "column", padding: "2rem", background: "#fff", borderRadius: "10px", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
-        
-        <div style={{ textAlign: "center", marginBottom: "2rem", fontWeight: "bold", fontSize: "1.5rem", color: "#1c1c1c" }}>Welcome back to Prep AI</div>
+      <div className="login-container" style={{ width: "100%", maxWidth: "400px", margin: "0 1rem", display: "flex", flexDirection: "column", padding: "2rem", borderRadius: "10px", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
+        <div style={{ textAlign: "center", marginBottom: "2rem", fontWeight: "bold", fontSize: "1.3rem", color: "#1c1c1c", whiteSpace: "nowrap" }}>
+          Welcome back to Prep AI
+        </div>
 
         <label style={{ fontWeight: "bold", marginBottom: "0.25rem" }}>Email</label>
-        <input type="email" value={email} placeholder="your.email@university.edu" style={{ padding: "0.8rem", marginBottom: "0.4rem", border: "1px solid #ccc", borderRadius: "8px", fontSize: "1rem" }}
+        <input
+          type="email"
+          value={email}
+          placeholder="your.email@university.edu"
+          style={{ padding: "0.8rem", marginBottom: "0.4rem", border: "1px solid #ccc", borderRadius: "8px", fontSize: "1rem" }}
           onChange={(e) => {
             setEmail(e.target.value);
             if (emailTouched) {
@@ -74,7 +76,11 @@ const Login = () => {
 
         <label style={{ fontWeight: "bold", marginTop: "1rem", marginBottom: "0.25rem" }}>Password</label>
         <div style={{ position: "relative", marginBottom: "0.4rem" }}>
-          <input type={showPassword ? "text" : "password"} value={password} placeholder="Enter your password" style={{ padding: "0.8rem", border: "1px solid #ccc", borderRadius: "8px", fontSize: "1rem", width: "93%" }}
+          <input
+            type={showPassword ? "text" : "password"}
+            value={password}
+            placeholder="Enter your password"
+            style={{ padding: "0.8rem", border: "1px solid #ccc", borderRadius: "8px", fontSize: "1rem", width: "100%" }}
             onChange={(e) => {
               setPassword(e.target.value);
               if (passwordTouched) {
@@ -87,21 +93,32 @@ const Login = () => {
             }}
             onBlur={() => setPasswordTouched(true)}
           />
-          <i className={`fa ${showPassword ? "fa-eye" : "fa-eye-slash"}`} onClick={() => setShowPassword(!showPassword)} style={{ position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)", cursor: "pointer", color: "#999" }}></i>
+          <i
+            className={`fa ${showPassword ? "fa-eye" : "fa-eye-slash"}`}
+            onClick={() => setShowPassword(!showPassword)}
+            style={{ position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)", cursor: "pointer", color: "#999" }}
+          ></i>
         </div>
         {passwordTouched && passwordError && (
           <span style={{ color: "red", fontSize: "0.9rem" }}>{passwordError}</span>
         )}
 
-        {loginError && (
-          <span style={{ color: "red", fontSize: "0.95rem" }}>{loginError}</span>
+        {error && (
+          <span style={{ color: "red", fontSize: "0.95rem" }}>
+            {error}
+          </span>
         )}
 
         <div>
-          <a href="/forgot-password" style={{ fontSize: "1.0rem", color: "#5b7fcb", textDecoration: "none", marginBottom: "1rem", display: "inline-block" }}>Forgot Password?</a>
+          <a href="/forget-password" style={{ fontSize: "1.0rem", color: "#5b7fcb", textDecoration: "none", marginBottom: "1rem", display: "inline-block" }}>Forgot Password?</a>
         </div>
 
-        <button onClick={handleLogin} style={{ backgroundColor: "#007bff", color: "#fff", padding: "0.9rem", border: "none", borderRadius: "8px", fontWeight: "bold", fontSize: "1rem", cursor: "pointer", marginBottom: "1rem" }}>Login</button>
+        <button
+          onClick={handleLogin}
+          style={{ backgroundColor: "#007bff", color: "#fff", padding: "0.9rem", border: "none", borderRadius: "8px", fontWeight: "bold", fontSize: "1rem", cursor: "pointer", marginBottom: "1rem" }}
+        >
+          {loading ? "Logging in..." : "Login"}
+        </button>
 
         <div style={{ textAlign: "end", fontSize: "0.9rem", color: "#6c757d", marginBottom: "10px" }}>New to Prep AI?</div>
         <button style={{ padding: "0.9rem", backgroundColor: "#f1f1f1", border: "none", borderRadius: "8px", fontWeight: "bold", fontSize: "1rem", cursor: "pointer" }}>Register Now</button>
