@@ -14,7 +14,7 @@ public class DeptNewStudentDto {
     private String email;
     private String phoneNumber;
     private String yearOfStudy;
-    private String mentorAssignment;
+    //private String mentorAssignment;
     private Double cgpa;
-    private String profilePhotoUrl;  // Optional
+    //private String profilePhotoUrl;  // Optional
 }

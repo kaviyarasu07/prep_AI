@@ -6,23 +6,61 @@ import com.aiinterviewpro.Repository.StudentDetailsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.regex.Pattern;
+
 @Service
 public class DeptNewStudentService {
 
     @Autowired
     private StudentDetailsRepo studentDetailsRepo;
 
-    public StudentDetails saveStudent(DeptNewStudentDto dto) {
+    private static final Pattern EMAIL_PATTERN =
+            Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
+
+    public DeptNewStudentDto saveStudent(DeptNewStudentDto dto) {
+        // ===== Validation =====
+        if (dto.getStudentName() == null || dto.getStudentName().trim().isEmpty()) {
+            throw new RuntimeException("Name cannot be empty");
+        }
+        if (dto.getRollNumber() == null || dto.getRollNumber().trim().isEmpty()) {
+            throw new RuntimeException("Roll Number cannot be empty");
+        }
+        if (dto.getYearOfStudy() == null || dto.getYearOfStudy().trim().isEmpty()) {
+            throw new RuntimeException("Year of Study cannot be empty");
+        }
+        if (dto.getCgpa() == null) {
+            throw new RuntimeException("CGPA cannot be empty");
+        }
+        if (dto.getCgpa() < 0 || dto.getCgpa() > 10) {
+            throw new RuntimeException("CGPA must be between 0 and 10");
+        }
+        if (dto.getEmail() == null || !EMAIL_PATTERN.matcher(dto.getEmail()).matches()) {
+            throw new RuntimeException("Invalid email format");
+        }
+        if (dto.getPhoneNumber() == null || !dto.getPhoneNumber().matches("\\d{10}")) {
+            throw new RuntimeException("Phone number must be 10 digits");
+        }
+
+        // ===== Create and Save Entity =====
         StudentDetails student = new StudentDetails();
         student.setStudentName(dto.getStudentName());
-        //student.setRollNumber(dto.getRollNumber());
+        student.setRollNumber(dto.getRollNumber());
         student.setEmail(dto.getEmail());
         student.setPhoneNumber(dto.getPhoneNumber());
-        //student.setYearOfStudy(dto.getYearOfStudy());
+        student.setYearOfStudy(dto.getYearOfStudy());
+        student.setCgpa(dto.getCgpa());
 
-        //student.setCgpa(dto.getCgpa());
-        //student.setProfilePhotoUrl(dto.getProfilePhotoUrl());
+        StudentDetails savedStudent = studentDetailsRepo.save(student);
 
-        return studentDetailsRepo.save(student);
+        // ===== Convert Entity back to DTO =====
+        DeptNewStudentDto responseDto = new DeptNewStudentDto();
+        responseDto.setStudentName(savedStudent.getStudentName());
+        responseDto.setRollNumber(savedStudent.getRollNumber());
+        responseDto.setEmail(savedStudent.getEmail());
+        responseDto.setPhoneNumber(savedStudent.getPhoneNumber());
+        responseDto.setYearOfStudy(savedStudent.getYearOfStudy());
+        responseDto.setCgpa(savedStudent.getCgpa());
+
+        return responseDto;
     }
 }

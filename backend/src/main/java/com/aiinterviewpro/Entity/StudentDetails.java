@@ -56,5 +56,17 @@ public class StudentDetails {
     @Column(name = "is_assigned")
     private Boolean isAssigned = false;
 
+    @Column(name = "roll_number")
+    private String rollNumber;
+
+    @Column(name = "year_of_study")
+    private String yearOfStudy;
+
+    @Column(name = "cgpa")
+    private Double cgpa;
+
+    @Column(name="profile_photo")
+    private  String profilePhoto;
+
 
 }
