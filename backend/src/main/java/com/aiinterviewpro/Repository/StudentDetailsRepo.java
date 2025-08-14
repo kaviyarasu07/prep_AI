@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface StudentDetailsRepo extends JpaRepository<StudentDetails, Integer> {
 
-//    @Query("SELECT COUNT(s) FROM StudentDetails s WHERE s.departmentName = :departmentName")
-//    Long getTotalStudentsByDepartment(String departmentName);
+   @Query("SELECT COUNT(s) FROM StudentDetails s WHERE s.departmentName = :departmentName")
+    Long getTotalStudentsByDepartment(String departmentName);
 }
