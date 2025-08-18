@@ -1,7 +1,9 @@
 package com.aiinterviewpro.Service;
 
 import com.aiinterviewpro.DTO.DeptNewStudentDto;
+import com.aiinterviewpro.Entity.DepartmentMaster;
 import com.aiinterviewpro.Entity.StudentDetails;
+import com.aiinterviewpro.Repository.DepartmentMasterRepo;
 import com.aiinterviewpro.Repository.StudentDetailsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ public class DeptNewStudentService {
 
     @Autowired
     private StudentDetailsRepo studentDetailsRepo;
+
+    @Autowired
+    private DepartmentMasterRepo departmentMasterRepo;
 
     private static final Pattern EMAIL_PATTERN =
             Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
@@ -57,6 +62,11 @@ public class DeptNewStudentService {
         student.setPhoneNumber(dto.getPhoneNumber());
         student.setYearOfStudy(dto.getYearOfStudy());
         student.setCgpa(dto.getCgpa());
+        DepartmentMaster dept = departmentMasterRepo.findById(dto.getDepartmentId())
+                .orElseThrow(() -> new RuntimeException("Department not found"));
+
+        student.setDepartment(dept);
+
 
         StudentDetails savedStudent = studentDetailsRepo.save(student);
 
@@ -68,6 +78,8 @@ public class DeptNewStudentService {
         responseDto.setPhoneNumber(savedStudent.getPhoneNumber());
         responseDto.setYearOfStudy(savedStudent.getYearOfStudy());
         responseDto.setCgpa(savedStudent.getCgpa());
+
+        responseDto.setDepartmentId(savedStudent.getDepartment().getId());
 
         return responseDto;
     }

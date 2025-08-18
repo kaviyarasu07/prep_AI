@@ -40,6 +40,8 @@ public class StudentDetails {
     @JoinColumn(name = "department_id")
     private DepartmentMaster department;
 
+
+
     @ManyToOne
     @JoinColumn(name = "college_id")
     private College college;

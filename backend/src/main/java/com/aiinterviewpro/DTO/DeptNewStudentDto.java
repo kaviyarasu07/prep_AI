@@ -17,4 +17,6 @@ public class DeptNewStudentDto {
     //private String mentorAssignment;
     private Double cgpa;
     //private String profilePhotoUrl;  // Optional
+
+    private Integer departmentId;
 }
