@@ -3,6 +3,7 @@ package com.aiinterviewpro.Service;
 import com.aiinterviewpro.DTO.CollegeRegistrationRequest;
 import com.aiinterviewpro.Entity.*;
 import com.aiinterviewpro.Enum.AffiliationType;
+import com.aiinterviewpro.Enum.Status;
 import com.aiinterviewpro.Repository.*;
 import com.aiinterviewpro.Util.ValidationUtil;
 import lombok.AllArgsConstructor;
@@ -46,6 +47,7 @@ public class CollegeRegistrationService {
         college.setCounselingCode(dto.getCounselingCode());
         college.setWebsite(dto.getWebsite());
         college.setEmail(dto.getOfficialEmail());
+        college.setStatus(Status.PENDING);
         college = collegeRepo.save(college);
 
         Role collegeAdminRole = roleRepo.findByName("College Admin")

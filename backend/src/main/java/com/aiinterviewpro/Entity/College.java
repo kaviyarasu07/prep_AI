@@ -1,6 +1,7 @@
 package com.aiinterviewpro.Entity;
 
 import com.aiinterviewpro.Enum.AffiliationType;
+import com.aiinterviewpro.Enum.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,8 +40,9 @@ public class College {
     @Column(name = "affiliated_university")
     private String affiliatedUniversity;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private Status status;
 
     @Column(name = "address")
     private String address;
