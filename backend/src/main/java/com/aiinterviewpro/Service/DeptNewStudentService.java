@@ -17,6 +17,10 @@ public class DeptNewStudentService {
     private static final Pattern EMAIL_PATTERN =
             Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
 
+    // Roll Number pattern: 2 letters + 4 digits(year) + 3 digits(seq)
+    private static final Pattern ROLL_PATTERN =
+            Pattern.compile("^[A-Z]{2}\\d{4}\\d{3}$");
+
     public DeptNewStudentDto saveStudent(DeptNewStudentDto dto) {
         // ===== Validation =====
         if (dto.getStudentName() == null || dto.getStudentName().trim().isEmpty()) {
@@ -25,6 +29,10 @@ public class DeptNewStudentService {
         if (dto.getRollNumber() == null || dto.getRollNumber().trim().isEmpty()) {
             throw new RuntimeException("Roll Number cannot be empty");
         }
+        if (!ROLL_PATTERN.matcher(dto.getRollNumber()).matches()) {
+            throw new RuntimeException("Roll Number must be in format: <DeptCode><Year><3-digit seq>, e.g., CS2025001");
+        }
+
         if (dto.getYearOfStudy() == null || dto.getYearOfStudy().trim().isEmpty()) {
             throw new RuntimeException("Year of Study cannot be empty");
         }
