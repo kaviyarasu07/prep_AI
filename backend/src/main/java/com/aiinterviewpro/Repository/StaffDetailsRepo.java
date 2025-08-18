@@ -1,6 +1,8 @@
 package com.aiinterviewpro.Repository;
 
 import com.aiinterviewpro.Entity.StaffDetails;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -12,4 +14,6 @@ public interface StaffDetailsRepo extends JpaRepository<StaffDetails, Integer> {
     List<StaffDetails> findByDepartmentId(Integer id);
 
     void deleteByDepartmentId(Integer id);
+
+    boolean existsByEmail( String mailId);
 }
