@@ -22,6 +22,7 @@ public class DeptStudentTableService {
         List<StudentDetails> students = studentDetailsRepo.findAll();
         return students.stream()
                 .map(this::mapToDto)
+                .sorted()
                 .collect(Collectors.toList());
     }
 
@@ -79,6 +80,7 @@ public class DeptStudentTableService {
         List<DeptStudentTableDto> students = studentDetailsRepo.findByDepartment_DepartmentName(deptName)
                 .stream()
                 .map(this::mapToDto)
+
                 .collect(Collectors.toList());
 
         // step 3: apply filters inside that dept only
