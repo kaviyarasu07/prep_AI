@@ -15,4 +15,8 @@ public interface StudentDetailsRepo extends JpaRepository<StudentDetails, Intege
 
     //filter by year
     List<StudentDetails> findByYearOfStudy(String yearOfStudy);
+
+    //Department based get student
+
+    List<StudentDetails> findByDepartment_DepartmentName(String departmentName);
 }
