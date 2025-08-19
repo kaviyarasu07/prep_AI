@@ -1,23 +1,52 @@
-E:\ai-interview-pro\backend\src\main\java\com\aiinterviewpro\DTO\TestDto.java
-E:\ai-interview-pro\backend\src\main\java\com\aiinterviewpro\Repository\RoleRepo.java
-E:\ai-interview-pro\backend\src\main\java\com\aiinterviewpro\Entity\StaffDetails.java
-E:\ai-interview-pro\backend\src\main\java\com\aiinterviewpro\Entity\StudentDetails.java
-E:\ai-interview-pro\backend\src\main\java\com\aiinterviewpro\Service\EmailService.java
-E:\ai-interview-pro\backend\src\main\java\com\aiinterviewpro\Repository\LoginRepo.java
-E:\ai-interview-pro\backend\src\main\java\com\aiinterviewpro\Repository\CollegeTypeRepo.java
-E:\ai-interview-pro\backend\src\main\java\com\aiinterviewpro\Entity\CollegeType.java
-E:\ai-interview-pro\backend\src\main\java\com\aiinterviewpro\Entity\Login.java
-E:\ai-interview-pro\backend\src\main\java\com\aiinterviewpro\Entity\Role.java
-E:\ai-interview-pro\backend\src\main\java\com\aiinterviewpro\Service\TestService.java
-E:\ai-interview-pro\backend\src\main\java\com\aiinterviewpro\Entity\TestEntity.java
-E:\ai-interview-pro\backend\src\main\java\com\aiinterviewpro\Repository\CollegeRepo.java
-E:\ai-interview-pro\backend\src\main\java\com\aiinterviewpro\Repository\DepartmentRepo.java
-E:\ai-interview-pro\backend\src\main\java\com\aiinterviewpro\Entity\DepartmentMaster.java
-E:\ai-interview-pro\backend\src\main\java\com\aiinterviewpro\Repository\DepartmentMasterRepo.java
-E:\ai-interview-pro\backend\src\main\java\com\aiinterviewpro\AiInterviewApplication.java
-E:\ai-interview-pro\backend\src\main\java\com\aiinterviewpro\Repository\StaffDetailsRepo.java
-E:\ai-interview-pro\backend\src\main\java\com\aiinterviewpro\Repository\StudentDetailsRepo.java
-E:\ai-interview-pro\backend\src\main\java\com\aiinterviewpro\Controller\TestController.java
-E:\ai-interview-pro\backend\src\main\java\com\aiinterviewpro\Repository\TestEntityRepo.java
-E:\ai-interview-pro\backend\src\main\java\com\aiinterviewpro\Entity\College.java
-E:\ai-interview-pro\backend\src\main\java\com\aiinterviewpro\Entity\Department.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Entity\StudentDetails.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Repository\StaffDetailsRepo.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Service\MentorService.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Enum\RoleEnum.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\DTO\MentorDto.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Controller\DepartmentOverviewController.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Repository\CollegeRepo.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Entity\College.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\DTO\ResetPasswordRequestDto.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Service\MessagePropertyService.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Repository\DepartmentMasterRepo.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Config\MailSenderProperties.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\DTO\TestDto.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\DTO\AuthResponseDto.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Repository\StudentDetailsRepo.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Entity\Mentor.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Security\JwtAuthenticationFilter.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Repository\TestEntityRepo.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Repository\MentorRepo.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\controlleradvice\ObjectInvalidException.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Util\PasswordUtil.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\validator\MentorValidator.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\DTO\ForgotPasswordRequestDto.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Repository\CollegeTypeRepo.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Service\DepartmentService.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Entity\DepartmentMaster.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Repository\RoleRepo.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Service\LogInService.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Security\CustomUserDetailsService.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Service\EmailService.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Entity\StaffDetails.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Security\SecurityConfig.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Entity\RecordModifier.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Service\TestService.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Repository\DepartmentRepo.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Util\ValidationUtil.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Enum\CollegeType.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Repository\LoginRepo.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Entity\TestEntity.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Controller\MentorController.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Controller\EmailController.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Entity\Department.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\validator\ValidationResult.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\AiInterviewApplication.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\DTO\RegisterRequestDto.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Controller\TestController.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Entity\CollegeType.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Controller\LogInController.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\DTO\LoginRequestDto.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Entity\Login.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Entity\Role.java
+C:\Users\Ebrain Technologies\Documents\GitHub\prep_AI\backend\src\main\java\com\aiinterviewpro\Security\JwtUtil.java
