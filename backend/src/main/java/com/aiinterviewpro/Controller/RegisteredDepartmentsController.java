@@ -1,17 +1,18 @@
 package com.aiinterviewpro.Controller;
 
 import com.aiinterviewpro.DTO.RegisteredDepartmentsDto;
+//import com.aiinterviewpro.DTO.UpdateRequestDto;
+import com.aiinterviewpro.DTO.UpdateRequestDto;
 import com.aiinterviewpro.Service.RegisteredDepartmentService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,11 +26,11 @@ public class RegisteredDepartmentsController {
 
     @GetMapping("/getAll")
     public ResponseEntity<?> getRegisteredDepartments(
-            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer size
 
 
-    ){
+    ) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "departmentName"));
 
         Page<RegisteredDepartmentsDto> pageResult = departmentService.getRegisteredDepartments(pageable);
@@ -44,8 +45,30 @@ public class RegisteredDepartmentsController {
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateRegisteredDepartments(
+            @PathVariable Integer id, @RequestBody UpdateRequestDto dto) {
+        RegisteredDepartmentsDto updatedDepartment = departmentService.updateRegisteredDepartments(id, dto);
+        return ResponseEntity.ok("Department updated successfully");
+
+
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deactivateDepartment(@PathVariable Integer id) {
+        try {
+            departmentService.deactivateDepartment(id);
+            return ResponseEntity.ok("Department Deactivated Successfully");
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
 
 }
+
+
+
 
 
 

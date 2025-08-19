@@ -1,5 +1,6 @@
 package com.aiinterviewpro.Repository;
 
+import com.aiinterviewpro.Entity.Department;
 import com.aiinterviewpro.Entity.StaffDetails;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -16,4 +17,8 @@ public interface StaffDetailsRepo extends JpaRepository<StaffDetails, Integer> {
     void deleteByDepartmentId(Integer id);
 
     boolean existsByEmail( String mailId);
+
+    boolean existsByDepartment(Department department);
+
+    List<StaffDetails> findByDepartment(Department department);
 }

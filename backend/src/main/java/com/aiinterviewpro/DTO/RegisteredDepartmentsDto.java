@@ -4,6 +4,7 @@ package com.aiinterviewpro.DTO;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -21,6 +22,9 @@ public class RegisteredDepartmentsDto {
         this.totalStudents = totalStudents;
         this.status = status;
         this.creationDate = creationDate;
+    }
+
+    public RegisteredDepartmentsDto(Integer id, String departmentName, String departmentCode, int totalStudents, int activeStudents, String status, LocalDateTime createdAt) {
     }
 
     public String getDepartmentName() {

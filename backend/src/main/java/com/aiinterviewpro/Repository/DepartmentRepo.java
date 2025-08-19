@@ -1,12 +1,13 @@
 package com.aiinterviewpro.Repository;
 
+import com.aiinterviewpro.DTO.RegisteredDepartmentsDto;
 import com.aiinterviewpro.Entity.Department;
-import com.aiinterviewpro.Entity.TestEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface DepartmentRepo extends JpaRepository<Department, Integer> {
@@ -39,5 +40,6 @@ public interface DepartmentRepo extends JpaRepository<Department, Integer> {
             nativeQuery = true
     )
     Page<Object[]> getRegisteredDepartments(Pageable pageable);
+    Optional<Department> findById(Integer id);
 
 }
