@@ -8,9 +8,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 
-// Yup validation schema
+const api = axios.create({
+  baseURL: "http://localhost:8080/api",
+});
+
 const validationSchema = Yup.object({
   collegeName: Yup.string().required("College Name is required"),
   collegeType: Yup.string().required("College Type is required"),
@@ -25,20 +29,17 @@ const validationSchema = Yup.object({
     .required("Confirm Password is required"),
 });
 
-
 export default function CollegeRegisterForm() {
-
   const navigate = useNavigate();
-
-
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
 
   const formik = useFormik({
     initialValues: {
       collegeName: "",
       collegeType: "",
+      affiliationType: "",
+      affiliatedUniversity: "",
       counselingCode: "",
       collegeWebsite: "",
       officialEmail: "",
@@ -49,9 +50,32 @@ export default function CollegeRegisterForm() {
       confirmPassword: "",
     },
     validationSchema,
-    onSubmit: (values) => {
-      console.log("Form submitted:", values);
-      toast.success("Registration successful!");
+    onSubmit: async (values) => {
+      try {
+        const payload = {
+          collegeName: values.collegeName,
+          collegeType: values.collegeType,
+          affiliationType: values.affiliationType,
+          affiliatedUniversity: values.affiliatedUniversity,
+          counselingCode: values.counselingCode,
+          website: values.collegeWebsite,
+          officialEmail: values.officialEmail,
+          adminName: values.adminName,
+          adminEmail: values.adminEmail,
+          phone: values.phoneNumber,
+          password: values.password,
+        };
+
+        const response = await api.post("/request/college/register", payload);
+
+        if (response.status === 200 || response.status === 201) {
+          toast.success("Registration successful!");
+          navigate("/CollegeRegisterForm/CollegeAdminDashboard");
+        }
+      } catch (error) {
+        console.error("Registration failed:", error);
+        toast.error(error.response?.data?.message || "Something went wrong!");
+      }
     },
   });
 
@@ -67,6 +91,7 @@ export default function CollegeRegisterForm() {
               </p>
 
               <form onSubmit={formik.handleSubmit}>
+
                 {/* College Name */}
                 <div className="mb-3">
                   <h4 className="fw-bold">College Details</h4>
@@ -89,19 +114,63 @@ export default function CollegeRegisterForm() {
                   <label className="form-label">College Type <small className="text-danger">*</small></label>
                   <select
                     name="collegeType"
-                    className={`form-select custom-input ${formik.touched.collegeType && formik.errors.collegeType ? "is-invalid" : ""}`}
+                    className={`form-select custom-input text-muted ${formik.touched.collegeType && formik.errors.collegeType ? "is-invalid" : ""}`}
                     value={formik.values.collegeType}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                   >
-                    <option value="">Select College Type</option>
+                    <option value="">Select college type</option>
                     <option>Engineering</option>
                     <option>Arts & Science</option>
                     <option>Medical</option>
+                    <option>Law</option>
                   </select>
                   {formik.touched.collegeType && formik.errors.collegeType && (
                     <div className="invalid-feedback">{formik.errors.collegeType}</div>
                   )}
+                </div>
+
+                <div className="mb-3">
+                  {/* Affiliation Type */}
+                  <label className="form-label">Affiliation type</label>
+                  <select
+                    name="affiliationType"
+                    className={`form-select custom-input text-muted ${formik.touched.affiliationType && formik.errors.affiliationType ? "is-invalid" : ""}`}
+                    value={formik.values.affiliationType}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  >
+                    <option value="">Select affiliation type</option>
+                    <option value="AUTONOMOUS">Autonomous</option>
+                    <option value="DEEMED">Deemed University</option>
+                    <option value="STATE">State University</option>
+                    <option value="PRIVATE">Private University</option>
+                  </select>
+                  {formik.touched.affiliationType && formik.errors.affiliationType && (
+                    <div className="invalid-feedback">{formik.errors.affiliationType}</div>
+                  )}
+
+                </div>
+
+                <div className="mb-3">
+                  <label className="form-label">Affiliated University</label>
+                 <select
+        name="affiliatedUniversity"
+         className={`form-select custom-input text-muted ${formik.touched.affiliatedUniversity  && formik.errors.affiliatedUniversity  ? "is-invalid" : ""}`}
+        value={formik.values.affiliatedUniversity}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+      >
+        <option value="">Select affiliated university</option>
+        <option value="Indian Institute of Technology">Indian Institute of Technology</option>
+        <option value="Anna University">Anna University</option>
+        <option value="Delhi University">Delhi University</option>
+        <option value="Visvesvaraya Technological University">Visvesvaraya Technological University</option>
+        <option value="Others">Others</option>
+      </select>
+      {formik.touched.affiliatedUniversity && formik.errors.affiliatedUniversity && (
+        <div className="error">{formik.errors.affiliatedUniversity}</div>
+      )}
                 </div>
 
                 {/* Counseling Code */}
@@ -256,7 +325,7 @@ export default function CollegeRegisterForm() {
                   <button type="submit" className="btn btn-primary px-4 fw-bold">
                     Request Registration
                   </button>
-                  
+
                 </div>
               </form>
             </div>
@@ -292,9 +361,9 @@ export default function CollegeRegisterForm() {
             />
           </div>
           <button className="btn btn-primary fw-bold"
-                  href="#"
-                  onClick={() => navigate("/CollegeAdminDashboard")}
-                  >college</button>
+            href="#"
+            onClick={() => navigate("/CollegeAdminDashboard")}
+          >college</button>
         </div>
       </div>
     </div>
