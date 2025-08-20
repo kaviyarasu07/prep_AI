@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from "react";
 import profile from "../assets/img/profile.png";
+import { useDispatch, useSelector } from "react-redux";
+import { getMentorRequest } from "../Redux-Saga/Actions/MentordashboardAction";
 
 export default function MentorDashboard() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
+
+  const dispatch = useDispatch();
+  const { mentors, loading, error } = useSelector((state) => state.mentordashboard);
+
+  useEffect(() => {
+    dispatch(getMentorRequest());
+  }, [dispatch]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -82,25 +91,25 @@ export default function MentorDashboard() {
           <div className="col-6 col-md-3 mb-3">
             <div className="card p-3 shadow-sm">
               <h6>Total Mentors</h6>
-              <h4 className="fw-bold"></h4>
+              <h4 className="fw-bold">{mentors?.["Total Mentors"] || 0}</h4>
             </div>
           </div>
           <div className="col-6 col-md-3 mb-3">
             <div className="card p-3 shadow-sm">
               <h6>Students Without Mentor</h6>
-              <h4 className="fw-bold"></h4>
+              <h4 className="fw-bold">--</h4>
             </div>
           </div>
           <div className="col-6 col-md-3 mb-3">
             <div className="card p-3 shadow-sm">
               <h6>Avg. Students per Mentor</h6>
-              <h4 className="fw-bold"></h4>
+              <h4 className="fw-bold">--</h4>
             </div>
           </div>
           <div className="col-6 col-md-3 mb-3">
             <div className="card p-3 shadow-sm">
               <h6>Top Performing Mentor</h6>
-              <h5 className="fw-bold"></h5>
+              <h5 className="fw-bold">--</h5>
             </div>
           </div>
         </div>
@@ -108,7 +117,9 @@ export default function MentorDashboard() {
         <h6 className="fw-bold mt-5">Mentor Details</h6>
         <div className="mb-3 mt-4 position-relative">
           <input type="text" className="form-control ps-5" placeholder="Search by name or email" style={{ backgroundColor: "rgb(237 239 244)" }} />
-          <i className="fa-solid fa-magnifying-glass position-absolute" style={{ top: "50%", left: "15px", transform: "translateY(-50%)", color: "#6c757d" }}></i>
+          <i
+            className="fa-solid fa-magnifying-glass position-absolute"
+            style={{ top: "50%", left: "15px", transform: "translateY(-50%)", color: "#6c757d" }}></i>
         </div>
 
         <div className="table-responsive">
@@ -124,14 +135,28 @@ export default function MentorDashboard() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Mr. Karthik</td>
-                <td>karthik.r@email.com</td>
-                <td>20</td>
-                <td>8.5</td>
-                <td>15</td>
-                <td>10</td>
-              </tr>
+              {loading ? (
+                <tr><td colSpan="6">Loading...</td></tr>
+              ) : error ? (
+                <tr>
+                  <td colSpan="6" className="text-danger">{error}</td>
+                </tr>
+              ) : mentors?.mentors?.length > 0 ? (
+                mentors.mentors.map((m) => (
+                  <tr key={m.id}>
+                    <td>{m.name}</td>
+                    <td>{m.email}</td>
+                    <td>{m.total_no_Students}</td>
+                    <td>{m.avg_cpa_of_students}</td>
+                    <td>{m.assessment_mentioned}</td>
+                    <td>{m.mock_interview_Conducted}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="6">No mentors found</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
