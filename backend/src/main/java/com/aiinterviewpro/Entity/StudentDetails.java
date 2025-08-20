@@ -58,7 +58,7 @@ public class StudentDetails {
     @Column(name = "is_assigned")
     private Boolean isAssigned = false;
 
-    @Column(name = "roll_number")
+    @Column(name = "roll_number", unique = true, nullable = false)
     private String rollNumber;
 
     @Column(name = "year_of_study")
