@@ -4,11 +4,9 @@ import com.aiinterviewpro.DTO.DepartmentSummaryDto;
 import com.aiinterviewpro.DTO.UpdateRequestDto;
 import com.aiinterviewpro.Entity.Department;
 import com.aiinterviewpro.Entity.DepartmentMaster;
+import com.aiinterviewpro.Entity.Role;
 import com.aiinterviewpro.Entity.StaffDetails;
-import com.aiinterviewpro.Repository.DepartmentMasterRepo;
-import com.aiinterviewpro.Repository.DepartmentRepo;
-import com.aiinterviewpro.Repository.StaffDetailsRepo;
-import com.aiinterviewpro.Repository.StudentDetailsRepo;
+import com.aiinterviewpro.Repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,6 +30,8 @@ public class DepartmentSummaryService {
     private StaffDetailsRepo staffrepo;
     @Autowired
     private DepartmentMasterRepo masterrepo;
+    @Autowired
+    private RoleRepo rolerepo;
 
 //    --->Active Department Summary(Get all)-->
 
@@ -111,11 +111,18 @@ public class DepartmentSummaryService {
         department.setIsActive(dto.getStatus());
         departmentrepo.save(department);
 
-        // Update assigned admin (roleId = 3)
-        StaffDetails admin = staffrepo.findByDepartmentIdAndRoleId(id, 3)
-                .orElseThrow(() -> new EntityNotFoundException("Department not found with id " + id));
+
+        Role departmentAdminRole = rolerepo.findByName("DEPARTMENT_ADMIN")
+                .orElseThrow(() -> new EntityNotFoundException("Role DEPARTMENT_ADMIN not found"));
+
+
+        StaffDetails admin = staffrepo.findByDepartmentIdAndRoleId(id, departmentAdminRole.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Department admin not found for department id " + id));
+
+// Update the staff name
         admin.setStaffName(dto.getAssignedAdmins());
         staffrepo.save(admin);
+
     }
 @Transactional
     public void deleteDepartment(Integer id){
