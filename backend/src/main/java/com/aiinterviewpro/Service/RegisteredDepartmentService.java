@@ -94,7 +94,6 @@ public class RegisteredDepartmentService {
     }
 
     @Transactional
-
     public String deactivateDepartment(Integer departmentId) {
         Department department = departmentrepo.findById(departmentId)
                 .orElseThrow(() -> new EntityNotFoundException("Department not found with ID: " + departmentId));
