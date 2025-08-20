@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +20,7 @@ import java.util.Map;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/mentor")
+@RequestMapping("/mentor")
 @AllArgsConstructor(onConstructor_ = {@Autowired})
 public class MentorController {
 
@@ -74,7 +73,8 @@ public class MentorController {
 
     // Students without mentor
     @GetMapping("/students-without-mentor")
-    public ResponseEntity<List<StudentDetails>> getStudentsWithoutMentor() {
+    public ResponseEntity<List<StudentDetails>> getStudentsWithoutMentor()
+    {
         return ResponseEntity.ok(mentorService.getStudentsWithoutMentor());
     }
 
