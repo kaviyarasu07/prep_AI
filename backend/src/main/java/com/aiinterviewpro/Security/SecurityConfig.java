@@ -31,10 +31,11 @@ public class SecurityConfig {
                 .userDetailsService(userDetailsService)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/test/**").permitAll()
-                        .requestMatchers("/auth/register", "/auth/login", "/auth/forgot-password", "/auth/refresh-token").permitAll()
+                        .requestMatchers("/auth/register", "/auth/login", "/auth/forgot-password", "/auth/refresh-token","/api/mentor/all").permitAll()
                         .requestMatchers("/auth/reset-password").authenticated()
                         .requestMatchers("/sa/**").hasRole("SUPER_ADMIN")
                         .requestMatchers("/ca/**").hasRole("COLLEGE_ADMIN")
+                        .requestMatchers("/api/mentor**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
