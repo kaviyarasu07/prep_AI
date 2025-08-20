@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -73,9 +74,12 @@ public class MentorController {
 
     // Students without mentor
     @GetMapping("/students-without-mentor")
-    public ResponseEntity<List<StudentDetails>> getStudentsWithoutMentor()
-    {
-        return ResponseEntity.ok(mentorService.getStudentsWithoutMentor());
+    public ResponseEntity<?> getStudentsWithoutMentor() {
+        logger.info("Fetching all Students without mentors {}", LocalDateTime.now());
+        List<StudentDetails> studentDetails = mentorService.getStudentsWithoutMentor();
+        Map<String, Integer> response = new HashMap<>();
+        response.put("count", studentDetails.size());
+        return ResponseEntity.ok(response);
     }
 
     // Average students per mentor

@@ -40,6 +40,7 @@ public class MentorService {
         MentorDto dto = new MentorDto();
         dto.setId(mentor.getId());
         dto.setEmail(mentor.getEmail());
+        dto.setName(mentor.getName());
         dto.setTotal_no_Students(mentor.getTotal_no_Students());
         dto.setAvg_cpa_of_students(mentor.getTotal_no_Students());
         dto.setAssessment_mentioned(mentor.getAssessment_mentioned());
