@@ -8,3 +8,15 @@ export function getMentorService() {
 export function studentsWithoutMentorService() {
   return axios.get(`${BaseUrl}mentor/students-without-mentor`);
 }
+
+export function averageStudentsService() {
+  return axios.get(`${BaseUrl}`);
+}
+
+export function topPerformingService() {
+  return axios.get(`${BaseUrl}`);
+}
+
+export function departmentInformationService() {
+  return axios.get(`${BaseUrl}`);
+}

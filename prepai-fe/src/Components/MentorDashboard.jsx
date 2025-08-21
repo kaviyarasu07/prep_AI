@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import profile from "../assets/img/profile.png";
 import { useDispatch, useSelector } from "react-redux";
-import { getMentorRequest } from "../Redux-Saga/Actions/MentordashboardAction";
+import { getMentorRequest, studentsWithoutMentorRequest } from "../Redux-Saga/Actions/MentordashboardAction";
 
 export default function MentorDashboard() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
 
   const dispatch = useDispatch();
-  const { mentors, loading, error } = useSelector((state) => state.mentordashboard);
+  const { mentors, studentsWithoutMentor, loading, error } = useSelector((state) => state.mentordashboard);
 
   useEffect(() => {
     dispatch(getMentorRequest());
+     dispatch(studentsWithoutMentorRequest());
   }, [dispatch]);
 
   useEffect(() => {
@@ -97,7 +98,7 @@ export default function MentorDashboard() {
           <div className="col-6 col-md-3 mb-3">
             <div className="card p-3 shadow-sm">
               <h6>Students Without Mentor</h6>
-              <h4 className="fw-bold">--</h4>
+              <h4 className="fw-bold">{studentsWithoutMentor?.count || 0}</h4>
             </div>
           </div>
           <div className="col-6 col-md-3 mb-3">
