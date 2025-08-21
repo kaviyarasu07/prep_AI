@@ -5,8 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ValidationResult
-{
+public class ValidationResult {
     private boolean isValid = true;
     private List<String> errors;
     private Object object;

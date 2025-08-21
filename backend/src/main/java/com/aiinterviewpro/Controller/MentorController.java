@@ -48,7 +48,7 @@ public class MentorController {
 
     }
 
-    //get All the mentor details.
+    // get All the mentor details.
     // To get the number of total mentors.
     @GetMapping(value = "/all", produces = "application/json")
     public ResponseEntity<?> getAllMentors() {
@@ -75,7 +75,7 @@ public class MentorController {
     // Students without mentor
     @GetMapping("/students-without-mentor")
     public ResponseEntity<?> getStudentsWithoutMentor() {
-        logger.info("Fetching all Students without mentors {}", LocalDateTime.now());
+        logger.info("Fetching all Students counts without mentors {}", LocalDateTime.now());
         List<StudentDetails> studentDetails = mentorService.getStudentsWithoutMentor();
         Map<String, Integer> response = new HashMap<>();
         response.put("count", studentDetails.size());
@@ -84,8 +84,12 @@ public class MentorController {
 
     // Average students per mentor
     @GetMapping("/average-students")
-    public ResponseEntity<Double> getAverageStudentsPerMentor() {
-        return ResponseEntity.ok(mentorService.getAverageStudentsPerMentor());
+    public ResponseEntity<?> getAverageStudentsPerMentor() {
+        logger.info("Fetching all  Average Students per mentor {}", LocalDateTime.now());
+        Double studentDetails = mentorService.getAverageStudentsPerMentor();
+        Map<String, Double> response = new HashMap<>();
+        response.put("Average Students Per Mentor", studentDetails);
+        return ResponseEntity.ok(response);
     }
 
     //  Top performing mentor

@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/department")
+@RequestMapping("/department")
+// Department Information in Mentor Overview
 public class DepartmentOverviewController {
-
 
     @Autowired
     DepartmentService departmentService;
 
-    @GetMapping("/{departmentId}/overview")
+    @GetMapping("/overview/{departmentId}")
     public ResponseEntity<?> getDepartmentOverview(@PathVariable Integer departmentId) {
         return ResponseEntity.ok(departmentService.getDepartmentOverview(departmentId));
     }
