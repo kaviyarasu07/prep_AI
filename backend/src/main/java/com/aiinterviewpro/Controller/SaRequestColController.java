@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/request")
+@RequestMapping("/sa/request")
 public class SaRequestColController {
 
     private final SaRequestedColService saRequestedColService;

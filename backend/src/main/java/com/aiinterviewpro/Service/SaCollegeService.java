@@ -14,10 +14,10 @@ public class SaCollegeService {
     }
 
     public SaCollegeSummaryDto getCollegeSummary() {
-        long totalRequests = collegeRepo.getTotalRequests(); // All requests
-        long totalOnboarded = collegeRepo.getTotalOnboarded(); // Approved only
-        long engineeringCount = collegeRepo.getEngineeringCount(); // Approved + Engineering
-        long artsCount = collegeRepo.getArtsCount(); // Approved + Arts
+        long totalRequests = collegeRepo.getTotalRequests();
+        long totalOnboarded = collegeRepo.getTotalOnboarded();
+        long engineeringCount = collegeRepo.getEngineeringCount();
+        long artsCount = collegeRepo.getArtsCount();
 
         return new SaCollegeSummaryDto(totalOnboarded, totalRequests, engineeringCount, artsCount);
     }
