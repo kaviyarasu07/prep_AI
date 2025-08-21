@@ -17,6 +17,6 @@ public class DeptAddStaffDto {
     private String role;
     private String department;
     private String staffId;
-    private List<Long> assignedStudents;
+    private List<Integer> assignedStudents;
     private String profilePhotoUrl;
 }
