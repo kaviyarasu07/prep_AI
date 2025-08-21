@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,6 +17,6 @@ public class DeptAddStaffDto {
     private String role;
     private String department;
     private String staffId;
-    private String assignedStudents;
+    private List<Long> assignedStudents;
     private String profilePhotoUrl;
 }

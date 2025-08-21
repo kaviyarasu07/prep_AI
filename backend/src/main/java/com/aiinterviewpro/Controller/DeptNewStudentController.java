@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 
 import static org.springframework.http.ResponseEntity.ok;
-
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/add")
 public class DeptNewStudentController {

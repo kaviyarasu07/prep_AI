@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_student_details")
@@ -70,5 +72,9 @@ public class StudentDetails {
     @Column(name="profile_photo")
     private  String profilePhoto;
 
+
+    // 🔗 Many-to-many with staff
+    @ManyToMany(mappedBy = "students")
+    private Set<StaffDetails> staffMembers = new HashSet<>();
 
 }
