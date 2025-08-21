@@ -22,7 +22,7 @@ public class SaRequestedColService {
                 .map(this::mapToDtoWithActions)
                 .collect(Collectors.toList());
     }
-  // update college
+    //update
     // Update the college status
     public boolean updateCollegeStatus(Integer id, String status) {
         return collegeRepo.findById(id).map(c -> {
