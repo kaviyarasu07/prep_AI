@@ -16,6 +16,8 @@ public class MentorDto {
 
     private String email;
 
+    private String name;
+
     private int total_no_Students;
 
     private int avg_cpa_of_students;
