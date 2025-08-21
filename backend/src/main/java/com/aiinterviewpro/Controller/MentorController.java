@@ -63,7 +63,7 @@ public class MentorController {
                 }
             }
             Map<String, Object> response = new HashMap<>();
-            response.put("totalCount", mentorDtoList.size());
+            response.put("Total Mentors", mentorDtoList.size());
             response.put("mentors", mentorDtoList);
 
             return ResponseEntity.ok(response);

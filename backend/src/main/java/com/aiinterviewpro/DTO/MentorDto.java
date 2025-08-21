@@ -12,6 +12,8 @@ public class MentorDto {
     @Id
     private Integer id;
 
+    private String name;
+
     private String email;
 
     private String name;
