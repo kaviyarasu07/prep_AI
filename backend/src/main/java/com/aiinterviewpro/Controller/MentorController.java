@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -94,12 +93,15 @@ public class MentorController {
 
     //  Top performing mentor
     @GetMapping("/top-performing")
-    public ResponseEntity<Mentor> getTopPerformingMentor() {
+    public ResponseEntity<?> getTopPerformingMentor() {
         Mentor mentor = mentorService.getTopPerformingMentor();
         if (mentor == null) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(mentor);
+        Map <String, String> top_perform = new HashMap <>();
+        top_perform.put("Top performing mentor ",mentor.getName() );
+
+        return ResponseEntity.ok(top_perform);
     }
 
 
