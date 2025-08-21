@@ -111,11 +111,7 @@ public class DepartmentManagementService {
         return dto;
     }
 
-
-
-
-
-        public void handleForgotPassword (@NotBlank @Email String email){
+    public void handleForgotPassword (@NotBlank @Email String email){
             Login user = loginrepo.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found with this email"));
 
             if (user.isDisabled()) {
