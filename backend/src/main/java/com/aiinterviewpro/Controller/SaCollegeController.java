@@ -18,7 +18,7 @@ public class SaCollegeController {
     public SaCollegeController( SaCollegeService saCollegeService){
         this.saCollegeService=saCollegeService;
     }
-
+     //summary
     @GetMapping("/summary")
     public ResponseEntity<?> getCollegeSummary() {
         try {
