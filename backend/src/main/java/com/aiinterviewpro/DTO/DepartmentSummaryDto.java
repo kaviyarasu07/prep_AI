@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-
-
 public class DepartmentSummaryDto {
     private int id;
     private String departmentName;
@@ -13,9 +11,6 @@ public class DepartmentSummaryDto {
     private int numberOfStudents;
     private String status;
     private int roleId;
-
-
-
 
     public DepartmentSummaryDto() {
     }
