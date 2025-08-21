@@ -17,7 +17,6 @@ public class CollegeAdminSummaryDto {
         this.totalStudents = totalStudents;
     }
 
-
     public int getTotalDepartments() {
         return totalDepartments;
     }
