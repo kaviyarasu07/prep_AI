@@ -15,8 +15,7 @@ public class MessagePropertyService {
     @Autowired
     private MessageSource messageSource;
 
-    public String getMessage(String key)
-    {
+    public String getMessage(String key) {
 
         return messageSource.getMessage(key, null, Locale.ENGLISH);
     }
