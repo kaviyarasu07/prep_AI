@@ -10,13 +10,13 @@ export function studentsWithoutMentorService() {
 }
 
 export function averageStudentsService() {
-  return axios.get(`${BaseUrl}`);
+  return axios.get(`${BaseUrl}mentor/average-students`);
 }
 
 export function topPerformingService() {
-  return axios.get(`${BaseUrl}`);
+  return axios.get(`${BaseUrl}mentor/top-performing`);
 }
 
 export function departmentInformationService() {
-  return axios.get(`${BaseUrl}`);
+  return axios.get(`${BaseUrl}department/overview/2`);
 }

@@ -4,9 +4,9 @@ const initialState = {
   loading: false,
   mentors: [],
   studentsWithoutMentor: [],
-  averageStudents: [],
-  topPerforming: [],
-  departmentInfo: [],
+  averageStudents: {},
+  topPerforming: {},
+  departmentInfo: {},
   error: null,
 };
 

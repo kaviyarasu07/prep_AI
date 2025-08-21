@@ -34,6 +34,7 @@ function* topPerformingSaga() {
   try {
     const response = yield call(topPerformingService);
     yield put(topPerformingSuccess(response.data));
+    console.log(response)
   } catch (error) {
     yield put(topPerformingFailure(error.message));
   }

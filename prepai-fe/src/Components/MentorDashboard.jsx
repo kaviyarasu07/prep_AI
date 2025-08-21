@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from "react";
 import profile from "../assets/img/profile.png";
 import { useDispatch, useSelector } from "react-redux";
-import { getMentorRequest, studentsWithoutMentorRequest } from "../Redux-Saga/Actions/MentordashboardAction";
+import { averageStudentsRequest, departmentInformationRequest, getMentorRequest, studentsWithoutMentorRequest, topPerformingRequest } from "../Redux-Saga/Actions/MentordashboardAction";
 
 export default function MentorDashboard() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
 
   const dispatch = useDispatch();
-  const { mentors, studentsWithoutMentor, loading, error } = useSelector((state) => state.mentordashboard);
+  const { mentors, studentsWithoutMentor,averageStudents,topPerforming,departmentInfo, loading, error } = useSelector((state) => state.mentordashboard);
 
   useEffect(() => {
     dispatch(getMentorRequest());
      dispatch(studentsWithoutMentorRequest());
+     dispatch(averageStudentsRequest());
+     dispatch(topPerformingRequest());
+     dispatch(departmentInformationRequest());
   }, [dispatch]);
 
   useEffect(() => {
@@ -31,7 +34,7 @@ export default function MentorDashboard() {
       <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm px-4 position-relative">
         <span className="navbar-brand fw-bold" style={{ fontSize: isMobile ? "0.95rem" : "1.25rem" }}>
           <i className="fa-solid fa-graduation-cap me-2"></i>
-          Acme University Admin
+          Madras Christian Admin
         </span>
 
         <div className="collapse navbar-collapse d-none d-lg-flex">
@@ -71,19 +74,19 @@ export default function MentorDashboard() {
 
           <div className="row mt-3">
             <div className="col-md-3 text-primary">College Name</div>
-            <div className="col-md-9"></div>
+            <div className="col-md-9">{departmentInfo?.collegeName}</div>
             <div className="col-12"><hr className="mt-3 mb-3" /></div>
           </div>
 
           <div className="row mt-3">
             <div className="col-md-3 text-primary">Department</div>
-            <div className="col-md-9"></div>
+            <div className="col-md-9">{departmentInfo?.departmentName}</div>
             <div className="col-12"><hr className="mt-3 mb-3" /></div>
           </div>
 
           <div className="row mt-3">
             <div className="col-md-3 text-primary">Department Admin</div>
-            <div className="col-md-9"></div>
+            <div className="col-md-9">{departmentInfo?.departmentAdmin}</div>
           </div>
         </div>
 
@@ -104,13 +107,13 @@ export default function MentorDashboard() {
           <div className="col-6 col-md-3 mb-3">
             <div className="card p-3 shadow-sm">
               <h6>Avg. Students per Mentor</h6>
-              <h4 className="fw-bold">--</h4>
+              <h4 className="fw-bold">{averageStudents?.["Average Students Per Mentor"] || 0}</h4>
             </div>
           </div>
           <div className="col-6 col-md-3 mb-3">
             <div className="card p-3 shadow-sm">
               <h6>Top Performing Mentor</h6>
-              <h5 className="fw-bold">--</h5>
+              <h5 className="fw-bold">{topPerforming?.["Top performing mentor "] || "--"}</h5>
             </div>
           </div>
         </div>
