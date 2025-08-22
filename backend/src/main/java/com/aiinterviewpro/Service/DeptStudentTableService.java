@@ -57,6 +57,7 @@ public class DeptStudentTableService {
     //convert entity to dto
     public DeptStudentTableDto mapToDto(StudentDetails s) {
         DeptStudentTableDto dto = new DeptStudentTableDto();
+        dto.setStudentId(s.getStudentId());
         dto.setRollNumber(s.getRollNumber());
         dto.setStudentName(s.getStudentName());
         dto.setYearOfStudy(s.getYearOfStudy());
@@ -68,43 +69,43 @@ public class DeptStudentTableService {
         return dto;
     }
 
-    // filter by dept + year + mentor + status
     public List<DeptStudentTableDto> getFilteredStudents(String deptCode,
                                                          String year,
                                                          String mentor,
                                                          String status) {
-        // step 1: map dept code -> full name
+        //  Convert dept code to full name
         String deptName = deptMapping.getOrDefault(deptCode.toUpperCase(), deptCode);
 
-        // step 2: get only that dept students first
+        //  Get students in that department
         List<DeptStudentTableDto> students = studentDetailsRepo.findByDepartment_DepartmentName(deptName)
                 .stream()
                 .map(this::mapToDto)
-
                 .collect(Collectors.toList());
 
-        // step 3: apply filters inside that dept only
+        //  filter by year
 
-        // year filter
         if (year != null && !year.isEmpty()) {
+            String filterYear = year.trim().toLowerCase();
             students = students.stream()
-                    .filter(s -> year.equalsIgnoreCase(s.getYearOfStudy()))
+                    .filter(s -> s.getYearOfStudy() != null &&
+                            s.getYearOfStudy().toLowerCase().contains(filterYear))
                     .toList();
         }
 
-        // mentor filter (when mentor added in DTO later)
-    /*
-    if (mentor != null && !mentor.isEmpty()) {
-        students = students.stream()
-                .filter(s -> mentor.equalsIgnoreCase(s.getMentorName()))
-                .toList();
-    }
-    */
+         //mentor
+//        if (mentor != null && !mentor.isEmpty()) {
+//            String filterMentor = mentor.trim().toLowerCase();
+//            students = students.stream()
+//                    .filter(s -> s.getMentorName() != null &&
+//                            s.getMentorName().trim().toLowerCase().equals(filterMentor))
+//                    .toList();
+//        }
 
-        // status filter
         if (status != null && !status.isEmpty()) {
+            String filterStatus = status.trim().toLowerCase();
             students = students.stream()
-                    .filter(s -> status.equalsIgnoreCase(s.getStatus()))
+                    .filter(s -> s.getStatus() != null &&
+                            s.getStatus().trim().toLowerCase().equals(filterStatus))
                     .toList();
         }
 

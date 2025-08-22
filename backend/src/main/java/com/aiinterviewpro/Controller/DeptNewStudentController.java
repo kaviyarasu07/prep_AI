@@ -4,7 +4,7 @@ package com.aiinterviewpro.Controller;
 import com.aiinterviewpro.DTO.DeptNewStudentDto;
 import com.aiinterviewpro.Entity.StudentDetails;
 import com.aiinterviewpro.Service.DeptNewStudentService;
-import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.List;
 
 import static org.springframework.http.ResponseEntity.ok;
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -34,6 +35,11 @@ public class DeptNewStudentController {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
+    //get department name only
 
+    @GetMapping("/names")
+    public List<String> getAllDepartmentNames() {
+        return deptNewStudentService.getAllDepartmentNames();
+    }
 }
 

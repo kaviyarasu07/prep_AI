@@ -44,13 +44,13 @@ public class DeptAddStaffService {
         staff.setProfilePhoto(dto.getProfilePhotoUrl());
         staff.setDesignation(Designation.valueOf(dto.getDesignation().toUpperCase())); // enum mapping
 
-        // 🔹 Step 1: Find DepartmentMaster by name
+        //  Find DepartmentMaster by name
         DepartmentMaster deptMaster = departmentMasterRepo.findByDepartmentName(dto.getDepartmentName())
                 .orElseThrow(() -> new RuntimeException(
                         "Department not found with name: " + dto.getDepartmentName()
                 ));
 
-        // 🔹 Step 2: Find Department (assuming single college for now)
+        //  Find Department
         Department dept = departmentRepo.findByDepartmentMaster(deptMaster)
                 .orElseThrow(() -> new RuntimeException(
                         "Department not mapped for departmentMaster: " + deptMaster.getDepartmentName()
@@ -58,7 +58,7 @@ public class DeptAddStaffService {
 
         staff.setDepartment(dept);
 
-        // 🔹 Step 3: Assign Students (if any)
+        //  Assign Students (if any)
         if (dto.getAssignedStudents() != null && !dto.getAssignedStudents().isEmpty()) {
             List<StudentDetails> students = studentDetailsRepo.findAllById(dto.getAssignedStudents());
             staff.setStudents(new HashSet<>(students));

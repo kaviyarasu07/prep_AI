@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DeptStudentTableDto {
+    private Integer studentId;
     private String rollNumber;
     private String studentName;
     private String yearOfStudy;

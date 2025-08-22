@@ -17,9 +17,11 @@ public class DeptAddStaffDto {
     private String phoneNumber;
     private String designation;
     private String departmentName;
+   // private String degreeType;
     private String staffId;
     private List<Integer> assignedStudents;
     private String profilePhotoUrl;
+
 
 
 }

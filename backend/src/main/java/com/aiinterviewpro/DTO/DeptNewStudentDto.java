@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class DeptNewStudentDto {
 
     private String studentName;
-    private String rollNumber;       // Student ID / Roll Number
+    private String rollNumber;       //  Roll Number
     private String email;
     private String phoneNumber;
     private String yearOfStudy;

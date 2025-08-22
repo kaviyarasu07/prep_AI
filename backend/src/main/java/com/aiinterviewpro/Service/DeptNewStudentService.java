@@ -8,6 +8,7 @@ import com.aiinterviewpro.Repository.StudentDetailsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 @Service
@@ -83,4 +84,10 @@ public class DeptNewStudentService {
 
         return responseDto;
     }
+
+    //get department name only
+    public List<String> getAllDepartmentNames() {
+        return departmentMasterRepo.findAllDepartmentNames();
+    }
+
 }

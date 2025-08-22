@@ -28,10 +28,5 @@ public class DeptDashboardController {
         return ResponseEntity.ok(response);
     }
 
-    // Example: GET http://localhost:8080/students/byYear?year=2
-    @GetMapping("/byYear")
-    public ResponseEntity<List<StudentDetails>> getStudentsByYear(@RequestParam String year) {
-        List<StudentDetails> students = deptDashboardService.getStudentsByYear(year);
-        return ResponseEntity.ok(students);
-    }
+
 }
