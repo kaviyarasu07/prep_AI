@@ -6,6 +6,8 @@ import com.aiinterviewpro.Repository.DepartmentRepo;
 import com.aiinterviewpro.Repository.MentorRepo;
 import com.aiinterviewpro.Repository.StaffDetailsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -25,7 +27,13 @@ public class DepartmentService {
 
     public Map<String, Object> getDepartmentOverview(Integer departmentId) {
         Department dept = departmentRepo.findDepartmentWithCollegeAndMaster(departmentId);
+//        if (dept == null) {
+//            throw new RuntimeException("Department not found with id: " + departmentId);
+//        }
         StaffDetails admin = staffDetailsRepo.findDepartmentAdmin(departmentId).orElse(null);
+//        if (admin == null) {
+//            throw new RuntimeException("Department not found with id: " + departmentId);
+//        }
         // List<Mentor> mentors = mentorRepo.findAll();
         Map<String, Object> response = new HashMap<>();
         response.put("collegeName", dept.getCollege().getName());
