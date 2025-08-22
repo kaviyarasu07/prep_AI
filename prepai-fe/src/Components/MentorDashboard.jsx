@@ -7,6 +7,7 @@ export default function MentorDashboard() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
   const [searchText, setSearchText] = useState("");
+  const [searchError, setSearchError] = useState("");
 
   const dispatch = useDispatch();
   const { mentors, studentsWithoutMentor, averageStudents, topPerforming, departmentInfo, searchmentor, loading, error } = useSelector((state) => state.mentordashboard);
@@ -32,13 +33,30 @@ export default function MentorDashboard() {
   }, []);
 
   const handleSearch = () => {
+    setSearchError("");
+
     if (!searchText.trim()) return;
+
     if (searchText.includes("@")) {
       dispatch(searchMentorRequest({ name: "", email: searchText }));
     } else {
       dispatch(searchMentorRequest({ name: searchText, email: "" }));
     }
   };
+  const filteredMentors =
+    mentors?.mentors?.filter(
+      (m) =>
+        m.name.toLowerCase().includes(searchText.toLowerCase()) ||
+        m.email.toLowerCase().includes(searchText.toLowerCase())
+    ) || [];
+  useEffect(() => {
+    if (searchText.trim() === "") {
+      setSearchError("");
+      dispatch({ type: "CLEAR_SEARCH_MENTOR" });
+      dispatch(getMentorRequest());
+    }
+  }, [searchText, dispatch]);
+
 
   return (
     <div className="bg-light min-vh-100">
@@ -58,14 +76,11 @@ export default function MentorDashboard() {
           </ul>
         </div>
 
-        <div className={`position-${ isMobile ? "absolute top-0 end-0 m-2" : "relative ms-auto" }`}>
+        <div className={`position-${isMobile ? "absolute top-0 end-0 m-2" : "relative ms-auto"}`}>
           <img src={profile} alt="profile" className="rounded-circle border border-white shadow" width={isMobile ? "32" : "45"} height={isMobile ? "32" : "45"} style={{ cursor: isMobile ? "pointer" : "default" }} onClick={() => isMobile && setMenuOpen(!menuOpen)} />
 
           {isMobile && menuOpen && (
-            <div
-              className="position-absolute bg-white shadow rounded py-2 mt-2"
-              style={{ right: 0, zIndex: 1000, minWidth: "180px" }}
-            >
+            <div className="position-absolute bg-white shadow rounded py-2 mt-2" style={{ right: 0, zIndex: 1000, minWidth: "180px" }}>
               <ul className="list-unstyled mb-0">
                 <li className="px-3 py-2 border-bottom">Dashboard</li>
                 <li className="px-3 py-2 border-bottom">Mentors</li>
@@ -80,37 +95,24 @@ export default function MentorDashboard() {
 
       <div className="container py-5">
         <h3 className="fw-bold">Mentors Overview</h3>
-        <p className="text-muted">
-          Manage and monitor mentor performance within the Computer Science and
-          Engineering department.
-        </p>
+        <p className="text-muted">Manage and monitor mentor performance within the Computer Science and Engineering department.</p>
 
         <div className="card border-0 shadow-sm rounded-3 p-4 mb-5">
           <h6 className="fw-bold text-primary">Department Information</h6>
           <hr />
           <div className="row mt-3">
             <div className="col-md-3 text-secondary">College Name</div>
-            <div className="col-md-9 fw-semibold">
-              {departmentInfo?.collegeName}
-            </div>
-            <div className="col-12">
-              <hr />
-            </div>
+            <div className="col-md-9 fw-semibold">{departmentInfo?.collegeName}</div>
+            <div className="col-12"><hr /></div>
           </div>
           <div className="row mt-2">
             <div className="col-md-3 text-secondary">Department</div>
-            <div className="col-md-9 fw-semibold">
-              {departmentInfo?.departmentName}
-            </div>
-            <div className="col-12">
-              <hr />
-            </div>
+            <div className="col-md-9 fw-semibold">{departmentInfo?.departmentName}</div>
+            <div className="col-12"><hr /></div>
           </div>
           <div className="row mt-2">
             <div className="col-md-3 text-secondary">Department Admin</div>
-            <div className="col-md-9 fw-semibold">
-              {departmentInfo?.departmentAdmin}
-            </div>
+            <div className="col-md-9 fw-semibold">{departmentInfo?.departmentAdmin}</div>
           </div>
         </div>
 
@@ -120,29 +122,26 @@ export default function MentorDashboard() {
             {
               label: "Total Mentors",
               value: mentors?.["Total Mentors"] || 0,
-              color: "primary",
+              color: "dark",
             },
             {
               label: "Students Without Mentor",
               value: studentsWithoutMentor?.count || 0,
-              color: "danger",
+              color: "dark",
             },
             {
               label: "Avg. Students per Mentor",
               value: averageStudents?.["Average Students Per Mentor"] || 0,
-              color: "success",
+              color: "dark",
             },
             {
               label: "Top Performing Mentor",
               value: topPerforming?.["Top performing mentor "] || "--",
-              color: "warning",
+              color: "dark",
             },
           ].map((item, i) => (
             <div key={i} className="col-6 col-md-3 mb-3 d-flex">
-              <div
-                className={`card shadow-sm border-0 w-100 h-100 text-${item.color}`}
-                style={{ borderRadius: "15px" }}
-              >
+              <div className={`card shadow-sm border-0 w-100 h-100 text-${item.color}`} style={{ borderRadius: "15px" }}>
                 <div className="card-body text-center">
                   <h6 className="mb-2">{item.label}</h6>
                   <h4 className="fw-bold">{item.value}</h4>
@@ -154,37 +153,13 @@ export default function MentorDashboard() {
 
         <h6 className="fw-bold mt-5">Mentor Details</h6>
         <div className="mb-3 mt-3 position-relative">
-          <input
-            type="text"
-            className="form-control ps-5 rounded-pill"
-            placeholder="Search by name or email"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-            style={{ backgroundColor: "#f1f5f9" }}
-          />
-          <i
-            className="fa-solid fa-magnifying-glass position-absolute"
-            style={{
-              top: "50%",
-              left: "18px",
-              transform: "translateY(-50%)",
-              color: "#6c757d",
-              cursor: "pointer",
-            }}
-            onClick={handleSearch}
-          ></i>
+          <input type="text" className="form-control ps-5 rounded-pill" placeholder="Search by name or email" value={searchText} onChange={(e) => setSearchText(e.target.value)} onKeyDown={(e) => e.key === "Enter" && handleSearch()} style={{ backgroundColor: "#f1f5f9" }} />
+          <i className="fa-solid fa-magnifying-glass position-absolute" style={{ top: "50%", left: "18px", transform: "translateY(-50%)", color: "#6c757d", cursor: "pointer" }} onClick={handleSearch}></i>
         </div>
 
         <div className="table-responsive">
-          <table
-            className="table align-middle text-center shadow-sm mt-4"
-            style={{ fontSize: isMobile ? "0.9rem" : "1rem" }}
-          >
-            <thead
-              className="table-primary"
-              style={{ borderRadius: "10px", overflow: "hidden" }}
-            >
+          <table className="table align-middle text-center shadow-sm mt-4" style={{ fontSize: isMobile ? "0.9rem" : "1rem" }}>
+            <thead className="table-primary" style={{ borderRadius: "10px", overflow: "hidden" }}>
               <tr>
                 <th>Mentor Name</th>
                 <th>Email</th>
@@ -195,19 +170,19 @@ export default function MentorDashboard() {
               </tr>
             </thead>
             <tbody>
-              {loading ? (
+              {searchError ? (
                 <tr>
-                  <td colSpan="6" className="text-muted">
-                    Loading...
-                  </td>
+                  <td colSpan="6" className="text-danger">{searchError}</td>
+                </tr>
+              ) : loading ? (
+                <tr>
+                  <td colSpan="6" className="text-muted">Loading...</td>
                 </tr>
               ) : error ? (
                 <tr>
-                  <td colSpan="6" className="text-danger">
-                    {error}
-                  </td>
+                  <td colSpan="6" className="text-danger">{error}</td>
                 </tr>
-              ) : searchmentor?.id ? (
+              ) : searchText && searchmentor?.id ? (
                 <tr>
                   <td>{searchmentor.name}</td>
                   <td>{searchmentor.email}</td>
@@ -216,8 +191,8 @@ export default function MentorDashboard() {
                   <td>{searchmentor.assessment_mentioned}</td>
                   <td>{searchmentor.mock_interview_Conducted}</td>
                 </tr>
-              ) : mentors?.mentors?.length > 0 ? (
-                mentors.mentors.map((m) => (
+              ) : filteredMentors.length > 0 ? (
+                filteredMentors.map((m) => (
                   <tr key={m.id}>
                     <td>{m.name}</td>
                     <td>{m.email}</td>
@@ -229,9 +204,7 @@ export default function MentorDashboard() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6" className="text-muted">
-                    No mentors found
-                  </td>
+                  <td colSpan="6" className="text-muted">No mentors found</td>
                 </tr>
               )}
             </tbody>

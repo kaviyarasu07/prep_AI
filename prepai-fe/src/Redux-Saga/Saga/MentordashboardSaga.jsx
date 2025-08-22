@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { AVERAGE_STUDENTS_REQUEST, DEPARTMENT_INFORMATION_REQUEST, GET_MENTOR_REQUEST, SEARCH_MENTOR_REQUEST, STUDENTS_WITHOUT_MENTOR_REQUEST, TOP_PERFORMING_REQUEST } from "../Types/MentordashboardTypes";
+import { AVERAGE_STUDENTS_REQUEST, CLEAR_SEARCH_MENTOR, DEPARTMENT_INFORMATION_REQUEST, GET_MENTOR_REQUEST, SEARCH_MENTOR_FAILURE, SEARCH_MENTOR_REQUEST, SEARCH_MENTOR_SUCCESS, STUDENTS_WITHOUT_MENTOR_REQUEST, TOP_PERFORMING_REQUEST } from "../Types/MentordashboardTypes";
 import { getMentorSuccess, getMentorFailure, studentsWithoutMentorSuccess, studentsWithoutMentorFailure, averageStudentsSuccess, averageStudentsFailure, topPerformingSuccess, topPerformingFailure, departmentInformationSuccess, departmentInformationFailure, searchMentorSuccess, searchMentorFailure } from "../Actions/MentordashboardAction";
 import { averageStudentsService, departmentInformationService, getMentorService, searchMentorService, studentsWithoutMentorService, topPerformingService } from "../../Service/MentordashboardService";
 
@@ -52,9 +52,22 @@ function* departmentInformationSaga(action) {
 function* searchMentorSaga(action) {
   try {
     const response = yield call(searchMentorService, action.payload);
-    yield put(searchMentorSuccess(response.data));
+    if (!response.data) {
+      yield put({ type: CLEAR_SEARCH_MENTOR });
+      yield put({ type: SEARCH_MENTOR_FAILURE, error: "No mentor found" });
+      return;
+    }
+    yield put({ type: SEARCH_MENTOR_SUCCESS, payload: response.data });
   } catch (error) {
-    yield put(searchMentorFailure(error.message));
+    if (error.response?.status === 404) {
+      yield put({ type: CLEAR_SEARCH_MENTOR });
+      yield put({ type: SEARCH_MENTOR_FAILURE, error: "No mentor found" });
+    } else {
+      yield put({
+        type: SEARCH_MENTOR_FAILURE,
+        error: error.response?.data?.message || error.message,
+      });
+    }
   }
 }
 
