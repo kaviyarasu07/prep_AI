@@ -19,4 +19,10 @@ public interface StudentDetailsRepo extends JpaRepository<StudentDetails, Intege
     //Department based get student
 
     List<StudentDetails> findByDepartment_DepartmentName(String departmentName);
+
+    //roll number format
+    boolean existsByRollNumber(String rollNumber);
+
+    @Query(value = "SELECT s.rollNumber FROM tb_student_details s WHERE s.roll_number LIKE :prefix% ORDER BY s.roll_number DESC LIMIT 1", nativeQuery = true)
+    String findLastRollNumber(@Param("prefix") String prefix);
 }
