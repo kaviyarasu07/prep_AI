@@ -68,5 +68,31 @@ public class MentorService {
         return mentors.isEmpty() ? null : mentors.get(0);
     }
 
+    // To get the mentor via email
+
+    public MentorDto getMentorByEmailAndName(String email, String name) {
+        Mentor mentor = mentorRepo.findByEmailAndName(email, name)
+                .orElse(null);
+
+        if (mentor == null) {
+            return null;
+        }
+
+        MentorDto dto = new MentorDto();
+        dto.setId(mentor.getId());
+        dto.setName(mentor.getName());
+        dto.setEmail(mentor.getEmail());
+        dto.setTotal_no_Students(mentor.getTotal_no_Students());
+        dto.setAvg_cpa_of_students(mentor.getAvg_cpa_of_students());
+        dto.setAssessment_mentioned(mentor.getAssessment_mentioned());
+        dto.setMock_interview_Conducted(mentor.getMock_interview_Conducted());
+        return dto;
+    }
+
+
+
+
+
+
 
 }

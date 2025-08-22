@@ -24,28 +24,10 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtFilter;
     private final UserDetailsService userDetailsService;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(AbstractHttpConfigurer::disable)
-                .userDetailsService(userDetailsService)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/test/**").permitAll()
-                        .requestMatchers("/auth/register", "/auth/login",
-                                "/auth/forgot-password", "/auth/refresh-token",
-                                "/mentor/all","/mentor/students-without-mentor",
-                                "/mentor/average-students","/mentor/top-performing",
-                                "/department/overview/{departmentId}").permitAll()
-                        .requestMatchers("/auth/reset-password").authenticated()
-                        .requestMatchers("/sa/**").hasRole("SUPER_ADMIN")
-                        .requestMatchers("/ca/**").hasRole("COLLEGE_ADMIN")
-                        .requestMatchers("/api/mentor**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+        return http.csrf(AbstractHttpConfigurer::disable).userDetailsService(userDetailsService).authorizeHttpRequests(auth -> auth.requestMatchers("/test/**").permitAll().requestMatchers("/auth/register", "/auth/login", "/auth/forgot-password", "/auth/refresh-token", "/mentor/all", "/mentor/students-without-mentor", "/mentor/average-students", "/mentor/top-performing", "/department/overview/{departmentId}", "/mentor/by-email-and-name").permitAll().requestMatchers("/auth/reset-password").authenticated().requestMatchers("/sa/**").hasRole("SUPER_ADMIN").requestMatchers("/ca/**").hasRole("COLLEGE_ADMIN").requestMatchers("/api/mentor**").permitAll().anyRequest().authenticated()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class).build();
     }
 
     @Bean
@@ -54,8 +36,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration configuration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 

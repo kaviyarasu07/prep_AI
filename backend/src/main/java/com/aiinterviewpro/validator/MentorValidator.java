@@ -31,12 +31,13 @@ public class MentorValidator {
         ValidationResult result = new ValidationResult();
 
 
-// Validate Email
-        if (ValidationUtil.isNullOrEmpty(mentorDto.getEmail())) {
-            errors.add(messagePropertyService.getMessage("mentor.email.required"));
-        } else if (!mentorDto.getEmail().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
-            errors.add(messagePropertyService.getMessage("mentor.email.invalid"));
+        // Validate for the mentor name
+        if (ValidationUtil.isNullOrEmpty(mentorDto.getName())) {
+            errors.add(messagePropertyService.getMessage("mentor.name.required"));
+        } else if (mentorDto.getName().length() < 2) {
+            errors.add(messagePropertyService.getMessage("mentor.name.tooShort"));
         }
+
 
         // Validate Total Students (must be >= 0)
         if (mentorDto.getTotal_no_Students() < 0) {
@@ -53,18 +54,25 @@ public class MentorValidator {
             errors.add(messagePropertyService.getMessage("mentor.assessmentMentioned.invalid"));
         }
 
-// Validate Mock Interviews Conducted (should be >= 0)
+        // Validate Name
+        if (ValidationUtil.isNullOrEmpty(mentorDto.getName())) {
+            errors.add(messagePropertyService.getMessage("mentor.name.required"));
+        } else if (mentorDto.getName().length() < 2) {
+            errors.add(messagePropertyService.getMessage("mentor.name.tooShort"));
+        }
+
+      // Validate Mock Interviews Conducted (should be >= 0)
         if (mentorDto.getMock_interview_Conducted() < 0) {
             errors.add(messagePropertyService.getMessage("mentor.mockInterview.invalid"));
         }
 
-// If any errors exist, throw exception
+         // If any errors exist, throw exception
         if (!errors.isEmpty()) {
             String errorMessage = String.join(", ", errors);
             throw new ObjectInvalidException(errorMessage);
         }
 
-// Map DTO to Entity if valid
+        // Map DTO to Entity if valid
         Mentor mentor = new Mentor();
         mentor.setEmail(mentorDto.getEmail());
         mentor.setTotal_no_Students(mentorDto.getTotal_no_Students());
