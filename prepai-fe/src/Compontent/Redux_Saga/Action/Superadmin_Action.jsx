@@ -87,10 +87,11 @@ export const updateCollegeStatusRequest = (payload) => ({
   payload,
 });
 
-export const updateCollegeStatusSuccess = (updatedCollege) => ({
+export const updateCollegeStatusSuccess = (college) => ({
   type: UPDATE_COLLEGE_STATUS_SUCCESS,
-  payload: updatedCollege,
+  payload: college,
 });
+
 export const updateCollegeStatusFailure = (error) => ({
   type: UPDATE_COLLEGE_STATUS_FAILURE,
   payload: error,

@@ -484,6 +484,7 @@ const SuperadminDashboard = () => {
   const { loading, summary, colleges, activity, error } = useSelector(
     (state) => state.superadmin
   );
+  console.log(colleges)
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
@@ -516,33 +517,41 @@ const SuperadminDashboard = () => {
       ];
 
   const getStatusBadge = (status) => {
-    let bgColor = "#FFF3CD";
-    let textColor = "#856404";
-    if (status === "Approved") {
-      bgColor = "#D4EDDA";
-      textColor = "#155724";
-    } else if (status === "Rejected") {
-      bgColor = "#F8D7DA";
-      textColor = "#721C24";
-    }
-    return (
-      <span style={{
+  let bgColor = "#FFF3CD";
+  let textColor = "#856404";
+
+  if (status.toUpperCase() === "APPROVED") {
+    bgColor = "#D4EDDA";
+    textColor = "#155724";
+  } else if (status.toUpperCase() === "REJECTED") {
+    bgColor = "#F8D7DA";
+    textColor = "#721C24";
+  }
+
+  return (
+    <span
+      style={{
         backgroundColor: bgColor,
         color: textColor,
         padding: "4px 10px",
         borderRadius: "4px",
         fontSize: "14px",
         display: "inline-block",
-        fontWeight: "500"
-      }}>
-        {status}
-      </span>
-    );
-  };
+        fontWeight: "500",
+      }}
+    >
+      {status}
+    </span>
+  );
+};
 
-const handleStatusChange = (collegeId, status) => {
-  // ✅ object format-la dispatch pannalam
-  dispatch(updateCollegeStatusRequest({ id: collegeId, status }));
+
+// const handleStatusChange = (collegeId, status) => {
+//   // ✅ object format-la dispatch pannalam
+//   dispatch(updateCollegeStatusRequest({ id: collegeId, status }));
+// };
+const handleStatusChange = (index, status) => {
+  dispatch(updateCollegeStatusRequest({ id: index, status }));
 };
 
 
@@ -630,27 +639,41 @@ const handleStatusChange = (collegeId, status) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {colleges.map((college, idx) => (
-                    <tr key={idx}>
-                      <td>{college.collegeName}</td>
-                      <td>{college.type}</td>
-                      <td>{college.universityType}</td>
-                      <td>{college.counselingCode}</td>
-                      <td>{college.dateRequested}</td>
-                      <td>{getStatusBadge(college.status)}</td>
-                      <td className="actions-cell">
-                        {college.status.toLowerCase() === "pending" ? (
-                          <>
-                            <button className="btn btn-sm btn-success me-1" onClick={() => handleStatusChange(college.id, "Approved")}>Approve</button>
-                            <button className="btn btn-sm btn-danger me-1" onClick={() => handleStatusChange(college.id, "Rejected")}>Reject</button>
-                            <button className="btn btn-sm btn-primary">View</button>
-                          </>
-                        ) : (
-                          <button className="btn btn-sm btn-primary">View</button>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
+                 {colleges.map((college, index) => (
+  <tr key={index}>
+    <td>{college.collegeName}</td>
+    <td>{college.type}</td>
+    <td>{college.universityType}</td>
+    <td>{college.counselingCode}</td>
+    <td>{college.dateRequested}</td>
+    <td>{getStatusBadge(college.status)}</td>
+   <td className="actions-cell">
+  {college.status.toLowerCase() === "pending" ? (
+    <>
+      <button
+        className="btn btn-sm btn-success me-1"
+     onClick={() => handleStatusChange(index, "APPROVED")}
+      >
+        Approve
+      </button>
+      <button
+        className="btn btn-sm btn-danger me-1"
+        onClick={() => handleStatusChange(index, "REJECTED")}
+      >
+        Reject
+      </button>
+      <button className="btn btn-sm btn-primary">View</button>
+    </>
+  ) : (
+    <button className="btn btn-sm btn-primary">View</button>
+  )}
+</td>
+
+  
+
+  </tr>
+))}
+
                 </tbody>
               </table>
             </div>

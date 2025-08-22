@@ -22,6 +22,7 @@ public class SaRequestedColService {
                 .map(this::mapToDtoWithActions)
                 .collect(Collectors.toList());
     }
+
     //update
     // Update the college status
     public boolean updateCollegeStatus(Integer id, String status) {
@@ -55,6 +56,7 @@ public class SaRequestedColService {
         dto.setDateRequested(c.getCreatedAt().toLocalDate());
         dto.setStatus(c.getStatus());
         return dto;
+
     }
 }
 
