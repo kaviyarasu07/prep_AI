@@ -34,7 +34,6 @@ public class Mentor {
     @Column(name = "email")
     private String email;
 
-
     @Column(name = "total_students")
     private int total_no_Students;
 

@@ -11,8 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -71,6 +73,31 @@ public class MentorController {
         }
     }
 
+
+    // To get the details by name and email
+
+    @GetMapping(value = "/by-email-and-name", produces = "application/json")
+    public ResponseEntity<?> getMentorByEmailAndName(@RequestParam("email") String email, @RequestParam("name") String name) {
+        logger.info("Fetching mentor by email: {} and name: {} at {}", email, name, LocalDateTime.now());
+
+        MentorDto mentorDto = new MentorDto();
+        mentorDto.setEmail(email);
+        mentorDto.setName(name);
+
+        ValidationResult validationResult = mentorValidator.validateMentor(mentorDto);
+        if (!validationResult.isValid()) {
+            return ResponseEntity.badRequest().body(validationResult.getErrors());
+        }
+
+        MentorDto foundMentor = mentorService.getMentorByEmailAndName(email, name);
+        if (foundMentor == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No mentor found with email: " + email + " and name: " + name);
+        }
+
+        return ResponseEntity.ok(foundMentor);
+    }
+
+
     // Students without mentor
     @GetMapping("/students-without-mentor")
     public ResponseEntity<?> getStudentsWithoutMentor() {
@@ -98,8 +125,8 @@ public class MentorController {
         if (mentor == null) {
             return ResponseEntity.noContent().build();
         }
-        Map <String, String> top_perform = new HashMap <>();
-        top_perform.put("Top performing mentor ",mentor.getName() );
+        Map<String, String> top_perform = new HashMap<>();
+        top_perform.put("Top performing mentor ", mentor.getName());
 
         return ResponseEntity.ok(top_perform);
     }

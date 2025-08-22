@@ -20,7 +20,7 @@ public class MentorDto {
 
     private int total_no_Students;
 
-    private int avg_cpa_of_students;
+    private double avg_cpa_of_students;
 
     private int assessment_mentioned;
 
