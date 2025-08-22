@@ -17,8 +17,8 @@ export function topPerformingService() {
   return axios.get(`${BaseUrl}mentor/top-performing`);
 }
 
-export function departmentInformationService() {
-  return axios.get(`${BaseUrl}department/overview/2`);
+export function departmentInformationService(departmentId) {
+  return axios.get(`${BaseUrl}department/overview/${departmentId}`);
 }
 
 export function searchMentorService({ name, email }) {

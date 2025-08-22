@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from "react";
 import profile from "../assets/img/profile.png";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  averageStudentsRequest,
-  departmentInformationRequest,
-  getMentorRequest,
-  studentsWithoutMentorRequest,
-  topPerformingRequest,
-  searchMentorRequest,
-} from "../Redux-Saga/Actions/MentordashboardAction";
+import { averageStudentsRequest, departmentInformationRequest, getMentorRequest, studentsWithoutMentorRequest, topPerformingRequest, searchMentorRequest } from "../Redux-Saga/Actions/MentordashboardAction";
 
 export default function MentorDashboard() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -16,23 +9,15 @@ export default function MentorDashboard() {
   const [searchText, setSearchText] = useState("");
 
   const dispatch = useDispatch();
-  const {
-    mentors,
-    studentsWithoutMentor,
-    averageStudents,
-    topPerforming,
-    departmentInfo,
-    searchmentor,
-    loading,
-    error,
-  } = useSelector((state) => state.mentordashboard);
+  const { mentors, studentsWithoutMentor, averageStudents, topPerforming, departmentInfo, searchmentor, loading, error } = useSelector((state) => state.mentordashboard);
 
   useEffect(() => {
     dispatch(getMentorRequest());
     dispatch(studentsWithoutMentorRequest());
     dispatch(averageStudentsRequest());
     dispatch(topPerformingRequest());
-    dispatch(departmentInformationRequest());
+    const deptId = 2;
+    dispatch(departmentInformationRequest(deptId));
   }, [dispatch]);
 
   useEffect(() => {
@@ -57,39 +42,24 @@ export default function MentorDashboard() {
 
   return (
     <div className="bg-light min-vh-100">
-      <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm px-4 position-relative">
-        <span
-          className="navbar-brand fw-bold"
-          style={{ fontSize: isMobile ? "0.95rem" : "1.25rem" }}
-        >
+      <nav className="navbar navbar-expand-lg shadow-sm px-4" style={{ background: "linear-gradient(90deg, #3b82f6, #2563eb)" }}>
+        <span className="navbar-brand fw-bold text-white" style={{ fontSize: isMobile ? "1rem" : "1.3rem" }}>
           <i className="fa-solid fa-graduation-cap me-2"></i>
           Madras Christian Admin
         </span>
 
         <div className="collapse navbar-collapse d-none d-lg-flex">
           <ul className="navbar-nav ms-auto">
-            <li className="nav-item px-3">Dashboard</li>
-            <li className="nav-item px-3">Mentors</li>
-            <li className="nav-item px-3">Students</li>
-            <li className="nav-item px-3">Courses</li>
-            <li className="nav-item px-3">Settings</li>
+            <li className="nav-item px-3 text-white fw-semibold">Dashboard</li>
+            <li className="nav-item px-3 text-white fw-semibold">Mentors</li>
+            <li className="nav-item px-3 text-white fw-semibold">Students</li>
+            <li className="nav-item px-3 text-white fw-semibold">Courses</li>
+            <li className="nav-item px-3 text-white fw-semibold">Settings</li>
           </ul>
         </div>
 
-        <div
-          className={`position-${
-            isMobile ? "absolute top-0 end-0 m-2" : "relative ms-auto"
-          }`}
-        >
-          <img
-            src={profile}
-            alt="profile"
-            className="rounded-circle"
-            width={isMobile ? "30" : "45"}
-            height={isMobile ? "30" : "45"}
-            style={{ cursor: isMobile ? "pointer" : "default" }}
-            onClick={() => isMobile && setMenuOpen(!menuOpen)}
-          />
+        <div className={`position-${ isMobile ? "absolute top-0 end-0 m-2" : "relative ms-auto" }`}>
+          <img src={profile} alt="profile" className="rounded-circle border border-white shadow" width={isMobile ? "32" : "45"} height={isMobile ? "32" : "45"} style={{ cursor: isMobile ? "pointer" : "default" }} onClick={() => isMobile && setMenuOpen(!menuOpen)} />
 
           {isMobile && menuOpen && (
             <div
@@ -108,87 +78,96 @@ export default function MentorDashboard() {
         </div>
       </nav>
 
-      <div className="container py-4">
-        <h3 className="fw-bold mt-3">Mentors Overview</h3>
-        <p className="text-primary mt-3">
+      <div className="container py-5">
+        <h3 className="fw-bold">Mentors Overview</h3>
+        <p className="text-muted">
           Manage and monitor mentor performance within the Computer Science and
           Engineering department.
         </p>
 
-        <div className="mb-4 mt-5">
-          <h6 className="fw-bold">Department Information</h6>
-          <hr className="mt-4 mb-3" />
-
+        <div className="card border-0 shadow-sm rounded-3 p-4 mb-5">
+          <h6 className="fw-bold text-primary">Department Information</h6>
+          <hr />
           <div className="row mt-3">
-            <div className="col-md-3 text-primary">College Name</div>
-            <div className="col-md-9">{departmentInfo?.collegeName}</div>
+            <div className="col-md-3 text-secondary">College Name</div>
+            <div className="col-md-9 fw-semibold">
+              {departmentInfo?.collegeName}
+            </div>
             <div className="col-12">
-              <hr className="mt-3 mb-3" />
+              <hr />
             </div>
           </div>
-
-          <div className="row mt-3">
-            <div className="col-md-3 text-primary">Department</div>
-            <div className="col-md-9">{departmentInfo?.departmentName}</div>
+          <div className="row mt-2">
+            <div className="col-md-3 text-secondary">Department</div>
+            <div className="col-md-9 fw-semibold">
+              {departmentInfo?.departmentName}
+            </div>
             <div className="col-12">
-              <hr className="mt-3 mb-3" />
+              <hr />
             </div>
           </div>
-
-          <div className="row mt-3">
-            <div className="col-md-3 text-primary">Department Admin</div>
-            <div className="col-md-9">{departmentInfo?.departmentAdmin}</div>
+          <div className="row mt-2">
+            <div className="col-md-3 text-secondary">Department Admin</div>
+            <div className="col-md-9 fw-semibold">
+              {departmentInfo?.departmentAdmin}
+            </div>
           </div>
         </div>
 
-        <h6 className="fw-bold mb-4">Mentor Summary</h6>
+        <h6 className="fw-bold mb-3">Mentor Summary</h6>
         <div className="row mb-4">
-          <div className="col-6 col-md-3 mb-3 d-flex">
-            <div className="card p-3 shadow-sm w-100 h-100">
-              <h6>Total Mentors</h6>
-              <h4 className="fw-bold">{mentors?.["Total Mentors"] || 0}</h4>
+          {[
+            {
+              label: "Total Mentors",
+              value: mentors?.["Total Mentors"] || 0,
+              color: "primary",
+            },
+            {
+              label: "Students Without Mentor",
+              value: studentsWithoutMentor?.count || 0,
+              color: "danger",
+            },
+            {
+              label: "Avg. Students per Mentor",
+              value: averageStudents?.["Average Students Per Mentor"] || 0,
+              color: "success",
+            },
+            {
+              label: "Top Performing Mentor",
+              value: topPerforming?.["Top performing mentor "] || "--",
+              color: "warning",
+            },
+          ].map((item, i) => (
+            <div key={i} className="col-6 col-md-3 mb-3 d-flex">
+              <div
+                className={`card shadow-sm border-0 w-100 h-100 text-${item.color}`}
+                style={{ borderRadius: "15px" }}
+              >
+                <div className="card-body text-center">
+                  <h6 className="mb-2">{item.label}</h6>
+                  <h4 className="fw-bold">{item.value}</h4>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="col-6 col-md-3 mb-3 d-flex">
-            <div className="card p-3 shadow-sm w-100 h-100">
-              <h6>Students Without Mentor</h6>
-              <h4 className="fw-bold">{studentsWithoutMentor?.count || 0}</h4>
-            </div>
-          </div>
-          <div className="col-6 col-md-3 mb-3 d-flex">
-            <div className="card p-3 shadow-sm w-100 h-100">
-              <h6>Avg. Students per Mentor</h6>
-              <h4 className="fw-bold">
-                {averageStudents?.["Average Students Per Mentor"] || 0}
-              </h4>
-            </div>
-          </div>
-          <div className="col-6 col-md-3 mb-3 d-flex">
-            <div className="card p-3 shadow-sm w-100 h-100">
-              <h6>Top Performing Mentor</h6>
-              <h5 className="fw-bold">
-                {topPerforming?.["Top performing mentor "] || "--"}
-              </h5>
-            </div>
-          </div>
+          ))}
         </div>
 
         <h6 className="fw-bold mt-5">Mentor Details</h6>
-        <div className="mb-3 mt-4 position-relative">
+        <div className="mb-3 mt-3 position-relative">
           <input
             type="text"
-            className="form-control ps-5"
+            className="form-control ps-5 rounded-pill"
             placeholder="Search by name or email"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-            style={{ backgroundColor: "rgb(237 239 244)" }}
+            style={{ backgroundColor: "#f1f5f9" }}
           />
           <i
             className="fa-solid fa-magnifying-glass position-absolute"
             style={{
               top: "50%",
-              left: "15px",
+              left: "18px",
               transform: "translateY(-50%)",
               color: "#6c757d",
               cursor: "pointer",
@@ -199,13 +178,13 @@ export default function MentorDashboard() {
 
         <div className="table-responsive">
           <table
-            className="table text-center align-middle mt-4"
-            style={{
-              border: "1px solid #dee2e6",
-              fontSize: isMobile ? "0.9rem" : "1rem",
-            }}
+            className="table align-middle text-center shadow-sm mt-4"
+            style={{ fontSize: isMobile ? "0.9rem" : "1rem" }}
           >
-            <thead className="table-light">
+            <thead
+              className="table-primary"
+              style={{ borderRadius: "10px", overflow: "hidden" }}
+            >
               <tr>
                 <th>Mentor Name</th>
                 <th>Email</th>
@@ -218,7 +197,9 @@ export default function MentorDashboard() {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan="6">Loading...</td>
+                  <td colSpan="6" className="text-muted">
+                    Loading...
+                  </td>
                 </tr>
               ) : error ? (
                 <tr>
@@ -248,7 +229,9 @@ export default function MentorDashboard() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6">No mentors found</td>
+                  <td colSpan="6" className="text-muted">
+                    No mentors found
+                  </td>
                 </tr>
               )}
             </tbody>

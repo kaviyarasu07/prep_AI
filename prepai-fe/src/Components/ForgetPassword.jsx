@@ -60,7 +60,7 @@ const ForgetPassword = () => {
           <div className="text-danger" style={{ fontSize: "14px" }}>{typeof error === "string" ? error : "Invalid Email"}</div>
         )}
 
-        <button className="btn btn-success w-100 mt-3" onClick={handleSubmit} disabled={loading}>{loading ? "Sending..." : "Submit"}</button>
+        <button className="btn btn-success w-100 mt-3" onClick={handleSubmit} disabled={loading}>{loading ? "Sending..." : "Send Reset Link"}</button>
         <div className="text-center mt-3">
           <a href="/" className="text-decoration-none">&lt; Back to Login</a>
         </div>

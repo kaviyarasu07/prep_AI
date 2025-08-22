@@ -56,8 +56,9 @@ export const topPerformingFailure = (error) => ({
   payload: error,
 });
 
-export const departmentInformationRequest = () => ({
+export const departmentInformationRequest = (departmentId) => ({
   type: DEPARTMENT_INFORMATION_REQUEST,
+  payload: departmentId
 });
 
 export const departmentInformationSuccess = (data) => ({

@@ -40,9 +40,9 @@ function* topPerformingSaga() {
   }
 }
 
-function* departmentInformationSaga() {
+function* departmentInformationSaga(action) {
   try {
-    const response = yield call(departmentInformationService);
+    const response = yield call(departmentInformationService, action.payload);
     yield put(departmentInformationSuccess(response.data));
   } catch (error) {
     yield put(departmentInformationFailure(error.message));
