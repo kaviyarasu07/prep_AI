@@ -1,5 +1,6 @@
 package com.aiinterviewpro.Entity;
 
+import com.aiinterviewpro.Enum.Designation;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,8 +41,11 @@ public class StaffDetails {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "designation")// roll ex :HOD,Professor
-    private String designation;
+
+
+    @Enumerated(EnumType.STRING) // Stores as "PROFESSOR", not 0, 1, 2...
+    private Designation designation;
+
 
     @Column(name = "profile_photo")
     private String profilePhoto;  // path or URL

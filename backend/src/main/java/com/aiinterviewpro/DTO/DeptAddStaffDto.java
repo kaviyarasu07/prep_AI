@@ -1,5 +1,6 @@
 package com.aiinterviewpro.DTO;
 
+import com.aiinterviewpro.Entity.DepartmentMaster;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,9 +15,11 @@ public class DeptAddStaffDto {
     private String fullName;
     private String emailId;
     private String phoneNumber;
-    private String role;
-    private String department;
+    private String designation;
+    private String departmentName;
     private String staffId;
     private List<Integer> assignedStudents;
     private String profilePhotoUrl;
+
+
 }

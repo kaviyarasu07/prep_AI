@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface DepartmentMasterRepo extends JpaRepository<DepartmentMaster, Integer> {
 
 
-    Optional<DepartmentMaster> findByName(String name);
+    Optional<DepartmentMaster> findByDepartmentName(String departmentName);
 }
