@@ -40,7 +40,7 @@ public class DepartmentSearchService {
             dto.setNumberOfStudents(studentCount != null ? studentCount.intValue() : 0);
 
             dto.setStatus((String) row[4]);
-            dto.setRoleId(row[5] != null ? ((Number) row[5]).intValue() : 0);
+
 
             return dto;
         }).toList();

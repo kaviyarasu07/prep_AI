@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+@CrossOrigin(origins = "*", maxAge = 3600)
 
 @RestController
 @RequestMapping(value ="/department")
@@ -33,7 +34,16 @@ public class DepartmentSummaryController {
             @RequestParam(defaultValue = "10") Integer size,
             @RequestParam(defaultValue = "department_name") String sortBy,
             @RequestParam(defaultValue = "asc") String direction
+
     ) {
+
+        String mappedSortBy;
+        switch (sortBy) {
+            case "department_name" -> mappedSortBy = "dm.department_name";
+            case "assignedAdmins" -> mappedSortBy = "sd.staff_name";
+            case "numberOfStudents" -> mappedSortBy = "numberOfStudents";
+            default -> mappedSortBy = "d.id"; // fallback
+        }
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), sortBy));
         Page<DepartmentSummaryDto> pageResult = departmentsummaryservice.getActiveDepartmentSummaries(pageable);
 

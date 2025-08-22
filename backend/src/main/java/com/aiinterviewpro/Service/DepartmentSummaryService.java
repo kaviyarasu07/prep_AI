@@ -74,7 +74,7 @@ public class DepartmentSummaryService {
 
         StringBuilder assignedAdminsBuilder = new StringBuilder();
         for (StaffDetails staff : staffList) {
-            if ("DEPARTMENT_ADMIN".equals(staff.getRole().getName())) {
+            if ("Department Admin".equalsIgnoreCase(staff.getRole().getName())) {
                 if (assignedAdminsBuilder.length() > 0) {
                     assignedAdminsBuilder.append(", ");
                 }
@@ -112,7 +112,7 @@ public class DepartmentSummaryService {
         departmentrepo.save(department);
 
 
-        Role departmentAdminRole = rolerepo.findByName("DEPARTMENT_ADMIN")
+        Role departmentAdminRole = rolerepo.findByName("Department Admin")
                 .orElseThrow(() -> new EntityNotFoundException("Role DEPARTMENT_ADMIN not found"));
 
 
