@@ -48,6 +48,7 @@ public class SaRequestedColService {
     // Map entity to DTO without actions
     private SaRequestCollegeDTO mapToDto(College c) {
         SaRequestCollegeDTO dto = new SaRequestCollegeDTO();
+        dto.setId(c.getId());
         dto.setCollegeName(c.getName());
         dto.setType(c.getDegreeType());
         dto.setUniversityType(c.getAffiliatedTo());
