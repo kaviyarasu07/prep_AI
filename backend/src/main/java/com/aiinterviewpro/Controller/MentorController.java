@@ -14,7 +14,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -37,8 +36,6 @@ public class MentorController {
     @PostMapping(value = "/create", produces = "application/json")
     public ResponseEntity<?> createMentor(@RequestBody MentorDto mentorDto, @RequestHeader HttpHeaders headers) throws Exception {
         logger.info("start to add mentor {}", LocalDateTime.now());
-        // Login loggedInMentor = null;
-        // jwt process
         ValidationResult validationResult = mentorValidator.validateMentor(mentorDto);
         try {
             mentorService.create(mentorDto);
@@ -66,7 +63,6 @@ public class MentorController {
             Map<String, Object> response = new HashMap<>();
             response.put("Total Mentors", mentorDtoList.size());
             response.put("mentors", mentorDtoList);
-
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -77,17 +73,17 @@ public class MentorController {
     // To get the details by name and email
 
     @GetMapping(value = "/by-email-and-name", produces = "application/json")
-    public ResponseEntity<?> getMentorByEmailAndName(@RequestParam("email") String email, @RequestParam("name") String name) {
+    public ResponseEntity<?> getMentorByEmailAndName(@RequestParam(value = "email", required = false) String email, @RequestParam(value = "name", required = false) String name) {
         logger.info("Fetching mentor by email: {} and name: {} at {}", email, name, LocalDateTime.now());
 
-        MentorDto mentorDto = new MentorDto();
-        mentorDto.setEmail(email);
-        mentorDto.setName(name);
-
-        ValidationResult validationResult = mentorValidator.validateMentor(mentorDto);
-        if (!validationResult.isValid()) {
-            return ResponseEntity.badRequest().body(validationResult.getErrors());
-        }
+//        MentorDto mentorDto = new MentorDto();
+//        mentorDto.setEmail(email);
+//        mentorDto.setName(name);
+//
+//        ValidationResult validationResult = mentorValidator.validateMentor(mentorDto);
+//        if (!validationResult.isValid()) {
+//            return ResponseEntity.badRequest().body(validationResult.getErrors());
+//        }
 
         MentorDto foundMentor = mentorService.getMentorByEmailAndName(email, name);
         if (foundMentor == null) {

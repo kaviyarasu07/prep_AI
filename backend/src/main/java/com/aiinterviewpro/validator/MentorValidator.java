@@ -30,12 +30,34 @@ public class MentorValidator {
         List<String> errors = new ArrayList<>();
         ValidationResult result = new ValidationResult();
 
-
         // Validate for the mentor name
         if (ValidationUtil.isNullOrEmpty(mentorDto.getName())) {
             errors.add(messagePropertyService.getMessage("mentor.name.required"));
         } else if (mentorDto.getName().length() < 2) {
             errors.add(messagePropertyService.getMessage("mentor.name.tooShort"));
+        }
+
+        // Ensure at least one email and name is provided
+        if ((mentorDto.getEmail() == null || mentorDto.getEmail().isBlank()) && (mentorDto.getName() == null || mentorDto.getName().isBlank())) {
+            errors.add(messagePropertyService.getMessage("mentor.required,Either email or name must be provided"));
+            return result;
+        }
+
+        // Validate email only if it is provided
+        if (mentorDto.getEmail() != null && !mentorDto.getEmail().isBlank()) {
+            if (!mentorDto.getEmail().matches("[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$")) {
+                errors.add(messagePropertyService.getMessage("mentor.email.invalid, Invalid email format"));
+                return result;
+            }
+        }
+
+        // Validate name only if it is provided
+        if (mentorDto.getName() != null && !mentorDto.getName().isBlank()) {
+            if (mentorDto.getName().length() < 2) {
+                errors.add(messagePropertyService.getMessage("mentor.name.invalid, Name must be at least 2 characters"));
+                return result;
+            }
+            // You can add more name validations if needed
         }
 
 
@@ -55,18 +77,18 @@ public class MentorValidator {
         }
 
         // Validate Name
-        if (ValidationUtil.isNullOrEmpty(mentorDto.getName())) {
-            errors.add(messagePropertyService.getMessage("mentor.name.required"));
-        } else if (mentorDto.getName().length() < 2) {
-            errors.add(messagePropertyService.getMessage("mentor.name.tooShort"));
-        }
+//        if (ValidationUtil.isNullOrEmpty(mentorDto.getName())) {
+//            errors.add(messagePropertyService.getMessage("mentor.name.required"));
+//        } else if (mentorDto.getName().length() < 2) {
+//            errors.add(messagePropertyService.getMessage("mentor.name.tooShort"));
+//        }
 
-      // Validate Mock Interviews Conducted (should be >= 0)
+        // Validate Mock Interviews Conducted (should be >= 0)
         if (mentorDto.getMock_interview_Conducted() < 0) {
             errors.add(messagePropertyService.getMessage("mentor.mockInterview.invalid"));
         }
 
-         // If any errors exist, throw exception
+        // If any errors exist, throw exception
         if (!errors.isEmpty()) {
             String errorMessage = String.join(", ", errors);
             throw new ObjectInvalidException(errorMessage);

@@ -25,7 +25,7 @@ public interface MentorRepo extends JpaRepository<Mentor, Integer> {
     List<Mentor> findMentorsByDepartment(@Param("departmentId") Integer departmentId);
 
     // To fetch the details of mentor with em
-    @Query("SELECT m FROM Mentor m WHERE m.email = :email AND m.name = :name")
+    @Query("SELECT m FROM Mentor m WHERE m.email = :email OR m.name = :name")
     Optional<Mentor> findByEmailAndName(@Param("email") String email, @Param("name") String name);
 
 }
