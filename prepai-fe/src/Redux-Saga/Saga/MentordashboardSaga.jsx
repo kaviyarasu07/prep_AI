@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { AVERAGE_STUDENTS_REQUEST, DEPARTMENT_INFORMATION_REQUEST, GET_MENTOR_REQUEST, STUDENTS_WITHOUT_MENTOR_REQUEST, TOP_PERFORMING_REQUEST } from "../Types/MentordashboardTypes";
-import { getMentorSuccess, getMentorFailure, studentsWithoutMentorSuccess, studentsWithoutMentorFailure, averageStudentsSuccess, averageStudentsFailure, topPerformingSuccess, topPerformingFailure, departmentInformationSuccess, departmentInformationFailure } from "../Actions/MentordashboardAction";
-import { averageStudentsService, departmentInformationService, getMentorService, studentsWithoutMentorService, topPerformingService } from "../../Service/MentordashboardService";
+import { AVERAGE_STUDENTS_REQUEST, DEPARTMENT_INFORMATION_REQUEST, GET_MENTOR_REQUEST, SEARCH_MENTOR_REQUEST, STUDENTS_WITHOUT_MENTOR_REQUEST, TOP_PERFORMING_REQUEST } from "../Types/MentordashboardTypes";
+import { getMentorSuccess, getMentorFailure, studentsWithoutMentorSuccess, studentsWithoutMentorFailure, averageStudentsSuccess, averageStudentsFailure, topPerformingSuccess, topPerformingFailure, departmentInformationSuccess, departmentInformationFailure, searchMentorSuccess, searchMentorFailure } from "../Actions/MentordashboardAction";
+import { averageStudentsService, departmentInformationService, getMentorService, searchMentorService, studentsWithoutMentorService, topPerformingService } from "../../Service/MentordashboardService";
 
 function* getMentorSaga() {
   try {
@@ -49,10 +49,20 @@ function* departmentInformationSaga() {
   }
 }
 
+function* searchMentorSaga(action) {
+  try {
+    const response = yield call(searchMentorService, action.payload);
+    yield put(searchMentorSuccess(response.data));
+  } catch (error) {
+    yield put(searchMentorFailure(error.message));
+  }
+}
+
 export default function* mentorDashboard() {
   yield takeLatest(GET_MENTOR_REQUEST, getMentorSaga);
   yield takeLatest(STUDENTS_WITHOUT_MENTOR_REQUEST, studentsWithoutMentorSaga);
   yield takeLatest(AVERAGE_STUDENTS_REQUEST, averageStudentsSaga);
   yield takeLatest(TOP_PERFORMING_REQUEST, topPerformingSaga);
   yield takeLatest(DEPARTMENT_INFORMATION_REQUEST, departmentInformationSaga);
+  yield takeLatest(SEARCH_MENTOR_REQUEST, searchMentorSaga);
 }

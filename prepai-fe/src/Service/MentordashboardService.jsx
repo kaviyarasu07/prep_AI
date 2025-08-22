@@ -20,3 +20,9 @@ export function topPerformingService() {
 export function departmentInformationService() {
   return axios.get(`${BaseUrl}department/overview/2`);
 }
+
+export function searchMentorService({ name, email }) {
+  return axios.get(`${BaseUrl}mentor/by-email-and-name`, {
+    params: { name, email },
+  });
+}

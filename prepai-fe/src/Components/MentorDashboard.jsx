@@ -1,14 +1,31 @@
 import React, { useState, useEffect } from "react";
 import profile from "../assets/img/profile.png";
 import { useDispatch, useSelector } from "react-redux";
-import { averageStudentsRequest, departmentInformationRequest, getMentorRequest, studentsWithoutMentorRequest, topPerformingRequest } from "../Redux-Saga/Actions/MentordashboardAction";
+import {
+  averageStudentsRequest,
+  departmentInformationRequest,
+  getMentorRequest,
+  studentsWithoutMentorRequest,
+  topPerformingRequest,
+  searchMentorRequest,
+} from "../Redux-Saga/Actions/MentordashboardAction";
 
 export default function MentorDashboard() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
+  const [searchText, setSearchText] = useState("");
 
   const dispatch = useDispatch();
-  const { mentors, studentsWithoutMentor, averageStudents, topPerforming, departmentInfo, loading, error } = useSelector((state) => state.mentordashboard);
+  const {
+    mentors,
+    studentsWithoutMentor,
+    averageStudents,
+    topPerforming,
+    departmentInfo,
+    searchmentor,
+    loading,
+    error,
+  } = useSelector((state) => state.mentordashboard);
 
   useEffect(() => {
     dispatch(getMentorRequest());
@@ -29,10 +46,22 @@ export default function MentorDashboard() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const handleSearch = () => {
+    if (!searchText.trim()) return;
+    if (searchText.includes("@")) {
+      dispatch(searchMentorRequest({ name: "", email: searchText }));
+    } else {
+      dispatch(searchMentorRequest({ name: searchText, email: "" }));
+    }
+  };
+
   return (
     <div className="bg-light min-vh-100">
       <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm px-4 position-relative">
-        <span className="navbar-brand fw-bold" style={{ fontSize: isMobile ? "0.95rem" : "1.25rem" }}>
+        <span
+          className="navbar-brand fw-bold"
+          style={{ fontSize: isMobile ? "0.95rem" : "1.25rem" }}
+        >
           <i className="fa-solid fa-graduation-cap me-2"></i>
           Madras Christian Admin
         </span>
@@ -47,11 +76,26 @@ export default function MentorDashboard() {
           </ul>
         </div>
 
-        <div className={`position-${ isMobile ? "absolute top-0 end-0 m-2" : "relative ms-auto" }`}>
-          <img src={profile} alt="profile" className="rounded-circle" width={isMobile ? "30" : "45"} height={isMobile ? "30" : "45"} style={{ cursor: isMobile ? "pointer" : "default" }} onClick={() => isMobile && setMenuOpen(!menuOpen)} />
+        <div
+          className={`position-${
+            isMobile ? "absolute top-0 end-0 m-2" : "relative ms-auto"
+          }`}
+        >
+          <img
+            src={profile}
+            alt="profile"
+            className="rounded-circle"
+            width={isMobile ? "30" : "45"}
+            height={isMobile ? "30" : "45"}
+            style={{ cursor: isMobile ? "pointer" : "default" }}
+            onClick={() => isMobile && setMenuOpen(!menuOpen)}
+          />
 
           {isMobile && menuOpen && (
-            <div className="position-absolute bg-white shadow rounded py-2 mt-2" style={{ right: 0, zIndex: 1000, minWidth: "180px" }}>
+            <div
+              className="position-absolute bg-white shadow rounded py-2 mt-2"
+              style={{ right: 0, zIndex: 1000, minWidth: "180px" }}
+            >
               <ul className="list-unstyled mb-0">
                 <li className="px-3 py-2 border-bottom">Dashboard</li>
                 <li className="px-3 py-2 border-bottom">Mentors</li>
@@ -66,7 +110,10 @@ export default function MentorDashboard() {
 
       <div className="container py-4">
         <h3 className="fw-bold mt-3">Mentors Overview</h3>
-        <p className="text-primary mt-3">Manage and monitor mentor performance within the Computer Science and Engineering department.</p>
+        <p className="text-primary mt-3">
+          Manage and monitor mentor performance within the Computer Science and
+          Engineering department.
+        </p>
 
         <div className="mb-4 mt-5">
           <h6 className="fw-bold">Department Information</h6>
@@ -99,17 +146,13 @@ export default function MentorDashboard() {
           <div className="col-6 col-md-3 mb-3 d-flex">
             <div className="card p-3 shadow-sm w-100 h-100">
               <h6>Total Mentors</h6>
-              <h4 className="fw-bold">
-                {mentors?.["Total Mentors"] || 0}
-              </h4>
+              <h4 className="fw-bold">{mentors?.["Total Mentors"] || 0}</h4>
             </div>
           </div>
           <div className="col-6 col-md-3 mb-3 d-flex">
             <div className="card p-3 shadow-sm w-100 h-100">
               <h6>Students Without Mentor</h6>
-              <h4 className="fw-bold">
-                {studentsWithoutMentor?.count || 0}
-              </h4>
+              <h4 className="fw-bold">{studentsWithoutMentor?.count || 0}</h4>
             </div>
           </div>
           <div className="col-6 col-md-3 mb-3 d-flex">
@@ -132,12 +175,36 @@ export default function MentorDashboard() {
 
         <h6 className="fw-bold mt-5">Mentor Details</h6>
         <div className="mb-3 mt-4 position-relative">
-          <input type="text" className="form-control ps-5" placeholder="Search by name or email" style={{ backgroundColor: "rgb(237 239 244)" }} />
-          <i className="fa-solid fa-magnifying-glass position-absolute" style={{ top: "50%", left: "15px", transform: "translateY(-50%)", color: "#6c757d" }}></i>
+          <input
+            type="text"
+            className="form-control ps-5"
+            placeholder="Search by name or email"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+            style={{ backgroundColor: "rgb(237 239 244)" }}
+          />
+          <i
+            className="fa-solid fa-magnifying-glass position-absolute"
+            style={{
+              top: "50%",
+              left: "15px",
+              transform: "translateY(-50%)",
+              color: "#6c757d",
+              cursor: "pointer",
+            }}
+            onClick={handleSearch}
+          ></i>
         </div>
 
         <div className="table-responsive">
-          <table className="table text-center align-middle mt-4" style={{ border: "1px solid #dee2e6", fontSize: isMobile ? "0.9rem" : "1rem" }}>
+          <table
+            className="table text-center align-middle mt-4"
+            style={{
+              border: "1px solid #dee2e6",
+              fontSize: isMobile ? "0.9rem" : "1rem",
+            }}
+          >
             <thead className="table-light">
               <tr>
                 <th>Mentor Name</th>
@@ -155,7 +222,18 @@ export default function MentorDashboard() {
                 </tr>
               ) : error ? (
                 <tr>
-                  <td colSpan="6" className="text-danger">{error}</td>
+                  <td colSpan="6" className="text-danger">
+                    {error}
+                  </td>
+                </tr>
+              ) : searchmentor?.id ? (
+                <tr>
+                  <td>{searchmentor.name}</td>
+                  <td>{searchmentor.email}</td>
+                  <td>{searchmentor.total_no_Students}</td>
+                  <td>{searchmentor.avg_cpa_of_students}</td>
+                  <td>{searchmentor.assessment_mentioned}</td>
+                  <td>{searchmentor.mock_interview_Conducted}</td>
                 </tr>
               ) : mentors?.mentors?.length > 0 ? (
                 mentors.mentors.map((m) => (
