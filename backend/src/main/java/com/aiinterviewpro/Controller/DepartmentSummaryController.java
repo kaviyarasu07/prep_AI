@@ -20,7 +20,7 @@ import java.util.Map;
 @CrossOrigin(origins = "*", maxAge = 3600)
 
 @RestController
-@RequestMapping(value ="/department")
+@RequestMapping(value ="/ca/department")
 
 public class DepartmentSummaryController {
 

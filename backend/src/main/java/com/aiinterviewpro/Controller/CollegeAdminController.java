@@ -12,7 +12,7 @@ import com.aiinterviewpro.Service.CollegeAdminSummaryService;
 @CrossOrigin(origins = "*", maxAge = 3600)
 
 @RestController
-@RequestMapping(value="/dashBoard")
+@RequestMapping(value="/ca/dashBoard")
 
 public class CollegeAdminController {
 	@Autowired

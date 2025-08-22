@@ -12,7 +12,7 @@ import java.util.Map;
 @CrossOrigin(origins = "*", maxAge = 3600)
 
 @RestController
-@RequestMapping(value="/search")
+@RequestMapping(value="/ca/search")
 
 public class DepartmentSearchController {
     @Autowired
