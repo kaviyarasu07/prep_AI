@@ -8,14 +8,14 @@ export default function MentorDashboard() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
 
   const dispatch = useDispatch();
-  const { mentors, studentsWithoutMentor,averageStudents,topPerforming,departmentInfo, loading, error } = useSelector((state) => state.mentordashboard);
+  const { mentors, studentsWithoutMentor, averageStudents, topPerforming, departmentInfo, loading, error } = useSelector((state) => state.mentordashboard);
 
   useEffect(() => {
     dispatch(getMentorRequest());
-     dispatch(studentsWithoutMentorRequest());
-     dispatch(averageStudentsRequest());
-     dispatch(topPerformingRequest());
-     dispatch(departmentInformationRequest());
+    dispatch(studentsWithoutMentorRequest());
+    dispatch(averageStudentsRequest());
+    dispatch(topPerformingRequest());
+    dispatch(departmentInformationRequest());
   }, [dispatch]);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function MentorDashboard() {
           </ul>
         </div>
 
-        <div className={`position-${isMobile ? "absolute top-0 end-0 m-2" : "relative ms-auto"}`}>
+        <div className={`position-${ isMobile ? "absolute top-0 end-0 m-2" : "relative ms-auto" }`}>
           <img src={profile} alt="profile" className="rounded-circle" width={isMobile ? "30" : "45"} height={isMobile ? "30" : "45"} style={{ cursor: isMobile ? "pointer" : "default" }} onClick={() => isMobile && setMenuOpen(!menuOpen)} />
 
           {isMobile && menuOpen && (
@@ -75,13 +75,17 @@ export default function MentorDashboard() {
           <div className="row mt-3">
             <div className="col-md-3 text-primary">College Name</div>
             <div className="col-md-9">{departmentInfo?.collegeName}</div>
-            <div className="col-12"><hr className="mt-3 mb-3" /></div>
+            <div className="col-12">
+              <hr className="mt-3 mb-3" />
+            </div>
           </div>
 
           <div className="row mt-3">
             <div className="col-md-3 text-primary">Department</div>
             <div className="col-md-9">{departmentInfo?.departmentName}</div>
-            <div className="col-12"><hr className="mt-3 mb-3" /></div>
+            <div className="col-12">
+              <hr className="mt-3 mb-3" />
+            </div>
           </div>
 
           <div className="row mt-3">
@@ -92,28 +96,36 @@ export default function MentorDashboard() {
 
         <h6 className="fw-bold mb-4">Mentor Summary</h6>
         <div className="row mb-4">
-          <div className="col-6 col-md-3 mb-3">
-            <div className="card p-3 shadow-sm">
+          <div className="col-6 col-md-3 mb-3 d-flex">
+            <div className="card p-3 shadow-sm w-100 h-100">
               <h6>Total Mentors</h6>
-              <h4 className="fw-bold">{mentors?.["Total Mentors"] || 0}</h4>
+              <h4 className="fw-bold">
+                {mentors?.["Total Mentors"] || 0}
+              </h4>
             </div>
           </div>
-          <div className="col-6 col-md-3 mb-3">
-            <div className="card p-3 shadow-sm">
+          <div className="col-6 col-md-3 mb-3 d-flex">
+            <div className="card p-3 shadow-sm w-100 h-100">
               <h6>Students Without Mentor</h6>
-              <h4 className="fw-bold">{studentsWithoutMentor?.count || 0}</h4>
+              <h4 className="fw-bold">
+                {studentsWithoutMentor?.count || 0}
+              </h4>
             </div>
           </div>
-          <div className="col-6 col-md-3 mb-3">
-            <div className="card p-3 shadow-sm">
+          <div className="col-6 col-md-3 mb-3 d-flex">
+            <div className="card p-3 shadow-sm w-100 h-100">
               <h6>Avg. Students per Mentor</h6>
-              <h4 className="fw-bold">{averageStudents?.["Average Students Per Mentor"] || 0}</h4>
+              <h4 className="fw-bold">
+                {averageStudents?.["Average Students Per Mentor"] || 0}
+              </h4>
             </div>
           </div>
-          <div className="col-6 col-md-3 mb-3">
-            <div className="card p-3 shadow-sm">
+          <div className="col-6 col-md-3 mb-3 d-flex">
+            <div className="card p-3 shadow-sm w-100 h-100">
               <h6>Top Performing Mentor</h6>
-              <h5 className="fw-bold">{topPerforming?.["Top performing mentor "] || "--"}</h5>
+              <h5 className="fw-bold">
+                {topPerforming?.["Top performing mentor "] || "--"}
+              </h5>
             </div>
           </div>
         </div>
@@ -121,13 +133,11 @@ export default function MentorDashboard() {
         <h6 className="fw-bold mt-5">Mentor Details</h6>
         <div className="mb-3 mt-4 position-relative">
           <input type="text" className="form-control ps-5" placeholder="Search by name or email" style={{ backgroundColor: "rgb(237 239 244)" }} />
-          <i
-            className="fa-solid fa-magnifying-glass position-absolute"
-            style={{ top: "50%", left: "15px", transform: "translateY(-50%)", color: "#6c757d" }}></i>
+          <i className="fa-solid fa-magnifying-glass position-absolute" style={{ top: "50%", left: "15px", transform: "translateY(-50%)", color: "#6c757d" }}></i>
         </div>
 
         <div className="table-responsive">
-          <table className="table text-center align-middle mt-4" style={{ border: "1px solid #dee2e6", fontSize: isMobile ? "0.75rem" : "1rem" }}>
+          <table className="table text-center align-middle mt-4" style={{ border: "1px solid #dee2e6", fontSize: isMobile ? "0.9rem" : "1rem" }}>
             <thead className="table-light">
               <tr>
                 <th>Mentor Name</th>
@@ -140,7 +150,9 @@ export default function MentorDashboard() {
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan="6">Loading...</td></tr>
+                <tr>
+                  <td colSpan="6">Loading...</td>
+                </tr>
               ) : error ? (
                 <tr>
                   <td colSpan="6" className="text-danger">{error}</td>
