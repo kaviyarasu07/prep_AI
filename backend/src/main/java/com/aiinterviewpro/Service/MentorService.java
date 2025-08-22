@@ -69,10 +69,8 @@ public class MentorService {
     }
 
     // To get the mentor via email
-
     public MentorDto getMentorByEmailAndName(String email, String name) {
-        Mentor mentor = mentorRepo.findByEmailAndName(email, name)
-                .orElse(null);
+        Mentor mentor = mentorRepo.findByEmailAndName(email, name).orElse(null);
 
         if (mentor == null) {
             return null;
@@ -88,11 +86,6 @@ public class MentorService {
         dto.setMock_interview_Conducted(mentor.getMock_interview_Conducted());
         return dto;
     }
-
-
-
-
-
 
 
 }
