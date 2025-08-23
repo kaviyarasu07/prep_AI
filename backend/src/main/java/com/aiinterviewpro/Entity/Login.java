@@ -45,6 +45,13 @@ public class Login implements UserDetails {
     @Column(length = 1000)
     private String refreshToken;
 
+
+    @Column(name = "is_temp_password", nullable = false)
+    private boolean isTempPassword = false;
+
+    @Column(name = "last_login_at")
+    private LocalDateTime lastLoginAt;
+
     @Column(name = "user_id")
     private Integer userId;
 
@@ -100,5 +107,16 @@ public class Login implements UserDetails {
         this.role = role;
     }
 
-}
 
+
+
+    public void setIsTempPassword(boolean b) {
+        this.isTempPassword = b;
+    }
+
+    public boolean isDisabled() {
+       return  !isActive;
+    }
+
+
+}
