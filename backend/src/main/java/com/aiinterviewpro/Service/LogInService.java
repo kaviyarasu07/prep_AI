@@ -8,7 +8,10 @@ import com.aiinterviewpro.Entity.Role;
 import com.aiinterviewpro.Repository.LoginRepo;
 import com.aiinterviewpro.Repository.RoleRepo;
 import com.aiinterviewpro.Security.JwtUtil;
+import com.aiinterviewpro.Util.PasswordUtil;
 import io.micrometer.common.util.StringUtils;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,25 +31,25 @@ public class LogInService {
     private final RoleRepo roleRepository;
     private final EmailService emailService;
 
-        public void register(RegisterRequestDto request) {
-            if (request.getEmail() == null || request.getEmail().isBlank()) {
-                throw new RuntimeException("Email must not be empty");
-            }
-            if (!request.getEmail().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
-                throw new RuntimeException("Invalid email format");
-            }
-            if (request.getPassword() == null || request.getPassword().isBlank()) {
-                throw new RuntimeException("Password must not be empty");
-            }
-            if (request.getPassword().length() < 8) {
-                throw new RuntimeException("Password must be at least 8 characters");
-            }
-            if (request.getRole() == null ) {
-                throw new RuntimeException("Role must not be empty");
-            }
-            if (loginRepo.findByEmail(request.getEmail()).isPresent()) {
-                throw new RuntimeException("User already exists with this email");
-            }
+    public void register(RegisterRequestDto request) {
+        if (request.getEmail() == null || request.getEmail().isBlank()) {
+            throw new RuntimeException("Email must not be empty");
+        }
+        if (!request.getEmail().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+            throw new RuntimeException("Invalid email format");
+        }
+        if (request.getPassword() == null || request.getPassword().isBlank()) {
+            throw new RuntimeException("Password must not be empty");
+        }
+        if (request.getPassword().length() < 8) {
+            throw new RuntimeException("Password must be at least 8 characters");
+        }
+        if (request.getRole() == null ) {
+            throw new RuntimeException("Role must not be empty");
+        }
+        if (loginRepo.findByEmail(request.getEmail()).isPresent()) {
+            throw new RuntimeException("User already exists with this email");
+        }
 
         Role role = roleRepository.findById(request.getRole())
                 .orElseThrow(() -> new RuntimeException("Invalid role ID"));
@@ -77,7 +80,7 @@ public class LogInService {
                     )
             );
 
-            // Fetch the Login entity only once
+
             Login login = loginRepo.findByEmail(request.getEmail())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
@@ -89,7 +92,7 @@ public class LogInService {
             login.setRefreshToken(refreshToken);
             loginRepo.save(login);
 
-            // Return response
+
             return new AuthResponseDto(
                     refreshToken,
                     login.getUserId(),
@@ -122,5 +125,46 @@ public class LogInService {
 
         String newAccessToken = jwtUtil.generateToken(email);
         return new AuthResponseDto(newAccessToken);
+    }
+
+    public void handleForgotPassword(@NotBlank @Email String email) {
+        Login user= loginRepo.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with this email"));
+
+        if (user.isDisabled()) {
+            throw new RuntimeException("Account is disabled");
+        }
+
+        String tempPassword = PasswordUtil.generateTemporaryPassword(10);
+        String encodedPassword = passwordEncoder.encode(tempPassword);
+
+        user.setPassword(encodedPassword);
+        user.setIsTempPassword(true);
+        loginRepo.save(user);
+        String body = "Your temporary password is: " + tempPassword +
+                "\nPlease login using this password and reset it immediately.";
+
+        emailService.sendOtpEmail(email, "Temporary Password", body);
+    }
+
+    public void resetPassword(String newPassword, Principal principal){
+
+        String email = principal.getName();
+        Login user = loginRepo.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!user.isTempPassword()) {
+            throw new RuntimeException("You can only reset your password if you have a temporary password");
+        }
+
+        if (newPassword.length() < 10) {
+            throw new RuntimeException("Password must be at least 10 characters long");
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setIsTempPassword(false);
+        user.setLastLoginAt(LocalDateTime.now());
+
+        loginRepo.save(user);
     }
 }
