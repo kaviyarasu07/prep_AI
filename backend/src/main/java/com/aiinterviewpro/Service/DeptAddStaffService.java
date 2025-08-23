@@ -1,15 +1,9 @@
 package com.aiinterviewpro.Service;
 
 import com.aiinterviewpro.DTO.DeptAddStaffDto;
-import com.aiinterviewpro.Entity.Department;
-import com.aiinterviewpro.Entity.DepartmentMaster;
-import com.aiinterviewpro.Entity.StaffDetails;
-import com.aiinterviewpro.Entity.StudentDetails;
+import com.aiinterviewpro.Entity.*;
 import com.aiinterviewpro.Enum.Designation;
-import com.aiinterviewpro.Repository.DepartmentMasterRepo;
-import com.aiinterviewpro.Repository.DepartmentRepo;
-import com.aiinterviewpro.Repository.StaffDetailsRepo;
-import com.aiinterviewpro.Repository.StudentDetailsRepo;
+import com.aiinterviewpro.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +27,9 @@ public class DeptAddStaffService {
     @Autowired
     private DepartmentMasterRepo departmentMasterRepo;
 
+    @Autowired
+    private RoleRepo roleRepo;
+
 
     public StaffDetails createStaff(DeptAddStaffDto dto) {
 
@@ -42,21 +39,38 @@ public class DeptAddStaffService {
         staff.setPhoneNumber(dto.getPhoneNumber());
         staff.setStaffCode(dto.getStaffId());
         staff.setProfilePhoto(dto.getProfilePhotoUrl());
-        staff.setDesignation(Designation.valueOf(dto.getDesignation().toUpperCase())); // enum mapping
+        //staff.setDesignation(Designation.valueOf(dto.getDesignation().toUpperCase())); // enum mapping
 
-        //  Find DepartmentMaster by name
-        DepartmentMaster deptMaster = departmentMasterRepo.findByDepartmentName(dto.getDepartmentName())
-                .orElseThrow(() -> new RuntimeException(
-                        "Department not found with name: " + dto.getDepartmentName()
-                ));
 
-        //  Find Department
+        // ===== Find DepartmentMaster by name =====
+        List<DepartmentMaster> depts = departmentMasterRepo.findByDepartmentName(dto.getDepartmentName());
+
+        if (depts.isEmpty()) {
+            throw new RuntimeException("Department not found: " + dto.getDepartmentName());
+        }
+        if (depts.size() > 1) {
+            throw new RuntimeException("Multiple departments found with name: " + dto.getDepartmentName());
+        }
+
+        DepartmentMaster deptMaster = depts.get(0);
+
+        // ===== Find Department using DepartmentMaster =====
         Department dept = departmentRepo.findByDepartmentMaster(deptMaster)
                 .orElseThrow(() -> new RuntimeException(
                         "Department not mapped for departmentMaster: " + deptMaster.getDepartmentName()
                 ));
 
         staff.setDepartment(dept);
+        // ===== Role Mapping =====
+        if (dto.getRoleName() != null && !dto.getRoleName().trim().isEmpty()) {
+            Role role = roleRepo.findByName(dto.getRoleName())
+                    .orElseThrow(() -> new RuntimeException(
+                            "Role not found with name: " + dto.getRoleName()
+                    ));
+            staff.setRole(role);
+        }
+
+
 
         //  Assign Students (if any)
         if (dto.getAssignedStudents() != null && !dto.getAssignedStudents().isEmpty()) {

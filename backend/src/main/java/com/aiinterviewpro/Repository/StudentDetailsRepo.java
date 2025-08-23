@@ -1,5 +1,6 @@
 package com.aiinterviewpro.Repository;
 
+import com.aiinterviewpro.DTO.DeptStudentTableDto;
 import com.aiinterviewpro.Entity.StudentDetails;
 import com.aiinterviewpro.Entity.TestEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,4 +26,9 @@ public interface StudentDetailsRepo extends JpaRepository<StudentDetails, Intege
 
     @Query(value = "SELECT s.rollNumber FROM tb_student_details s WHERE s.roll_number LIKE :prefix% ORDER BY s.roll_number DESC LIMIT 1", nativeQuery = true)
     String findLastRollNumber(@Param("prefix") String prefix);
+
+    //get student id and studentname
+    @Query("SELECT new com.aiinterviewpro.DTO.DeptStudentTableDto(s.studentId, s.studentName) FROM StudentDetails s")
+    List<DeptStudentTableDto> findAllIdAndName();
+
 }

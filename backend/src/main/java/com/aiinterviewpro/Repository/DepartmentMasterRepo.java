@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface DepartmentMasterRepo extends JpaRepository<DepartmentMaster, Integer> {
 
 
-    Optional<DepartmentMaster> findByDepartmentName(String departmentName);
+    List<DepartmentMaster> findByDepartmentName(String departmentName);
 
     //get department name only
     @Query("SELECT d.departmentName FROM DepartmentMaster d")

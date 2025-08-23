@@ -111,6 +111,10 @@ public class DeptStudentTableService {
 
         return students;
     }
+   //get student id and student name
+   public List<DeptStudentTableDto> getAllStudentIdAndName() {
+       return studentDetailsRepo.findAllIdAndName();
+   }
 
 }
 

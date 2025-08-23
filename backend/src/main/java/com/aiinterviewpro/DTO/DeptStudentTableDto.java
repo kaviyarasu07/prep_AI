@@ -11,6 +11,8 @@ public class DeptStudentTableDto {
     private Integer studentId;
     private String rollNumber;
     private String studentName;
+
+    
     private String yearOfStudy;
     // private String mentorName;
     private Double cgpa;

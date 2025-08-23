@@ -43,9 +43,9 @@ public class StaffDetails {
 
 
 
-    @Enumerated(EnumType.STRING) // Stores as "PROFESSOR", not 0, 1, 2...
-    private Designation designation;
-
+//    @Enumerated(EnumType.STRING) // Stores as "PROFESSOR", not 0, 1, 2...
+//    private Designation designation;
+//
 
     @Column(name = "profile_photo")
     private String profilePhoto;  // path or URL

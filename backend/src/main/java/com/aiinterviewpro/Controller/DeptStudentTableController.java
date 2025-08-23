@@ -42,4 +42,11 @@ public class DeptStudentTableController {
                 deptStudentTableService.getFilteredStudents(departmentCode, year, mentor, status)
         );
     }
+
+    //get student id and student name
+
+    @GetMapping("/id-name")
+    public List<DeptStudentTableDto> getStudentIdAndName() {
+        return deptStudentTableService.getAllStudentIdAndName();
+    }
 }
