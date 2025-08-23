@@ -88,7 +88,11 @@ public class DepartmentSummaryService {
         DepartmentSummaryDto dto = new DepartmentSummaryDto();
         dto.setId(department.getId());
         dto.setDepartmentName(departmentName);
-        dto.setAssignedAdmins(assignedAdmins);
+        dto.setAssignedAdmins(
+                (assignedAdmins == null || assignedAdmins.trim().isEmpty())
+                        ? "Unassigned"
+                        : assignedAdmins
+        );
         dto.setNumberOfStudents(numberOfStudents);
         dto.setStatus("Active"); // Hardcoded since only active departments are shown
 
