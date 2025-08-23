@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudentDetails {
+public class StudentDetails
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer studentId;

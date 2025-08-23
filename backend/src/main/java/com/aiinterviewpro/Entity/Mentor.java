@@ -15,7 +15,8 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Mentor {
+public class Mentor
+{
 
 //    @Id
 //    @GeneratedValue(generator = "UUID")
