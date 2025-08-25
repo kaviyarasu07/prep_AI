@@ -11,11 +11,7 @@ import {
   FaFileAlt,
   FaCog,
   FaBars,
-  FaTimesCircle,
-  FaUserTie,
-  FaUniversity,
-  FaClipboardList,
-  FaChartLine
+  FaTimesCircle
 } from "react-icons/fa";
 
 import {
@@ -26,161 +22,228 @@ import {
 
 const SuperadminDashboard = () => {
   const dispatch = useDispatch();
+
   const { loading, summary, colleges, activity, error } = useSelector(
     (state) => state.superadmin
   );
-
+  console.log(colleges)
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("dashboard");
 
   useEffect(() => {
     dispatch(fetchSuperadminSummaryRequest());
     dispatch(fetchCollegesRequest());
   }, [dispatch]);
 
-  // ✅ Summary cards
   const summaryData = summary && Object.keys(summary).length
-    ? [
-        { label: "Colleges Onboarded", value: summary.totalCollegesOnboarded, icon: <FaUniversity />, color: "primary" },
-        { label: "Registration Requests", value: summary.totalRegistrationRequests, icon: <FaClipboardList />, color: "warning" },
-        { label: "Engineering Colleges", value: summary.engineeringCollegesCount, icon: <FaBuilding />, color: "info" },
-        { label: "Arts Colleges", value: summary.artsCollegesCount, icon: <FaUserTie />, color: "success" }
-      ]
+    ? Object.keys(summary).map((key) => ({
+        label: key,
+        value: summary[key],
+      }))
     : [
-        { label: "Colleges Onboarded", value: 0, icon: <FaUniversity />, color: "primary" },
-        { label: "Registration Requests", value: 0, icon: <FaClipboardList />, color: "warning" },
-        { label: "Engineering Colleges", value: 0, icon: <FaBuilding />, color: "info" },
-        { label: "Arts Colleges", value: 0, icon: <FaUserTie />, color: "success" }
+        { label: "totalCollegesOnboarded", value: 0 },
+        { label: "totalRegistrationRequests", value: 0 },
+        { label: "engineeringCollegesCount", value: 0 },
+        { label: "artsCollegesCount", value: 0 },
       ];
+
+  const totalCount = summaryData.reduce(
+    (acc, item) => acc + (Number(item.value) || 0),
+    0
+  );
 
   const recentActivity = activity?.length
     ? activity
     : [
         { type: "approve", message: "Approved request for Liberal Arts College", date: "2023-08-09" },
         { type: "reject", message: "Rejected request for Metropolitan University", date: "2023-08-05" },
-        { type: "add", message: "New college registration request received", date: "2023-08-03" }
       ];
 
   const getStatusBadge = (status) => {
-    let bgColor = "#FFF3CD";
-    let textColor = "#856404";
+  let bgColor = "#FFF3CD";
+  let textColor = "#856404";
 
-    if (status.toUpperCase() === "APPROVED") {
-      bgColor = "#D4EDDA"; textColor = "#155724";
-    } else if (status.toUpperCase() === "REJECTED") {
-      bgColor = "#F8D7DA"; textColor = "#721C24";
-    }
+  if (status.toUpperCase() === "APPROVED") {
+    bgColor = "#D4EDDA";
+    textColor = "#155724";
+  } else if (status.toUpperCase() === "REJECTED") {
+    bgColor = "#F8D7DA";
+    textColor = "#721C24";
+  }
 
-    return (
-      <span style={{
+  return (
+    <span
+      style={{
         backgroundColor: bgColor,
         color: textColor,
         padding: "4px 10px",
         borderRadius: "4px",
         fontSize: "14px",
-        fontWeight: "500"
-      }}>
-        {status}
-      </span>
-    );
-  };
+        display: "inline-block",
+        fontWeight: "500",
+      }}
+    >
+      {status}
+    </span>
+  );
+};
 
-  const handleStatusChange = (college) => {
-    let newStatus = "Rejected";
-    if (college.status === "Rejected") newStatus = "Approved";
-    else if (college.status === "Approved") newStatus = "Rejected";
-    else if (college.status === "Pending") newStatus = "Approved";
 
-    dispatch(updateCollegeStatusRequest({ id: college.id, status: newStatus }));
-  };
+// const handleStatusChange = (collegeId, status) => {
+//   // ✅ object format-la dispatch pannalam
+//   dispatch(updateCollegeStatusRequest({ id: collegeId, status }));
+// };
+const handleStatusChange = (collegeId, status) => {
+  console.log(collegeId)
+  dispatch(updateCollegeStatusRequest({ id: collegeId, status }));
+};
+
+
 
   return (
-    <div className="superadmin-dashboard" style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
-      {/* Sidebar toggle */}
-      <button className="btn btn-primary d-md-none m-2 position-fixed" style={{ zIndex: 1060 }} onClick={() => setSidebarOpen(true)}>
+    <div className="superadmin-dashboard">
+      <button
+        className="btn btn-primary d-md-none m-2 position-fixed"
+        style={{ zIndex: 1060 }}
+        onClick={() => setSidebarOpen(true)}
+      >
         <FaBars />
       </button>
 
-      {/* Sidebar */}
       <div
-        className={`sidebar vh-100 p-3 position-fixed top-0 start-0 shadow ${sidebarOpen ? "sidebar-open" : "d-none"} d-md-block`}
-        style={{ width: "250px", zIndex: 1050, background: "linear-gradient(180deg,#f5f5f5 0%,#9e9e9e 100%)" }}
+        className={`sidebar bg-white vh-100 p-3 position-fixed top-0 start-0 shadow ${sidebarOpen ? "sidebar-open" : "d-none"} d-md-block`}
+        style={{ width: "220px", zIndex: 1050 }}
       >
-        <div className="d-flex justify-content-between align-items-center mb-4 d-md-none">
+        <div className="d-flex justify-content-between align-items-center mb-3 d-md-none">
           <h4 className="fw-bold text-dark mb-0">Prep AI</h4>
           <button className="btn btn-sm" onClick={() => setSidebarOpen(false)}>
             <FaTimesCircle />
           </button>
         </div>
 
-        <h4 className="mb-4 fw-bold text-dark text-center"><FaChartLine className="me-2" /> Prep AI</h4>
+        <h4 className="mb-4 fw-bold text-dark d-none d-md-block">Prep AI</h4>
+
         <ul className="nav flex-column">
           <li className="nav-item mb-2">
-            <a href="#" className={`nav-link ${activeTab === "dashboard" ? "active bg-light text-dark rounded" : "text-dark"}`} onClick={() => setActiveTab("dashboard")}>
-              <FaHome className="me-2" /> Dashboard
-            </a>
+            <a href="#" className="nav-link active fw-bold text-dark"><FaHome className="me-2" /> Dashboard</a>
           </li>
           <li className="nav-item mb-2">
-            <a href="#" className={`nav-link ${activeTab === "colleges" ? "active bg-light text-dark rounded" : "text-dark"}`} onClick={() => setActiveTab("colleges")}>
-              <FaBuilding className="me-2" /> Colleges
-            </a>
+            <a href="#" className="nav-link text-dark"><FaBuilding className="me-2" /> Colleges</a>
           </li>
           <li className="nav-item mb-2">
-            <a href="#" className={`nav-link ${activeTab === "logs" ? "active bg-light text-dark rounded" : "text-dark"}`} onClick={() => setActiveTab("logs")}>
-              <FaFileAlt className="me-2" /> Logs
-            </a>
+            <a href="#" className="nav-link text-dark"><FaFileAlt className="me-2" /> Logs</a>
           </li>
           <li className="nav-item mb-2">
-            <a href="#" className={`nav-link ${activeTab === "settings" ? "active bg-light text-dark rounded" : "text-dark"}`} onClick={() => setActiveTab("settings")}>
-              <FaCog className="me-2" /> Settings
-            </a>
+            <a href="#" className="nav-link text-dark"><FaCog className="me-2" /> Settings</a>
           </li>
         </ul>
       </div>
 
-      {/* Overlay */}
-      {sidebarOpen && <div className="overlay position-fixed top-0 start-0 w-100 h-100 d-md-none" style={{ backgroundColor: "rgba(0,0,0,0.5)", zIndex: 1040 }} onClick={() => setSidebarOpen(false)} />}
+      {sidebarOpen && <div className="overlay position-fixed top-0 start-0 w-100 h-100 d-md-none"
+        style={{ backgroundColor: "rgba(0,0,0,0.5)", zIndex: 1040 }}
+        onClick={() => setSidebarOpen(false)}
+      />}
 
-      {/* Main content */}
-      <div className="main-content" style={{ marginLeft: "250px", padding: "20px" }}>
-        <div className="content-container bg-white p-4 rounded shadow-sm">
+      <div className="main-content" style={{ marginLeft: "220px" }}>
+        <div className="content-container bg-white p-3 p-md-4 rounded">
           <h2 className="mb-4">Dashboard</h2>
 
-          {/* Summary Section */}
-          <section className="mb-5">
-            <h4 className="mb-3 border-bottom pb-2">Summary</h4>
+          <section className="mb-4">
+            <h5 className="mb-3">Summary</h5>
             {loading && <div className="alert alert-info">Loading...</div>}
             {error && <div className="alert alert-danger">{error}</div>}
-            <div className="row g-4 mb-4">
+            <div className="row g-3 mb-2">
               {summaryData.map((item, idx) => (
-                <div key={idx} className="col-12 col-sm-6 col-xl-3">
-                  <div className={`card summary-card border-5 border-top border-${item.color} shadow-sm h-100`}>
-                    <div className="card-body">
-                      <div className="d-flex align-items-center">
-                        <div className={`flex-shrink-0 bg-${item.color} p-3 rounded-circle text-white me-3`}>
-                          {item.icon}
-                        </div>
-                        <div className="flex-grow-1">
-                          <h6 className="text-muted mb-1">{item.label}</h6>
-                          <h3 className="fw-bold mb-0">{item.value}</h3>
-                        </div>
-                      </div>
+                <div key={idx} className="col-12 col-sm-6 col-md-3 d-flex">
+                  <div className="card text-center border-0 bg-light flex-fill summary-card">
+                    <div className="card-body d-flex flex-column justify-content-center">
+                      <p className="mb-0 summary-label">{item.label}</p>
+                      <h4 className="fw-bold summary-value">{item.value}</h4>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
+            <p className="fw-bold mt-2">Total Count: {totalCount}</p>
           </section>
 
-          {/* Recent Activity */}
+          <section className="mb-4">
+            <h5 className="mb-3">Requested Colleges</h5>
+            <div className="table-responsive">
+              <table className="table table-hover mb-0 align-middle">
+                <thead className="table-light">
+                  <tr>
+                    <th>College Name</th>
+                    <th>Type</th>
+                    <th>University Type</th>
+                    <th>Counseling Code</th>
+                    <th>Date Requested</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                 {colleges.map((college, index) => (
+  <tr key={index}>
+    <td>{college.collegeName}</td>
+    <td>{college.type}</td>
+    <td>{college.universityType}</td>
+    <td>{college.counselingCode}</td>
+    <td>{college.dateRequested}</td>
+    <td>{getStatusBadge(college.status)}</td>
+   <td className="actions-cell">
+  {college.status.toLowerCase() === "pending" ? (
+    <>
+      <button
+        className="btn btn-sm btn-success me-1"
+     onClick={() => handleStatusChange(college.id, "APPROVED")}
+      >
+        Approve
+      </button>
+      <button
+        className="btn btn-sm btn-danger me-1"
+        onClick={() => handleStatusChange(college.id, "REJECTED")}
+      >
+        Reject
+      </button>
+      <button className="btn btn-sm btn-primary">View</button>
+    </>
+  ) : (
+    <button className="btn btn-sm btn-primary">View</button>
+  )}
+</td>
+
+  
+
+  </tr>
+))}
+
+                </tbody>
+              </table>
+            </div>
+          </section>
+
           <section>
-            <h4 className="mb-3 border-bottom pb-2">Recent Activity</h4>
-            <ul className="list-unstyled">
+            <h5 className="mb-3">Recent Activity Log</h5>
+            <ul className="list-unstyled activity-log">
               {recentActivity.map((act, idx) => (
-                <li key={idx} className="activity-item mb-3 p-2 border rounded bg-light">
-                  {act.type === "approve" ? <FaCheck className="text-success me-2" /> : act.type === "reject" ? <FaTimes className="text-danger me-2" /> : <FaPlus className="text-info me-2" />}
-                  <span>{act.message}</span>
-                  <small className="d-block text-muted">{act.date}</small>
+                <li key={idx} className="activity-item mb-3">
+          <div className="d-flex align-items-start">
+  <div className="me-2 mt-1">
+    {act.type === "approve" ? (
+      <FaCheck style={{ color: "#28A745", marginRight: "8px" }} />
+    ) : act.type === "reject" ? (
+      <FaTimes style={{ color: "#DC3545", marginRight: "8px" }} />
+    ) : (
+      <FaPlus style={{ color: "#007BFF", marginRight: "8px" }} /> // Default Blue Plus
+    )}
+  </div>
+  <div>
+    <div className="activity-message">{act.message}</div>
+    <small className="text-muted activity-date">{act.date}</small>
+  </div>
+</div>
+
+
                 </li>
               ))}
             </ul>
