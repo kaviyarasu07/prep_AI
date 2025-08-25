@@ -7,8 +7,6 @@ const rootReducer = combineReducers({
 
 // import superadminReducer from "./Superadmin_Reducer"; // adjust path
 
-const rootReducer = combineReducers({
-  superadmin: superadminReducer, // ✅ key must match useSelector
 
 });
 

@@ -36,9 +36,6 @@ import { FETCH_COLLEGES_REQUEST, FETCH_SUPERADMIN_SUMMARY_REQUEST  ,UPDATE_COLLE
 import { data } from "autoprefixer";
 
 
-  updateCollegeStatusFailure,} from "../Action/Superadmin_Action";
-import { FETCH_COLLEGES_REQUEST, FETCH_SUPERADMIN_SUMMARY_REQUEST  ,UPDATE_COLLEGE_STATUS_REQUEST,
-} from "../Types/Superadmin_Types";
 // import {
 //   fetchSuperadminSummarySuccess,
 //   fetchSuperadminSummaryFailure,
@@ -98,10 +95,5 @@ export default function* superadminSaga() {
   yield takeLatest(FETCH_COLLEGES_REQUEST, fetchCollegesSaga ,updateCollegeStatusSaga);
    yield takeLatest(UPDATE_COLLEGE_STATUS_REQUEST, updateCollegeStatusSaga);
 
-export default function* superadminSaga() {
-  yield takeLatest(FETCH_SUPERADMIN_SUMMARY_REQUEST, fetchSuperadminSummarySaga);
-  yield takeLatest(FETCH_COLLEGES_REQUEST, fetchCollegesSaga ,updateCollegeStatusSaga);
-    yield takeLatest(UPDATE_COLLEGE_STATUS_REQUEST, updateCollegeStatusSaga);
 
-}
 }

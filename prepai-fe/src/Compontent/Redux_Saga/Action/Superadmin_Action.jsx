@@ -98,12 +98,12 @@ export const updateCollegeStatusFailure = (error) => ({
   payload: error,
 });
 
-export const updateCollegeStatusSuccess = (updatedCollege) => ({
-  type: UPDATE_COLLEGE_STATUS_SUCCESS,
-  payload: updatedCollege,
-});
-export const updateCollegeStatusFailure = (error) => ({
-  type: UPDATE_COLLEGE_STATUS_FAILURE,
-  payload: error,
-});
+// export const updateCollegeStatusSuccess = (updatedCollege) => ({
+//   type: UPDATE_COLLEGE_STATUS_SUCCESS,
+//   payload: updatedCollege,
+// });
+// export const updateCollegeStatusFailure = (error) => ({
+//   type: UPDATE_COLLEGE_STATUS_FAILURE,
+//   payload: error,
+// });
 
