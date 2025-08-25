@@ -10,4 +10,5 @@ public interface StudentDetailsRepo extends JpaRepository<StudentDetails, Intege
     @Query("SELECT COUNT(s) FROM StudentDetails s")
     Long getTotalStudents();
 
+
 }
