@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .userDetailsService(userDetailsService)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("test/**","/request/**").permitAll()
+                        .requestMatchers("/test/**","/request/**").permitAll()
                         .requestMatchers("/auth/register", "/auth/login", "/auth/forgot-password", "/auth/refresh-token").permitAll()
                         .requestMatchers("/auth/reset-password").authenticated() //
                         .requestMatchers("/sa/**").hasRole("SUPER_ADMIN")
