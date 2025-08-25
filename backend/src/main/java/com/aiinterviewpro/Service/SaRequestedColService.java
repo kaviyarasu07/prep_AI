@@ -56,8 +56,11 @@ public class SaRequestedColService {
         dto.setCounselingCode(c.getCode());
         dto.setDateRequested(c.getCreatedAt().toLocalDate());
         dto.setStatus(c.getStatus());
+<<<<<<< Updated upstream
         return dto;
 
+=======
+>>>>>>> Stashed changes
     }
-}
+    }
 

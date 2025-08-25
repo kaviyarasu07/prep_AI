@@ -1,3 +1,464 @@
+<<<<<<< Updated upstream
+=======
+// import React, { useEffect, useState } from "react";
+// import { useDispatch, useSelector } from "react-redux";
+// import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/js/bootstrap.bundle.min.js";
+// import {
+//   FaCheck,
+//   FaTimes,
+//   FaPlus,
+//   FaHome,
+//   FaBuilding,
+//   FaFileAlt,
+//   FaCog,
+//   FaBars,
+//   FaTimesCircle,
+//   FaEye,
+//   FaThumbsUp,
+//   FaThumbsDown
+// } from "react-icons/fa";
+// import { fetchCollegesRequest, fetchSuperadminSummaryRequest } from "./Redux_Saga/Action/Superadmin_Action";
+// // import { fetchCollegeAdminSummaryRequest } from "../Compontent/Redux_Saga/Action/Superadmin_Action";
+
+
+
+// const SuperadminDashboard = () => {
+// const dispatch = useDispatch();
+
+// // ✅ Redux state la irundhu eduthukka
+// const { loading, summary, colleges, activity, error } = useSelector(
+//   (state) => state.superadmin
+// );
+// const [sidebarOpen, setSidebarOpen] =useState({})
+// useEffect(() => {
+//   dispatch(fetchSuperadminSummaryRequest());
+//   dispatch(fetchCollegesRequest()); // later use panna
+// }, [dispatch]);
+
+
+
+
+// const summaryData = summary && Object.keys(summary).length
+//   ? Object.keys(summary).map((key) => ({
+//       label: key,
+//       value: summary[key],
+//     }))
+//   : [
+//       { label: "totalCollegesOnboarded", value: 0 },
+//       { label: "totalRegistrationRequests", value: 0 },
+//       { label: "engineeringCollegesCount", value: 0 },
+//       { label: "artsCollegesCount", value: 0 },
+//     ];
+
+// const totalCount = summaryData.reduce(
+//   (acc, item) => acc + (Number(item.value) || 0),
+//   0
+// );
+
+
+// // ✅ Colleges
+// const initialColleges = colleges?.length
+//   ? colleges
+//   : [
+//       {
+//         name: "Tech Institute of Advanced Studies",
+//         type: "Engineering",
+//         university: "Private",
+//         code: "TIAS2023",
+//         date: "2023-08-15",
+//         status: "Pending",
+//       },
+//       {
+//         name: "Liberal Arts College of Springfield",
+//         type: "Arts",
+//         university: "Public",
+//         code: "LACS2023",
+//         date: "2023-08-10",
+//         status: "Approved",
+//       },
+//     ];
+
+// // ✅ Recent Activity
+// const recentActivity = activity?.length
+//   ? activity
+//   : [
+//       {
+//         type: "approve",
+//         message:
+//           "Approved registration request for Liberal Arts College of Springfield",
+//         date: "2023-08-09",
+//       },
+//       {
+//         type: "reject",
+//         message:
+//           "Rejected registration request for Metropolitan University of Science",
+//         date: "2023-08-05",
+//       },
+//     ];
+
+ 
+//   const getStatusBadge = (status) => {
+//     let bgColor = "#FFF3CD";
+//     let textColor = "#856404";
+//     if (status === "Approved") {
+//       bgColor = "#D4EDDA";
+//       textColor = "#155724";
+//     } else if (status === "Rejected") {
+//       bgColor = "#F8D7DA";
+//       textColor = "#721C24";
+//     }
+    
+//     return (
+//       <span style={{ 
+//         backgroundColor: bgColor, 
+//         color: textColor, 
+//         padding: "4px 10px", 
+//         borderRadius: "4px", 
+//         fontSize: "14px", 
+//         display: "inline-block",
+//         fontWeight: "500"
+//       }}>
+//         {status}
+//       </span>
+//     );
+//   };
+
+//   const getActivityIcon = (type) => {
+//     switch (type) {
+//       case "approve":
+//         return <FaCheck style={{ color: "#28A745", marginRight: "8px" }} />;
+//       case "reject":
+//         return <FaTimes style={{ color: "#DC3545", marginRight: "8px" }} />;
+//       case "add":
+//         return <FaPlus style={{ color: "#17A2B8", marginRight: "8px" }} />;
+//       default:
+//         return null;
+//     }
+//   };
+
+//   return (
+//     <div className="superadmin-dashboard">
+//       {/* Mobile menu button */}
+//       <button
+//         className="btn btn-primary d-md-none m-2 position-fixed"
+//         style={{ zIndex: 1060 }}
+//         onClick={() => setSidebarOpen(true)}
+//       >
+//         <FaBars />
+//       </button>
+
+//       {/* Sidebar */}
+//       <div
+//         className={`sidebar bg-white vh-100 p-3 position-fixed top-0 start-0 shadow ${
+//           sidebarOpen ? "sidebar-open" : "d-none"
+//         } d-md-block`}
+//         style={{ width: "220px", zIndex: 1050 }}
+//       >
+//         {/* Mobile close button */}
+//         <div className="d-flex justify-content-between align-items-center mb-3 d-md-none">
+//           <h4 className="fw-bold text-dark mb-0">Prep AI</h4>
+//           <button 
+//             className="btn btn-sm" 
+//             onClick={() => setSidebarOpen(false)}
+//             aria-label="Close sidebar"
+//           >
+//             <FaTimesCircle />
+//           </button>
+//         </div>
+
+//         <h4 className="mb-4 fw-bold text-dark d-none d-md-block">Prep AI</h4>
+
+//         <ul className="nav flex-column">
+//           <li className="nav-item mb-2">
+//             <a href="#" className="nav-link active fw-bold text-dark">
+//               <FaHome className="me-2" /> Dashboard
+//             </a>
+//           </li>
+//           <li className="nav-item mb-2">
+//             <a href="#" className="nav-link text-dark">
+//               <FaBuilding className="me-2" /> Colleges
+//             </a>
+//           </li>
+//           <li className="nav-item mb-2">
+//             <a href="#" className="nav-link text-dark">
+//               <FaFileAlt className="me-2" /> Logs
+//             </a>
+//           </li>
+//           <li className="nav-item mb-2">
+//             <a href="#" className="nav-link text-dark">
+//               <FaCog className="me-2" /> Settings
+//             </a>
+//           </li>
+//         </ul>
+//       </div>
+
+//       {/* Overlay for mobile */}
+//       {sidebarOpen && (
+//         <div
+//           className="overlay position-fixed top-0 start-0 w-100 h-100 d-md-none"
+//           style={{ backgroundColor: "rgba(0,0,0,0.5)", zIndex: 1040 }}
+//           onClick={() => setSidebarOpen(false)}
+//         />
+//       )}
+
+//       {/* Main Content */}
+//       <div className="main-content">
+//         <div className="content-container bg-white p-3 p-md-4 rounded">
+//           <h2 className="mb-4">Dashboard</h2>
+
+//           {/* Summary Section */}
+//           <section className="mb-4">
+//             <h5 className="mb-3">Summary</h5>
+//             {loading && <div className="alert alert-info">Loading...</div>}
+//             {error && <div className="alert alert-danger">{error}</div>}
+
+//             <div className="row g-3 mb-2">
+//               {summaryData.map((item, idx) => (
+//                 <div key={idx} className="col-12 col-sm-6 col-md-3 d-flex">
+//                   <div className="card text-center border-0 bg-light flex-fill summary-card">
+//                     <div className="card-body d-flex flex-column justify-content-center">
+//                       <p className="mb-0 summary-label">{item.label}</p>
+//                       <h4 className="fw-bold summary-value">{item.value}</h4>
+//                     </div>
+//                   </div>
+//                 </div>
+//               ))}
+//             </div>
+
+//             <p className="fw-bold mt-2">Total Count: {totalCount}</p>
+//           </section>
+
+//           {/* Colleges Table Section */}
+//           <section className="mb-4">
+//             <h5 className="mb-3">Requested Colleges</h5>
+//             <div className="table-responsive">
+//               <table className="table table-hover mb-0 align-middle">
+//                 <thead className="table-light">
+//                   <tr>
+//                     <th>College Name</th>
+//                     <th>Type</th>
+//                     <th>University Type</th>
+//                     <th>Counseling Code</th>
+//                     <th>Date Requested</th>
+//                     <th>Status</th>
+//                     <th>Actions</th>
+//                   </tr>
+//                 </thead>
+//                 <tbody>
+//   {colleges.map((college, idx) => (
+//     <tr key={idx}>
+//       <td>{college.collegeName}</td>
+//       <td>{college.type}</td>
+//       <td>{college.universityType}</td>
+//       <td>{college.counselingCode}</td>
+//       <td>{college.dateRequested}</td>
+//       <td>{getStatusBadge(college.status)}</td>
+//       <td className="actions-cell">
+//         {college.status.toLowerCase() === "pending" ? (
+//           <>
+//             <button className="btn btn-sm btn-success me-1">Approve</button>
+//             <span className="action-separator">|</span>
+//             <button className="btn btn-sm btn-danger me-1">Reject</button>
+//             <span className="action-separator">|</span>
+//             <button className="btn btn-sm btn-primary">View</button>
+//           </>
+//         ) : (
+//           <button className="btn btn-sm btn-primary">View</button>
+//         )}
+//       </td>
+//     </tr>
+//   ))}
+// </tbody>
+
+//               </table>
+//             </div>
+//           </section>
+
+//           {/* Recent Activity Section */}
+//           <section>
+//             <h5 className="mb-3">Recent Activity Log</h5>
+//             <ul className="list-unstyled activity-log">
+//               {recentActivity.map((act, idx) => (
+//                 <li key={idx} className="activity-item mb-3">
+//                   <div className="d-flex align-items-start">
+//                     <div className="me-2 mt-1">
+//                       {getActivityIcon(act.type)}
+//                     </div>
+//                     <div>
+//                       <div className="activity-message">{act.message}</div>
+//                       <small className="text-muted activity-date">{act.date}</small>
+//                     </div>
+//                   </div>
+//                 </li>
+//               ))}
+//             </ul>
+//           </section>
+//         </div>
+//       </div>
+
+//       {/* CSS Styles */}
+//       <style jsx>{`
+//         .superadmin-dashboard {
+//           position: relative;
+//           min-height: 100vh;
+//         }
+        
+//         .sidebar {
+//           transition: transform 0.3s ease;
+//         }
+        
+//         .sidebar-open {
+//           transform: translateX(0);
+//         }
+        
+//         .overlay {
+//           transition: opacity 0.3s ease;
+//         }
+        
+//         .main-content {
+//           margin-left: 220px;
+//           transition: margin-left 0.3s ease;
+//           width: calc(100% - 220px);
+//         }
+        
+//         .content-container {
+//           margin: 15px;
+//         }
+        
+//         .summary-card {
+//           min-height: 110px;
+//           border-radius: 8px;
+//         }
+        
+//         .summary-label {
+//           font-weight: 500;
+//           font-size: 14px;
+//           color: #6c757d;
+//         }
+        
+//         .summary-value {
+//           color: #2c3e50;
+//           margin-top: 8px;
+//         }
+        
+//         .college-type {
+//           color: #6c757d;
+//           border-radius: 5px;
+//           padding: 4px 10px;
+//           font-weight: 500;
+//           background-color: #f8f9fa;
+//           white-space: nowrap;
+//         }
+        
+//         .actions-cell {
+//           white-space: nowrap;
+//           display: flex;
+//           align-items: center;
+//           gap: 8px;
+//         }
+        
+//         .actions-cell button {
+//           padding: 5px 10px;
+//           font-size: 14px;
+//         }
+        
+//         .action-separator {
+//           color: #dee2e6;
+//           user-select: none;
+//         }
+        
+//         .activity-item {
+//           padding: 8px 12px;
+//           border-left: 3px solid #eee;
+//           background-color: #f8f9fa;
+//           border-radius: 4px;
+//         }
+        
+//         .activity-message {
+//           font-size: 14px;
+//           color: #495057;
+//         }
+        
+//         .activity-date {
+//           font-size: 12px;
+//         }
+        
+//         /* Responsive adjustments */
+//         @media (max-width: 767.98px) {
+//           .sidebar:not(.sidebar-open) {
+//             transform: translateX(-100%);
+//           }
+          
+//           .main-content {
+//             margin-left: 0;
+//             width: 100%;
+//           }
+          
+//           .content-container {
+//             margin: 10px;
+//             padding: 15px !important;
+//           }
+          
+//           table {
+//             font-size: 14px;
+//           }
+          
+//           .actions-cell button {
+//             padding: 3px 6px;
+//             font-size: 12px;
+//           }
+//         }
+        
+//         @media (max-width: 575.98px) {
+//           .table-responsive {
+//             overflow-x: auto;
+//             -webkit-overflow-scrolling: touch;
+//             display: block;
+//             width: 100%;
+//           }
+          
+//           .summary-card {
+//             min-height: 90px;
+//           }
+          
+//           .summary-label {
+//             font-size: 13px;
+//           }
+          
+//           .summary-value {
+//             font-size: 1.5rem;
+//           }
+          
+//           .activity-item {
+//             padding: 6px 8px;
+//           }
+          
+//           .activity-message {
+//             font-size: 13px;
+//           }
+          
+//           .actions-cell {
+//             flex-wrap: wrap;
+//             gap: 4px;
+//           }
+          
+//           .action-separator {
+//             display: none;
+//           }
+//         }
+//       `}</style>
+//     </div>
+//   );
+// };
+
+// export default SuperadminDashboard;
+
+
+
+
+
+>>>>>>> Stashed changes
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -11,11 +472,15 @@ import {
   FaFileAlt,
   FaCog,
   FaBars,
+<<<<<<< Updated upstream
   FaTimesCircle,
   FaUserTie,
   FaUniversity,
   FaClipboardList,
   FaChartLine
+=======
+  FaTimesCircle
+>>>>>>> Stashed changes
 } from "react-icons/fa";
 
 import {
@@ -30,9 +495,13 @@ const SuperadminDashboard = () => {
   const { loading, summary, colleges, activity, error } = useSelector(
     (state) => state.superadmin
   );
+<<<<<<< Updated upstream
   
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("dashboard");
+=======
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+>>>>>>> Stashed changes
 
   useEffect(() => {
     dispatch(fetchSuperadminSummaryRequest());
@@ -40,6 +509,7 @@ const SuperadminDashboard = () => {
   }, [dispatch]);
 
   const summaryData = summary && Object.keys(summary).length
+<<<<<<< Updated upstream
     ? [
         { label: "Colleges Onboarded", value: summary.totalCollegesOnboarded, },
         { label: "Registration Requests", value: summary.totalRegistrationRequests,  },
@@ -51,6 +521,17 @@ const SuperadminDashboard = () => {
         { label: "Registration Requests", value: 0, icon: <FaClipboardList />, color: "warning" },
         { label: "Engineering Colleges", value: 0, icon: <FaBuilding />, color: "info" },
         { label: "Arts Colleges", value: 0, icon: <FaUserTie />, color: "success" },
+=======
+    ? Object.keys(summary).map((key) => ({
+        label: key,
+        value: summary[key],
+      }))
+    : [
+        { label: "totalCollegesOnboarded", value: 0 },
+        { label: "totalRegistrationRequests", value: 0 },
+        { label: "engineeringCollegesCount", value: 0 },
+        { label: "artsCollegesCount", value: 0 },
+>>>>>>> Stashed changes
       ];
 
   const totalCount = summaryData.reduce(
@@ -63,12 +544,16 @@ const SuperadminDashboard = () => {
     : [
         { type: "approve", message: "Approved request for Liberal Arts College", date: "2023-08-09" },
         { type: "reject", message: "Rejected request for Metropolitan University", date: "2023-08-05" },
+<<<<<<< Updated upstream
         { type: "add", message: "New college registration request received", date: "2023-08-03" },
+=======
+>>>>>>> Stashed changes
       ];
 
   const getStatusBadge = (status) => {
     let bgColor = "#FFF3CD";
     let textColor = "#856404";
+<<<<<<< Updated upstream
 
     if (status.toUpperCase() === "APPROVED") {
       bgColor = "#D4EDDA";
@@ -90,11 +575,31 @@ const SuperadminDashboard = () => {
           fontWeight: "500",
         }}
       >
+=======
+    if (status === "Approved") {
+      bgColor = "#D4EDDA";
+      textColor = "#155724";
+    } else if (status === "Rejected") {
+      bgColor = "#F8D7DA";
+      textColor = "#721C24";
+    }
+    return (
+      <span style={{
+        backgroundColor: bgColor,
+        color: textColor,
+        padding: "4px 10px",
+        borderRadius: "4px",
+        fontSize: "14px",
+        display: "inline-block",
+        fontWeight: "500"
+      }}>
+>>>>>>> Stashed changes
         {status}
       </span>
     );
   };
 
+<<<<<<< Updated upstream
   const handleStatusChange = (collegeId, status) => {
     dispatch(updateCollegeStatusRequest({ id: collegeId, status }));
   };
@@ -102,6 +607,32 @@ const SuperadminDashboard = () => {
   return (
     <div className="superadmin-dashboard" style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
       {/* Mobile Sidebar Toggle */}
+=======
+
+  
+
+const handleStatusChange = (college) => {
+  // college.status: "Approved" / "Rejected" / "Pending"
+  let newStatus = "Rejected"; // default
+
+  if (college.status === "Rejected") {
+    newStatus = "Approved"; // toggle
+  } else if (college.status === "Approved") {
+    newStatus = "Rejected"; // toggle
+  } else if (college.status === "Pending") {
+    newStatus = "Approved"; // Pending → Approve by default
+  }
+
+  // Dispatch saga
+  dispatch(updateCollegeStatusRequest({ id: college.id, status: newStatus }));
+};
+
+
+
+
+  return (
+    <div className="superadmin-dashboard">
+>>>>>>> Stashed changes
       <button
         className="btn btn-primary d-md-none m-2 position-fixed"
         style={{ zIndex: 1060 }}
@@ -110,6 +641,7 @@ const SuperadminDashboard = () => {
         <FaBars />
       </button>
 
+<<<<<<< Updated upstream
       {/* Sidebar */}
       <div
         className={`sidebar vh-100 p-3 position-fixed top-0 start-0 shadow ${sidebarOpen ? "sidebar-open" : "d-none"} d-md-block`}
@@ -123,10 +655,20 @@ const SuperadminDashboard = () => {
         <div className="d-flex justify-content-between align-items-center mb-4 d-md-none">
           <h4 className="fw-bold text-white mb-0">Prep AI</h4>
           <button className="btn btn-sm text-white" onClick={() => setSidebarOpen(false)}>
+=======
+      <div
+        className={`sidebar bg-white vh-100 p-3 position-fixed top-0 start-0 shadow ${sidebarOpen ? "sidebar-open" : "d-none"} d-md-block`}
+        style={{ width: "220px", zIndex: 1050 }}
+      >
+        <div className="d-flex justify-content-between align-items-center mb-3 d-md-none">
+          <h4 className="fw-bold text-dark mb-0">Prep AI</h4>
+          <button className="btn btn-sm" onClick={() => setSidebarOpen(false)}>
+>>>>>>> Stashed changes
             <FaTimesCircle />
           </button>
         </div>
 
+<<<<<<< Updated upstream
         <h4 className="mb-4 fw-bold text-black d-none d-md-block text-center">
           <FaChartLine className="me-2" /> Prep AI
         </h4>
@@ -212,11 +754,52 @@ const SuperadminDashboard = () => {
                           <h3 className="fw-bold mb-0">{item.value}</h3>
                         </div>
                       </div>
+=======
+        <h4 className="mb-4 fw-bold text-dark d-none d-md-block">Prep AI</h4>
+
+        <ul className="nav flex-column">
+          <li className="nav-item mb-2">
+            <a href="#" className="nav-link active fw-bold text-dark"><FaHome className="me-2" /> Dashboard</a>
+          </li>
+          <li className="nav-item mb-2">
+            <a href="#" className="nav-link text-dark"><FaBuilding className="me-2" /> Colleges</a>
+          </li>
+          <li className="nav-item mb-2">
+            <a href="#" className="nav-link text-dark"><FaFileAlt className="me-2" /> Logs</a>
+          </li>
+          <li className="nav-item mb-2">
+            <a href="#" className="nav-link text-dark"><FaCog className="me-2" /> Settings</a>
+          </li>
+        </ul>
+      </div>
+
+      {sidebarOpen && <div className="overlay position-fixed top-0 start-0 w-100 h-100 d-md-none"
+        style={{ backgroundColor: "rgba(0,0,0,0.5)", zIndex: 1040 }}
+        onClick={() => setSidebarOpen(false)}
+      />}
+
+      <div className="main-content" style={{ marginLeft: "220px" }}>
+        <div className="content-container bg-white p-3 p-md-4 rounded">
+          <h2 className="mb-4">Dashboard</h2>
+
+          <section className="mb-4">
+            <h5 className="mb-3">Summary</h5>
+            {loading && <div className="alert alert-info">Loading...</div>}
+            {error && <div className="alert alert-danger">{error}</div>}
+            <div className="row g-3 mb-2">
+              {summaryData.map((item, idx) => (
+                <div key={idx} className="col-12 col-sm-6 col-md-3 d-flex">
+                  <div className="card text-center border-0 bg-light flex-fill summary-card">
+                    <div className="card-body d-flex flex-column justify-content-center">
+                      <p className="mb-0 summary-label">{item.label}</p>
+                      <h4 className="fw-bold summary-value">{item.value}</h4>
+>>>>>>> Stashed changes
                     </div>
                   </div>
                 </div>
               ))}
             </div>
+<<<<<<< Updated upstream
             
             <div className="bg-light p-3 rounded d-flex justify-content-between align-items-center">
               <h5 className="mb-0">Total Institutions:</h5>
@@ -234,6 +817,16 @@ const SuperadminDashboard = () => {
             <div className="table-responsive rounded shadow-sm">
               <table className="table table-hover mb-0 align-middle">
                 <thead className="table-dark">
+=======
+            <p className="fw-bold mt-2">Total Count: {totalCount}</p>
+          </section>
+
+          <section className="mb-4">
+            <h5 className="mb-3">Requested Colleges</h5>
+            <div className="table-responsive">
+              <table className="table table-hover mb-0 align-middle">
+                <thead className="table-light">
+>>>>>>> Stashed changes
                   <tr>
                     <th>College Name</th>
                     <th>Type</th>
@@ -245,6 +838,7 @@ const SuperadminDashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
+<<<<<<< Updated upstream
                   {colleges.map((college, index) => (
                     <tr key={index}>
                       <td className="fw-bold">{college.collegeName}</td>
@@ -253,11 +847,20 @@ const SuperadminDashboard = () => {
                       <td>
                         <span className="badge bg-secondary">{college.counselingCode}</span>
                       </td>
+=======
+                  {colleges.map((college, idx) => (
+                    <tr key={idx}>
+                      <td>{college.collegeName}</td>
+                      <td>{college.type}</td>
+                      <td>{college.universityType}</td>
+                      <td>{college.counselingCode}</td>
+>>>>>>> Stashed changes
                       <td>{college.dateRequested}</td>
                       <td>{getStatusBadge(college.status)}</td>
                       <td className="actions-cell">
                         {college.status.toLowerCase() === "pending" ? (
                           <>
+<<<<<<< Updated upstream
                             <button
                               className="btn btn-sm btn-success me-1"
                               onClick={() => handleStatusChange(college.id, "APPROVED")}
@@ -278,6 +881,14 @@ const SuperadminDashboard = () => {
                           <button className="btn btn-sm btn-outline-primary">
                             View Details
                           </button>
+=======
+                            <button className="btn btn-sm btn-success me-1" onClick={() => handleStatusChange(college.id, "Approved")}>Approve</button>
+                            <button className="btn btn-sm btn-danger me-1" onClick={() => handleStatusChange(college.id, "Rejected")}>Reject</button>
+                            <button className="btn btn-sm btn-primary">View</button>
+                          </>
+                        ) : (
+                          <button className="btn btn-sm btn-primary">View</button>
+>>>>>>> Stashed changes
                         )}
                       </td>
                     </tr>
@@ -287,6 +898,7 @@ const SuperadminDashboard = () => {
             </div>
           </section>
 
+<<<<<<< Updated upstream
           {/* Recent Activity */}
           <section>
             <h4 className="mb-3 border-bottom pb-2">Recent Activity</h4>
@@ -364,8 +976,32 @@ const SuperadminDashboard = () => {
           }
         }
       `}</style>
+=======
+          <section>
+            <h5 className="mb-3">Recent Activity Log</h5>
+            <ul className="list-unstyled activity-log">
+              {recentActivity.map((act, idx) => (
+                <li key={idx} className="activity-item mb-3">
+                  <div className="d-flex align-items-start">
+                    <div className="me-2 mt-1">{act.type === "approve" ? <FaCheck style={{ color: "#28A745", marginRight: "8px" }} /> : <FaTimes style={{ color: "#DC3545", marginRight: "8px" }} />}</div>
+                    <div>
+                      <div className="activity-message">{act.message}</div>
+                      <small className="text-muted activity-date">{act.date}</small>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </div>
+      </div>
+>>>>>>> Stashed changes
     </div>
   );
 };
 
+<<<<<<< Updated upstream
 export default SuperadminDashboard;
+=======
+export default SuperadminDashboard;
+>>>>>>> Stashed changes
