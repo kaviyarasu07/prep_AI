@@ -1,6 +1,4 @@
-<<<<<<< Updated upstream
 
-=======
 // // // Reducer file: superadminReducer.js
 // // import {
 // //   FETCH_SUPERADMIN_SUMMARY_REQUEST,
@@ -72,7 +70,7 @@
 // };
 
 // export default superadminReducer;
->>>>>>> Stashed changes
+
 
 import {
  FETCH_SUPERADMIN_SUMMARY_REQUEST,

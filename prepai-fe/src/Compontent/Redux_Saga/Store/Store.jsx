@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
 
-
-
-=======
 // import { configureStore } from "@reduxjs/toolkit";
 // import createSagaMiddleware from "redux-saga";
 // // import rootReducer from "../Root_Reducer/Root_Reducer";
@@ -21,16 +17,19 @@
 // sagaMiddleware.run(rootSaga);
 
 // export default store;
->>>>>>> Stashed changes
+
 import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 import superadminReducer from "../Reducer/Superadmin_Reducer";
 import superadminSaga from "../Saga/Superadmin_Saga";
-<<<<<<< Updated upstream
-=======
+
+
 // import superadminReducer from "./Reducer/Superadmin_Reducer";
 // import superadminSaga from "./Saga/Superadmin_Saga";
->>>>>>> Stashed changes
+
+// import superadminReducer from "./Reducer/Superadmin_Reducer";
+// import superadminSaga from "./Saga/Superadmin_Saga";
+
 
 const sagaMiddleware = createSagaMiddleware();
 
