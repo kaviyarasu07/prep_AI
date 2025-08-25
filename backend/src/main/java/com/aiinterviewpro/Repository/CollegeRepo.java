@@ -9,6 +9,6 @@ public interface CollegeRepo extends JpaRepository<College, Integer> {
     boolean existsByCollegeName(String name);
     boolean existsByCounselingCode(String code);
     boolean existsByEmail(String email);
-    @Query(value = "SELECT CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END FROM tb_requested_college_details WHERE official_email = ?", nativeQuery = true)
+    @Query(value = "SELECT CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END FROM tb_college WHERE contact_email = ?1", nativeQuery = true)
     boolean existsByCollegeEmail(String email);
 }

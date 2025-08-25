@@ -408,7 +408,6 @@ export default function CollegeRegisterForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // redux state
   const { loading, data, error } = useSelector((state) => state.register);
 
   const [showPassword, setShowPassword] = useState(false);
@@ -483,11 +482,10 @@ export default function CollegeRegisterForm() {
                   <input
                     type="text"
                     name="collegeName"
-                    className={`form-control custom-input ${
-                      formik.touched.collegeName && formik.errors.collegeName
-                        ? "is-invalid"
-                        : ""
-                    }`}
+                    className={`form-control custom-input ${formik.touched.collegeName && formik.errors.collegeName
+                      ? "is-invalid"
+                      : ""
+                      }`}
                     value={formik.values.collegeName}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -506,11 +504,10 @@ export default function CollegeRegisterForm() {
                   </label>
                   <select
                     name="collegeType"
-                    className={`form-select custom-input text-muted ${
-                      formik.touched.collegeType && formik.errors.collegeType
-                        ? "is-invalid"
-                        : ""
-                    }`}
+                    className={`form-select custom-input text-muted ${formik.touched.collegeType && formik.errors.collegeType
+                      ? "is-invalid"
+                      : ""
+                      }`}
                     value={formik.values.collegeType}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -575,12 +572,11 @@ export default function CollegeRegisterForm() {
                   <input
                     type="text"
                     name="counselingCode"
-                    className={`form-control custom-input ${
-                      formik.touched.counselingCode &&
+                    className={`form-control custom-input ${formik.touched.counselingCode &&
                       formik.errors.counselingCode
-                        ? "is-invalid"
-                        : ""
-                    }`}
+                      ? "is-invalid"
+                      : ""
+                      }`}
                     value={formik.values.counselingCode}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -601,12 +597,11 @@ export default function CollegeRegisterForm() {
                   <input
                     type="url"
                     name="collegeWebsite"
-                    className={`form-control custom-input ${
-                      formik.touched.collegeWebsite &&
+                    className={`form-control custom-input ${formik.touched.collegeWebsite &&
                       formik.errors.collegeWebsite
-                        ? "is-invalid"
-                        : ""
-                    }`}
+                      ? "is-invalid"
+                      : ""
+                      }`}
                     value={formik.values.collegeWebsite}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -627,12 +622,11 @@ export default function CollegeRegisterForm() {
                   <input
                     type="email"
                     name="officialEmail"
-                    className={`form-control custom-input ${
-                      formik.touched.officialEmail &&
+                    className={`form-control custom-input ${formik.touched.officialEmail &&
                       formik.errors.officialEmail
-                        ? "is-invalid"
-                        : ""
-                    }`}
+                      ? "is-invalid"
+                      : ""
+                      }`}
                     value={formik.values.officialEmail}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -654,11 +648,10 @@ export default function CollegeRegisterForm() {
                   <input
                     type="text"
                     name="adminName"
-                    className={`form-control custom-input ${
-                      formik.touched.adminName && formik.errors.adminName
-                        ? "is-invalid"
-                        : ""
-                    }`}
+                    className={`form-control custom-input ${formik.touched.adminName && formik.errors.adminName
+                      ? "is-invalid"
+                      : ""
+                      }`}
                     value={formik.values.adminName}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -679,11 +672,10 @@ export default function CollegeRegisterForm() {
                   <input
                     type="email"
                     name="adminEmail"
-                    className={`form-control custom-input ${
-                      formik.touched.adminEmail && formik.errors.adminEmail
-                        ? "is-invalid"
-                        : ""
-                    }`}
+                    className={`form-control custom-input ${formik.touched.adminEmail && formik.errors.adminEmail
+                      ? "is-invalid"
+                      : ""
+                      }`}
                     value={formik.values.adminEmail}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -717,11 +709,10 @@ export default function CollegeRegisterForm() {
                     <input
                       type={showPassword ? "text" : "password"}
                       name="password"
-                      className={`form-control custom-input pe-5 ${
-                        formik.touched.password && formik.errors.password
-                          ? "is-invalid"
-                          : ""
-                      }`}
+                      className={`form-control custom-input pe-5 ${formik.touched.password && formik.errors.password
+                        ? "is-invalid"
+                        : ""
+                        }`}
                       value={formik.values.password}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -749,12 +740,11 @@ export default function CollegeRegisterForm() {
                     <input
                       type={showConfirmPassword ? "text" : "password"}
                       name="confirmPassword"
-                      className={`form-control custom-input pe-5 ${
-                        formik.touched.confirmPassword &&
+                      className={`form-control custom-input pe-5 ${formik.touched.confirmPassword &&
                         formik.errors.confirmPassword
-                          ? "is-invalid"
-                          : ""
-                      }`}
+                        ? "is-invalid"
+                        : ""
+                        }`}
                       value={formik.values.confirmPassword}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
