@@ -101,7 +101,7 @@ public class CollegeRegistrationService {
         if (collegeRepo.existsByCounselingCode(dto.getCounselingCode())) {
             throw new IllegalArgumentException("College with this counseling code already exists.");
         }
-        if (collegeRepo.existsByEmail(dto.getOfficialEmail())) {
+        if (collegeRepo.existsByCollegeEmail(dto.getOfficialEmail())) {
             throw new IllegalArgumentException("College with this official email already exists.");
         }
         if (staffDetailsRepo.existsByEmail(dto.getAdminEmail())) {

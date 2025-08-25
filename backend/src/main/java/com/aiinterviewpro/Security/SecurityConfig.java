@@ -30,10 +30,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .userDetailsService(userDetailsService)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/**").permitAll()
-                        .requestMatchers("/auth/register", "/auth/login", "/auth/forgot-password", "/auth/refresh-token","/request/college/register").permitAll()
-                        .requestMatchers("/auth/reset-password").authenticated()
-                        .requestMatchers("api/sa/**").hasRole("SUPER_ADMIN")
+                        .requestMatchers("test/**","/request/**").permitAll()
+                        .requestMatchers("/auth/register", "/auth/login", "/auth/forgot-password", "/auth/refresh-token").permitAll()
+                        .requestMatchers("/auth/reset-password").authenticated() //
+                        .requestMatchers("/sa/**").hasRole("SUPER_ADMIN")
                         .requestMatchers("/ca/**").hasRole("COLLEGE_ADMIN")
                         .anyRequest().authenticated()
                 )
@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.type.NumericBooleanConverter;
 
 import java.time.LocalDateTime;
 
@@ -66,6 +67,7 @@ public class College {
     @Column(name = "contact_phone")
     private String contactPhone;
 
+    @Convert(converter = NumericBooleanConverter.class)
     @Column(name = "is_active")
     private Boolean isActive = true;
 

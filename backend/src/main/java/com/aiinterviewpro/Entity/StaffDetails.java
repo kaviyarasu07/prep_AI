@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.type.NumericBooleanConverter;
 
 import java.time.LocalDateTime;
 
@@ -38,6 +39,7 @@ public class StaffDetails {
     @Column(name = "email")
     private String email;
 
+    @Convert(converter = NumericBooleanConverter.class)
     @Column(name = "is_active")
     private Boolean isActive = true;
 
