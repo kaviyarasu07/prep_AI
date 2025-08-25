@@ -19,8 +19,8 @@ public class LogInController {
     private final JwtUtil jwtUtil;
 
     @Autowired
-    public AuthController(AuthService authService, JwtUtil jwtUtil) {
-        this.authService = authService;
+    public LogInController(LogInService logInService, JwtUtil jwtUtil) {
+        this.logInService = logInService;
         this.jwtUtil = jwtUtil;
     }
 

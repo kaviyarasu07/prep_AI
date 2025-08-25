@@ -49,6 +49,10 @@ public class Login implements UserDetails {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
 
+
+    @Column(name = "is_temp_password", nullable = false)
+    private boolean isTempPassword = false;
+
     public Role getRole() {
         return role;
     }
@@ -87,5 +91,17 @@ public class Login implements UserDetails {
     public boolean isEnabled() {
         return Boolean.TRUE.equals(isActive);
     }
+
+    public void setIsTempPassword(boolean b) {
+        this.isTempPassword = b;
+    }
+
+    public boolean isDisabled() {
+        return !isActive;
+    }
+
+
+    @Column(name = "last_login_at")
+    private LocalDateTime lastLoginAt;
 }
 
