@@ -2,8 +2,7 @@ import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';
 import LandingPage from './components/LandingPage';
-import CollegeRegisterForm from './components/CollegeRegisterForm';
-// import CollegeAdminDashboard from './components/CollegePages/CollegeAdminDashboard';
+import Registration from './components/CollegeRegisterForm';
 
 const App = () => {
   return (
@@ -11,8 +10,7 @@ const App = () => {
     <BrowserRouter>
      <Routes>
       <Route path='/' element={<LandingPage />}/>
-      <Route path='/CollegeRegisterForm' element={<CollegeRegisterForm />}/>
-      {/* <Route path='/CollegeAdminDashboard' element={<CollegeAdminDashboard />}/> */}
+      <Route path='/Register' element={<Registration />}/>
      </Routes>
       <ToastContainer position="top-right" autoClose={3000}  theme="colored" hideProgressBar={false}/>
     </BrowserRouter>

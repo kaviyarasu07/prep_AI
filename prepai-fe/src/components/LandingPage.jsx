@@ -84,7 +84,7 @@ const LandingPage = () => {
             <div className="w-100 ps-md-5">
               <h1 className="fw-bold mb-3">Prep AI</h1>
               <p className="mb-4">Your AI Assistant for Interview Success</p>
-              <button className="btn btn-primary btn-lg fw-bold" onClick={()=> navigate("CollegeRegisterForm")}>Get Started</button>
+              <button className="btn btn-primary btn-lg fw-bold" onClick={()=> navigate("/register")}>Get Started</button>
             </div>
           </div>
         </div>
