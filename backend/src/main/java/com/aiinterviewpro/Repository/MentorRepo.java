@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface MentorRepo extends JpaRepository<Mentor, Integer> {
+public interface MentorRepo extends JpaRepository<Mentor, Integer>
+{
 
     @Query("SELECT s FROM StudentDetails s WHERE s.mentor IS NULL")
     List<StudentDetails> findStudentsWithoutMentor();
