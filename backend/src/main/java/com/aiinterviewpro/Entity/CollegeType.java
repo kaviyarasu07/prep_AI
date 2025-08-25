@@ -28,4 +28,12 @@ public class CollegeType {
 
     @Column(name = "last_updated")
     private LocalDateTime lastUpdated = LocalDateTime.now();
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt = LocalDateTime.now();
+
 }
+

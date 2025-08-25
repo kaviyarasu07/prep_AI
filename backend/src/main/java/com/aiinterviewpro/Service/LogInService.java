@@ -8,21 +8,28 @@ import com.aiinterviewpro.Entity.Role;
 import com.aiinterviewpro.Repository.LoginRepo;
 import com.aiinterviewpro.Repository.RoleRepo;
 import com.aiinterviewpro.Security.JwtUtil;
+import com.aiinterviewpro.Util.PasswordUtil;
 import io.micrometer.common.util.StringUtils;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class LogInService {
     private final LoginRepo loginRepo;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
     private final RoleRepo roleRepository;
+    private final EmailService emailService;
 
     public void register(RegisterRequestDto request) {
         if (request.getEmail() == null || request.getEmail().isBlank()) {
@@ -73,7 +80,7 @@ public class AuthService {
                     )
             );
 
-            // Fetch the Login entity only once
+
             Login login = loginRepo.findByEmail(request.getEmail())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
@@ -85,7 +92,7 @@ public class AuthService {
             login.setRefreshToken(refreshToken);
             loginRepo.save(login);
 
-            // Return response
+
             return new AuthResponseDto(
                     refreshToken,
                     login.getUserId(),
@@ -118,5 +125,46 @@ public class AuthService {
 
         String newAccessToken = jwtUtil.generateToken(email);
         return new AuthResponseDto(newAccessToken);
+    }
+
+    public void handleForgotPassword(@NotBlank @Email String email) {
+        Login user= loginRepo.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with this email"));
+
+        if (user.isDisabled()) {
+            throw new RuntimeException("Account is disabled");
+        }
+
+        String tempPassword = PasswordUtil.generateTemporaryPassword(10);
+        String encodedPassword = passwordEncoder.encode(tempPassword);
+
+        user.setPassword(encodedPassword);
+        user.setIsTempPassword(true);
+        loginRepo.save(user);
+        String body = "Your temporary password is: " + tempPassword +
+                "\nPlease login using this password and reset it immediately.";
+
+        emailService.sendOtpEmail(email, "Temporary Password", body);
+    }
+
+    public void resetPassword(String newPassword, Principal principal){
+
+        String email = principal.getName();
+        Login user = loginRepo.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!user.isTempPassword()) {
+            throw new RuntimeException("You can only reset your password if you have a temporary password");
+        }
+
+        if (newPassword.length() < 10) {
+            throw new RuntimeException("Password must be at least 10 characters long");
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setIsTempPassword(false);
+        user.setLastLoginAt(LocalDateTime.now());
+
+        loginRepo.save(user);
     }
 }

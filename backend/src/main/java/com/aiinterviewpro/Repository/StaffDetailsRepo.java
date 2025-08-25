@@ -5,4 +5,5 @@ import com.aiinterviewpro.Entity.TestEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StaffDetailsRepo extends JpaRepository<StaffDetails, Integer> {
-}
+    boolean existsByEmail(String email);
+    boolean existsByPhoneNumber(String phoneNumber);}
