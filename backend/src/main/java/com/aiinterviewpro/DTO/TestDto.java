@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TestDto {
-    private String name;
     public String getName() {
 		return name;
 	}
@@ -21,5 +20,6 @@ public class TestDto {
 	public void setDomain(String domain) {
 		this.domain = domain;
 	}
-	private String domain;
+	private String name;
+    private String domain;
 }

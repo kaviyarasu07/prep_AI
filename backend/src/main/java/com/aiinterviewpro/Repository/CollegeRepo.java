@@ -6,6 +6,7 @@ import com.aiinterviewpro.Entity.TestEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.jpa.repository.Query;
 
 public interface CollegeRepo extends JpaRepository<College, Integer> {
     // 1. Total Registration Requests (all records)
@@ -40,6 +41,7 @@ public interface CollegeRepo extends JpaRepository<College, Integer> {
             "WHERE LOWER(t.name) = LOWER(:typeName) " +
             "AND LOWER(c.status) = 'approved'")
     long countApprovedByType(@Param("typeName") String typeName);
+
 }
 
 

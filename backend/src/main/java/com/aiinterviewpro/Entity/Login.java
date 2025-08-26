@@ -30,12 +30,27 @@ public class Login implements UserDetails {
     @Column(name = "password")
     private String password;
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
 
     @Column(length = 1000)
     private String refreshToken;
+
+
+    @Column(name = "is_temp_password", nullable = false)
+    private boolean isTempPassword = false;
+
+    @Column(name = "last_login_at")
+    private LocalDateTime lastLoginAt;
 
     @Column(name = "user_id")
     private Integer userId;
@@ -48,14 +63,6 @@ public class Login implements UserDetails {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
-
-
-    @Column(name = "is_temp_password", nullable = false)
-    private boolean isTempPassword = false;
-
-    public Role getRole() {
-        return role;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -97,11 +104,8 @@ public class Login implements UserDetails {
     }
 
     public boolean isDisabled() {
-        return !isActive;
+       return  !isActive;
     }
 
 
-    @Column(name = "last_login_at")
-    private LocalDateTime lastLoginAt;
 }
-

@@ -4,7 +4,6 @@ import com.aiinterviewpro.DTO.*;
 import com.aiinterviewpro.Security.JwtUtil;
 import com.aiinterviewpro.Service.LogInService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,17 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @RestController
-
+@RequiredArgsConstructor
 @RequestMapping("/auth")
 public class LogInController {
     private final LogInService logInService;
     private final JwtUtil jwtUtil;
-
-    @Autowired
-    public LogInController(LogInService logInService, JwtUtil jwtUtil) {
-        this.logInService = logInService;
-        this.jwtUtil = jwtUtil;
-    }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequestDto request) {
