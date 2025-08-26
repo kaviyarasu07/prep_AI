@@ -14,5 +14,5 @@ public interface RoleRepo extends JpaRepository<Role, Integer> {
     @Query(value = "SELECT COUNT(*) FROM tb_role", nativeQuery = true)
     int countTotalDepartmentAdmins();
 
-    Optional<Role> findByDeptName(String departmentAdmin);
+    Optional<Role> findByNameIgnoreCase(String departmentAdmin);
 }

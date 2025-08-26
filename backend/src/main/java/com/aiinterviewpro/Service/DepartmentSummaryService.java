@@ -116,7 +116,7 @@ public class DepartmentSummaryService {
         departmentrepo.save(department);
 
 
-        Role departmentAdminRole = rolerepo.findByDeptName("Department Admin")
+        Role departmentAdminRole = rolerepo.findByNameIgnoreCase("Department Admin")
                 .orElseThrow(() -> new EntityNotFoundException("Role DEPARTMENT_ADMIN not found"));
 
 
