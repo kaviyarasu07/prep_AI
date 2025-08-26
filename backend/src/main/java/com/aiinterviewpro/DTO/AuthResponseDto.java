@@ -19,4 +19,5 @@ public class AuthResponseDto {
         this.refreshToken = refreshToken;
 
     }
+
 }

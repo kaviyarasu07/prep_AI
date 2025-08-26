@@ -48,4 +48,5 @@ public interface DepartmentRepo extends JpaRepository<Department, Integer> {
 
 
 	Optional<Department> findById(Integer id);
+
 }

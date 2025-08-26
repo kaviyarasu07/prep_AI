@@ -20,6 +20,8 @@ import java.util.Date;
 public class JwtUtil {
     private final LoginRepo userDetailsRepository;
 
+
+
     @Value("${jwt.secret}")
     private String jwtSecret;
 
