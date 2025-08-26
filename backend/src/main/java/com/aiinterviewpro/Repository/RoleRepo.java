@@ -11,8 +11,11 @@ import java.util.Optional;
 
 public interface RoleRepo extends JpaRepository<Role, Integer> {
     Optional<Role> findByName(String name);
+
+
+    Optional<Role> findByNameIgnoreCase(String departmentAdmin);
     @Query(value = "SELECT COUNT(*) FROM tb_role", nativeQuery = true)
     int countTotalDepartmentAdmins();
 
-    Optional<Role> findByDeptName(String departmentAdmin);
+//    Optional<Role> findByDeptName(String departmentAdmin);
 }
