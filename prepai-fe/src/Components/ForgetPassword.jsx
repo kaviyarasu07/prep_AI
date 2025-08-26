@@ -62,7 +62,7 @@ const ForgetPassword = () => {
 
         <button className="btn btn-success w-100 mt-3" onClick={handleSubmit} disabled={loading}>{loading ? "Sending..." : "Submit"}</button>
         <div className="text-center mt-3">
-          <a href="/" className="text-decoration-none">&lt; Back to Login</a>
+          <a href="/login" className="text-decoration-none">&lt; Back to Login</a>
         </div>
       </div>
     </div>

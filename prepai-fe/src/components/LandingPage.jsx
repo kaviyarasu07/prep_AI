@@ -62,7 +62,7 @@ const LandingPage = () => {
             <button
               className="btn btn-primary fw-bold"
               href="#"
-              onClick={() => navigate("LoginPage")}
+              onClick={() => navigate("/login")}
             >
               Login
             </button>

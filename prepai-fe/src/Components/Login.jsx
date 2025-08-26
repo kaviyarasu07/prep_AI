@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginRequest } from "../Redux-Saga/Actions/LoginAction";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -12,6 +13,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { loading, error } = useSelector((state) => state.login);
 
   const validateEmail = (email) =>
@@ -121,7 +123,7 @@ const Login = () => {
         </button>
 
         <div style={{ textAlign: "end", fontSize: "0.9rem", color: "#6c757d", marginBottom: "10px" }}>New to Prep AI?</div>
-        <button style={{ padding: "0.9rem", backgroundColor: "#f1f1f1", border: "none", borderRadius: "8px", fontWeight: "bold", fontSize: "1rem", cursor: "pointer" }}>Register Now</button>
+        <button style={{ padding: "0.9rem", backgroundColor: "#f1f1f1", border: "none", borderRadius: "8px", fontWeight: "bold", fontSize: "1rem", cursor: "pointer" }} onClick={() => navigate("/register")}>Register Now</button>
       </div>
     </div>
   );

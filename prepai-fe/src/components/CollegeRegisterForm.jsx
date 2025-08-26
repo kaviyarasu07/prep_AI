@@ -74,7 +74,7 @@ export default function CollegeRegisterForm() {
     <div className="container py-5">
       <div className="row justify-content-center">
         <div className="col-lg-7">
-          <button type="button" className="btn btn-link text-dark p-0 me-2" onClick={() => navigate(-1)} ><FaArrowLeft size={20} /></button>
+          <button type="button" className="btn btn-link text-dark p-0 me-2" onClick={() => navigate("/")} ><FaArrowLeft size={20} /></button>
           <div className="regiter-card shadow-lg border-0 p-4 rounded">
             <div className="card-body">
               <h3 className="fw-bold mb-2">Prep AI College Registration</h3>
