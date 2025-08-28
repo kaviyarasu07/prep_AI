@@ -14,7 +14,7 @@ public class SaRequestCollegeDTO {
     private Integer id;
     private String collegeName;
     private String type;
-    private String universityType;
+    private String affiliationType;
     private String counselingCode;
     private LocalDate dateRequested;
     private String status;
@@ -28,8 +28,13 @@ public class SaRequestCollegeDTO {
     public String getType() { return type; }
     public void setType(String type) { this.type = type; }
 
-    public String getUniversityType() { return universityType; }
-    public void setUniversityType(String universityType) { this.universityType = universityType; }
+    public String getAffiliationType() {
+        return affiliationType;
+    }
+
+    public void setAffiliationType(String affiliationType) {
+        this.affiliationType = affiliationType;
+    }
 
     public String getCounselingCode() { return counselingCode; }
     public void setCounselingCode(String counselingCode) { this.counselingCode = counselingCode; }

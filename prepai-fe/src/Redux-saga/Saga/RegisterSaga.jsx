@@ -1,7 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { registerSuccess } from "../Actions/RegisterAction";
+import { registerFailure, registerSuccess } from "../Actions/RegisterAction";
 import { REGISTER_REQUEST } from "../Types/RegisterTypes";
-import { registerService } from "../../Service/RegisterService";
 
 function* registerSaga({ payload }) {
   try {

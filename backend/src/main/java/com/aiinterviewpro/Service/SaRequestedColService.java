@@ -2,6 +2,7 @@ package com.aiinterviewpro.Service;
 
 import com.aiinterviewpro.DTO.SaRequestCollegeDTO;
 import com.aiinterviewpro.Entity.College;
+import com.aiinterviewpro.Enum.Status;
 import com.aiinterviewpro.Repository.CollegeRepo;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ public class SaRequestedColService {
     // Update the college status
     public boolean updateCollegeStatus(Integer id, String status) {
         return collegeRepo.findById(id).map(c -> {
-            c.setStatus(status);
+            Status newStatus = Status.valueOf(status.toUpperCase());
             collegeRepo.save(c);
             return true;
         }).orElse(false);
@@ -37,7 +38,7 @@ public class SaRequestedColService {
     private SaRequestCollegeDTO mapToDtoWithActions(College c) {
         SaRequestCollegeDTO dto = mapToDto(c);
 
-        if ("Pending".equalsIgnoreCase(c.getStatus())) {
+        if (c.getStatus() == Status.PENDING) {
             dto.setActions(List.of("Approve", "Reject", "View"));
         } else {
             dto.setActions(List.of("View"));
@@ -50,12 +51,12 @@ public class SaRequestedColService {
     private SaRequestCollegeDTO mapToDto(College c) {
         SaRequestCollegeDTO dto = new SaRequestCollegeDTO();
         dto.setId(c.getId());
-        dto.setCollegeName(c.getName());
+        dto.setCollegeName(c.getCollegeName());
         dto.setType(c.getDegreeType());
-        dto.setUniversityType(c.getAffiliatedTo());
-        dto.setCounselingCode(c.getCode());
+        dto.setAffiliationType(c.getAffiliationType().name());
+        dto.setCounselingCode(c.getCounselingCode());
         dto.setDateRequested(c.getCreatedAt().toLocalDate());
-        dto.setStatus(c.getStatus());
+        dto.setStatus(c.getStatus().name());
 
         return dto;
 
