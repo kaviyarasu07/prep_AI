@@ -6,6 +6,7 @@ import lombok.Data;
 public class StudentDetailsDto {
 
     private Integer studentId;
+
     private String studentName;
 
     private String rollNumber;
