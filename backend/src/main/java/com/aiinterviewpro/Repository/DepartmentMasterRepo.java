@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import org.springframework.data.jpa.repository.Query;
 
 public interface DepartmentMasterRepo extends JpaRepository<DepartmentMaster, Integer> {
     List<DepartmentMaster> findByDepartmentName(String departmentName);
@@ -21,6 +22,7 @@ public interface DepartmentMasterRepo extends JpaRepository<DepartmentMaster, In
                                  @Param("departmentName") String departmentName,
                                  @Param("departmentCode") String departmentCode,
                                  @Param("createdAt") LocalDateTime createdAt);
+
 
 
 }

@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,6 +29,14 @@ public class Login implements UserDetails {
 
     @Column(name = "password")
     private String password;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     @ManyToOne
     @JoinColumn(name = "role_id")
@@ -92,7 +98,6 @@ public class Login implements UserDetails {
     public boolean isEnabled() {
         return Boolean.TRUE.equals(isActive);
     }
-
 
     public void setIsTempPassword(boolean b) {
         this.isTempPassword = b;

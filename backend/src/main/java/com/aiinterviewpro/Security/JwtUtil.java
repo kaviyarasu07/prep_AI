@@ -21,6 +21,8 @@ import java.util.Date;
 public class JwtUtil {
     private final LoginRepo userDetailsRepository;
 
+
+
     @Value("${jwt.secret}")
     private String jwtSecret;
 
@@ -31,8 +33,21 @@ public class JwtUtil {
 
     @PostConstruct
     public void init() {
-        this.secretKey = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
-    }
+        try{
+            if (jwtSecret == null || jwtSecret.isEmpty()) {
+                throw new IllegalStateException("JWT secret is missing.");
+            }
+
+
+
+        byte[] decodedKey = java.util.Base64.getDecoder().decode(jwtSecret);
+        this.secretKey = Keys.hmacShaKeyFor(decodedKey);
+    } catch (Exception e) {
+            System.err.println("❌ JWT initialization failed: " + e.getMessage());
+            throw new RuntimeException(e);
+
+        }
+        }
 
     private String buildToken(String userName, Role role, long durationMs) {
         return Jwts.builder()
