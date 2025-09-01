@@ -1,0 +1,47 @@
+package com.aiinterviewpro.Service;
+
+import com.aiinterviewpro.Entity.Department;
+import com.aiinterviewpro.Entity.StaffDetails;
+import com.aiinterviewpro.Repository.DepartmentRepo;
+import com.aiinterviewpro.Repository.MentorRepo;
+import com.aiinterviewpro.Repository.StaffDetailsRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Service
+public class DepartmentService {
+
+    @Autowired
+    DepartmentRepo departmentRepo;
+
+    @Autowired
+    StaffDetailsRepo staffDetailsRepo;
+
+    @Autowired
+    MentorRepo mentorRepo;
+
+    public Map<String, Object> getDepartmentOverview(Integer departmentId) {
+        Department dept = departmentRepo.findDepartmentWithCollegeAndMaster(departmentId);
+//        if (dept == null) {
+//            throw new RuntimeException("Department not found with id: " + departmentId);
+//        }
+        StaffDetails admin = staffDetailsRepo.findDepartmentAdmin(departmentId).orElse(null);
+//        if (admin == null) {
+//            throw new RuntimeException("Department not found with id: " + departmentId);
+//        }
+        // List<Mentor> mentors = mentorRepo.findAll();
+        Map<String, Object> response = new HashMap<>();
+        response.put("collegeName", dept.getCollege().getName());
+        response.put("departmentName", dept.getDepartmentMaster().getDepartmentName());
+        // response.put("departmentAdmin", admin != null ? admin.getRole().getId() : null);
+        response.put("departmentAdmin", admin != null ? admin.getStaffName() : null);
+        // response.put("mentors", mentors);
+        return response;
+    }
+
+}

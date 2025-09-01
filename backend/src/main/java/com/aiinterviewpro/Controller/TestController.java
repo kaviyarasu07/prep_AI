@@ -20,7 +20,8 @@ public class TestController {
         try {
             TestDto dto = service.getDeveloperName(id);
             return ResponseEntity.ok(dto);
-        } catch (RuntimeException e) {
+        } catch (RuntimeException e)
+        {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body("Developer not found ");
