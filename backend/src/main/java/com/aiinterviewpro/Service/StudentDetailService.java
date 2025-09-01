@@ -27,7 +27,9 @@ public class StudentDetailService {
             StudentDetailsDto dto = new StudentDetailsDto();
             dto.setStudentId(s.getStudentId());
             dto.setStudentName(s.getStudentName());
-            dto.setCurrent_mentor(s.getMentor() != null ? s.getMentor().getName() : null);
+            dto.setRollNumber(s.getRollNumber());
+            dto.setYearOfStudy(s.getYearOfStudy());
+            dto.setName(s.getMentor() != null ? s.getMentor().getName() : null);
             return dto;
         }).toList();
     }
