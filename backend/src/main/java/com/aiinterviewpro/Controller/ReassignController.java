@@ -11,7 +11,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/mentor")
+@RequestMapping("/mentor/reassign")
 @AllArgsConstructor(onConstructor_ = {@Autowired})
 public class ReassignController{
 

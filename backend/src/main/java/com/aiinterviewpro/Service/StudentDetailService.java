@@ -19,7 +19,7 @@ public class StudentDetailService {
         List<StudentDetails> students = studentDetailsRepo.findByMentorId(mentorId);
         return students.stream().map(s -> {
             StudentDetailsDto dto = new StudentDetailsDto();
-            dto.setStudentId(dto.getStudentId());
+            dto.setStudentId(s.getStudentId());
             dto.setStudentName(s.getStudentName());
             dto.setCurrent_mentor(s.getMentor() != null ? s.getMentor().getName() : null);
             return dto;
