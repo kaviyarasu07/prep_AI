@@ -16,4 +16,7 @@ public class ResetPasswordRequestDto {
             message = "Password must contain uppercase, lowercase, number and special character"
     )
     private String newPassword;
+
+    private  String email;
+
 }

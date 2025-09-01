@@ -1,17 +1,19 @@
 package com.aiinterviewpro.DTO;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NonNull;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class UpdateRequestDto {
-    @NonNull
     private String departmentName;
-
-    @NonNull
+    private String departmentCode;
+    private Boolean status;
+    private Integer totalStudents;
+    private Integer activeStudents;
     private String assignedAdmins;
-
-
-    private Boolean Status;
-
 }
+
