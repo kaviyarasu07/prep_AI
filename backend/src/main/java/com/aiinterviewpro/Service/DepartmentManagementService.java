@@ -88,8 +88,8 @@ public class DepartmentManagementService {
 
             email.sendAdminEmail(staff.getEmail(), subject, body);
 
-            Role role = rolerepo.findByName("DEPARTMENT_ADMIN")
-                    .orElseThrow(() -> new IllegalStateException("Role not found: DEPARTMENT_ADMIN"));
+            Role role = rolerepo.findByName("Department Admin")
+                    .orElseThrow(() -> new IllegalStateException("Role not found: Department Admin"));
             staff.setRole(role);
             staffrepo.save(staff);
 

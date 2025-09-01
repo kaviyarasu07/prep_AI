@@ -26,7 +26,7 @@ public class RegisteredDepartmentsController {
 
     @GetMapping("/getAll")
     public ResponseEntity<?> getRegisteredDepartments(
-            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "10") Integer size
 
 
@@ -49,7 +49,7 @@ public class RegisteredDepartmentsController {
     public ResponseEntity<String> updateRegisteredDepartments(
             @PathVariable Integer id, @RequestBody UpdateRequestDto dto) {
         RegisteredDepartmentsDto updatedDepartment = departmentService.updateRegisteredDepartments(id, dto);
-        return ResponseEntity.ok("Department updated successfully");
+        return ResponseEntity.ok("Records updated successfully");
 
 
     }
