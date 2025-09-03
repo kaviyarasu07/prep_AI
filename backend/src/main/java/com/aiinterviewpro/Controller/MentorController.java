@@ -46,6 +46,35 @@ public class MentorController {
 
     }
 
+
+
+    // To get all the mentor details with department
+
+    @GetMapping("/by-department/{departmentId}")
+    public ResponseEntity<?> getMentorsByDepartment(@PathVariable Integer departmentId) {
+        List<MentorDto> mentorDtoList = mentorService.getMentorsByDepartment(departmentId);
+
+        if (mentorDtoList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", "No mentors found for department id " + departmentId));
+        }
+
+        // Run validations (optional, like your all-mentors API)
+        for (MentorDto mentorDto : mentorDtoList) {
+            ValidationResult validationResult = mentorValidator.validateMentor(mentorDto);
+            if (!validationResult.isValid()) {
+                return ResponseEntity.badRequest().body(validationResult.getErrors());
+            }
+        }
+
+        return ResponseEntity.ok(Map.of(
+                "Total Mentors", mentorDtoList.size(),
+                "mentors", mentorDtoList
+        ));
+    }
+
+
+
     // get All the mentor details.
     // To get the number of total mentors.
     @GetMapping(value = "/all", produces = "application/json")
@@ -127,7 +156,7 @@ public class MentorController {
         return ResponseEntity.ok(top_perform);
     }
 
-    // Getting mentor details
+
 
 
 

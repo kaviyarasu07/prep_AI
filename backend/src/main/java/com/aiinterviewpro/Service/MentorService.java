@@ -30,11 +30,23 @@ public class MentorService {
         return mentorRepo.save(mentor);
     }
 
-
+   // To get all the mentor details
     public List<MentorDto> getAllMentors() {
         List<Mentor> mentors = mentorRepo.findAll();
         return mentors.stream().map(this::convertToDto).collect(Collectors.toList());
     }
+
+    // To get all the mentor details by department
+    public List<MentorDto> getMentorsByDepartment(Integer departmentId) {
+        List<Mentor> mentors = mentorRepo.findMentorsByDepartmentId(departmentId);
+        return mentors.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+
+
+
 
     private MentorDto convertToDto(Mentor mentor) {
         MentorDto dto = new MentorDto();
@@ -86,6 +98,19 @@ public class MentorService {
         dto.setMock_interview_Conducted(mentor.getMock_interview_Conducted());
         return dto;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
