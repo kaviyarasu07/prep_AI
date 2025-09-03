@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DeptDashBoardDto {
     private Long totalStudents;
-   // private Long totalMentors;
+    private Long totalMentors;
    // private Long scheduledAssessments;
     //private Long scheduledMockInterviews;
 }
