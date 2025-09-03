@@ -67,7 +67,7 @@ function* fetchCollegesSaga() {
 }
 
 function* updateCollegeStatusSaga(action) {
-  try {
+  try { 
     const response = yield call(updateCollegeStatusService, action.payload);
     yield put(updateCollegeStatusSuccess(response.data));
     yield put(fetchCollegesRequest());
@@ -75,6 +75,9 @@ function* updateCollegeStatusSaga(action) {
     yield put(updateCollegeStatusFailure(error.message));
   }
 }
+
+
+
 
 export default function* superadminSaga() {
   yield takeLatest(FETCH_SUPERADMIN_SUMMARY_REQUEST, fetchSuperadminSummarySaga);

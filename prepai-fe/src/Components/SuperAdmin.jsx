@@ -60,8 +60,15 @@ const SuperadminDashboard = () => {
     };
 
     const handleStatusChange = (collegeId, status) => {
+   const selectedCollege = colleges.find(col => col.id === collegeId);
+
+    console.log("🎯 Selected College Object:", selectedCollege);
+    console.log("👉 Status Clicked:", status);
         dispatch(updateCollegeStatusRequest({ id: collegeId, status }));
     };
+
+
+   
 
     return (
         <div className="superadmin-dashboard">
@@ -147,10 +154,12 @@ const SuperadminDashboard = () => {
                                 </thead>
                                 <tbody>
                                     {colleges.map((college, index) => (
-                                        <tr key={index}>
+                            
+                                 <tr key={index}>
+                                        
                                             <td>{college.collegeName}</td>
                                             <td>{college.type}</td>
-                                            <td>{college.universityType}</td>
+                                            <td>{college.affiliationType}</td>
                                             <td>{college.counselingCode}</td>
                                             <td>{college.dateRequested}</td>
                                             <td>{getStatusBadge(college.status)}</td>
