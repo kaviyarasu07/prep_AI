@@ -16,7 +16,7 @@ public class DeptAddStaffDto {
     private String emailId;
     private String phoneNumber;
     private String roleName;
-    private String departmentName;
+    private Integer departmentId;
    // private String degreeType;
     private String staffId;
     private List<Integer> assignedStudents;

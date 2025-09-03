@@ -2,6 +2,7 @@ package com.aiinterviewpro.Controller;
 
 
 import com.aiinterviewpro.DTO.DeptNewStudentDto;
+import com.aiinterviewpro.Entity.DepartmentMaster;
 import com.aiinterviewpro.Entity.StudentDetails;
 import com.aiinterviewpro.Service.DeptNewStudentService;
 
@@ -38,8 +39,8 @@ public class DeptNewStudentController {
     //get department name only
 
     @GetMapping("/names")
-    public List<String> getAllDepartmentNames() {
-        return deptNewStudentService.getAllDepartmentNames();
+    public List<DepartmentMaster> getAllDepartments() {
+        return deptNewStudentService.getAllDepartments();
     }
 }
 

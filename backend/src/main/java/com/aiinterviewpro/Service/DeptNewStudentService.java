@@ -97,7 +97,7 @@ public class DeptNewStudentService {
         responseDto.setPhoneNumber(savedStudent.getPhoneNumber());
         responseDto.setYearOfStudy(savedStudent.getYearOfStudy());
         responseDto.setCgpa(savedStudent.getCgpa());
-
+        responseDto.setMentorAssignment(dto.getMentorAssignment());
         responseDto.setDepartmentId(savedStudent.getDepartment().getId());
 
         return responseDto;
@@ -124,10 +124,9 @@ public class DeptNewStudentService {
 
         return deptCode + year + String.format("%03d", seq);
     }
-
-    //get department name only
-    public List<String> getAllDepartmentNames() {
-        return departmentMasterRepo.findAllDepartmentNames();
+    //get department datas
+    public List<DepartmentMaster> getAllDepartments() {
+        return departmentMasterRepo.findAll();
     }
 
 }
