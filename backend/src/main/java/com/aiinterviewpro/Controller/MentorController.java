@@ -127,5 +127,14 @@ public class MentorController {
         return ResponseEntity.ok(top_perform);
     }
 
+    // Getting mentor details
+
+
+
+
+
+
+
+
 
 }
