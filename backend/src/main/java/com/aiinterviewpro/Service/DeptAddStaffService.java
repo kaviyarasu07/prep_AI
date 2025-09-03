@@ -32,47 +32,34 @@ public class DeptAddStaffService {
 
 
     public StaffDetails createStaff(DeptAddStaffDto dto) {
-
         StaffDetails staff = new StaffDetails();
         staff.setStaffName(dto.getFullName());
         staff.setEmail(dto.getEmailId());
         staff.setPhoneNumber(dto.getPhoneNumber());
         staff.setStaffCode(dto.getStaffId());
         staff.setProfilePhoto(dto.getProfilePhotoUrl());
-        //staff.setDesignation(Designation.valueOf(dto.getDesignation().toUpperCase())); // enum mapping
 
-
-        // ===== Find DepartmentMaster by name =====
-        List<DepartmentMaster> depts = departmentMasterRepo.findByDepartmentName(dto.getDepartmentName());
-
-        if (depts.isEmpty()) {
-            throw new RuntimeException("Department not found: " + dto.getDepartmentName());
-        }
-        if (depts.size() > 1) {
-            throw new RuntimeException("Multiple departments found with name: " + dto.getDepartmentName());
-        }
-
-        DepartmentMaster deptMaster = depts.get(0);
+        // ===== Find DepartmentMaster by ID =====
+        DepartmentMaster deptMaster = departmentMasterRepo.findById(dto.getDepartmentId())
+                .orElseThrow(() -> new RuntimeException("Department not found with ID: " + dto.getDepartmentId()));
 
         // ===== Find Department using DepartmentMaster =====
         Department dept = departmentRepo.findByDepartmentMaster(deptMaster)
                 .orElseThrow(() -> new RuntimeException(
-                        "Department not mapped for departmentMaster: " + deptMaster.getDepartmentName()
+                        "Department not mapped for departmentMaster ID: " + dto.getDepartmentId()
                 ));
 
         staff.setDepartment(dept);
+
         // ===== Role Mapping =====
-        if (dto.getRoleName() != null && !dto.getRoleName().trim().isEmpty()) {
-            Role role = roleRepo.findByName(dto.getRoleName())
-                    .orElseThrow(() -> new RuntimeException(
-                            "Role not found with name: " + dto.getRoleName()
-                    ));
-            staff.setRole(role);
-        }
+        String roleName = dto.getRoleName().trim().toUpperCase();
 
+        Role role = roleRepo.findByName(roleName)
+                .orElseThrow(() -> new RuntimeException("Role not found with name: " + roleName));
 
+        staff.setRole(role);
 
-        //  Assign Students (if any)
+        // ===== Assign Students (if any) =====
         if (dto.getAssignedStudents() != null && !dto.getAssignedStudents().isEmpty()) {
             List<StudentDetails> students = studentDetailsRepo.findAllById(dto.getAssignedStudents());
             staff.setStudents(new HashSet<>(students));

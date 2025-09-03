@@ -25,17 +25,14 @@ public class DeptAddStaffController {
             return ResponseEntity.ok(savedStaff);
 
         } catch (RuntimeException ex) {
-            // business / validation errors
             return ResponseEntity
                     .badRequest()
                     .body("Error: " + ex.getMessage());
 
         } catch (Exception ex) {
-            // unknown errors
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Unexpected error occurred: " + ex.getMessage());
         }
     }
-
 }
