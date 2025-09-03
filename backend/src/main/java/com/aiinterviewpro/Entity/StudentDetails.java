@@ -63,9 +63,6 @@ public class StudentDetails {
     @JoinColumn(name = "mentor_id")
     private Mentor mentor;
 
-
-
-
     @Column(name = "roll_number", unique = true, nullable = false)
     private String rollNumber;
 
@@ -79,7 +76,7 @@ public class StudentDetails {
     private  String profilePhoto;
 
 
-    // 🔗 Many-to-many with staff
+    // Many-to-many with staff
     @ManyToMany(mappedBy = "students")
     private Set<StaffDetails> staffMembers = new HashSet<>();
 
