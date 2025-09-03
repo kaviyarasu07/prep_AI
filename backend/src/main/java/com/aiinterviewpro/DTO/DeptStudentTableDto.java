@@ -14,7 +14,7 @@ public class DeptStudentTableDto {
 
     
     private String yearOfStudy;
-    // private String mentorName;
+    private String mentorName;
     private Double cgpa;
     //private int mockInterviewsCompleted;
     // private int assessmentsCompleted;

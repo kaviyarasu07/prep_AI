@@ -19,14 +19,21 @@ public class DeptDashboardController {
     private DeptDashboardService deptDashboardService;
 
     @GetMapping("/count")
-    public ResponseEntity<Map<String, Long>> getStudentCount(@RequestParam String deptName) {
-        long count = deptDashboardService.getStudentCountByDept(deptName);
 
-        Map<String, Long> response = new HashMap<>();
-        response.put("totalStudents", count);
+    public ResponseEntity<?> getDeptDashboard(@RequestParam String deptName) {
+        try {
+            DeptDashBoardDto dashboard = deptDashboardService.getDeptDashboard(deptName);
+            return ResponseEntity.ok(dashboard);
+        } catch (Exception e) {
+            // exception log panna
+            e.printStackTrace();
 
-        return ResponseEntity.ok(response);
+            // error response
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Something went wrong while fetching dashboard");
+            errorResponse.put("details", e.getMessage());
+
+            return ResponseEntity.status(500).body(errorResponse);
+        }
     }
-
-
 }
