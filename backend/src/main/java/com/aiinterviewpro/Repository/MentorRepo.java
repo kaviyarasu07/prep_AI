@@ -32,6 +32,7 @@ public interface MentorRepo extends JpaRepository<Mentor, Integer>
    // mentor count based on department
     @Query("SELECT COUNT(m) FROM Mentor m JOIN m.students s WHERE s.department.departmentName = :deptName")
     long countMentorsByDeptName(@Param("deptName") String deptName);
+
 }
 
 

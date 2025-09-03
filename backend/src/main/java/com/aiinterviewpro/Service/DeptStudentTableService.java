@@ -63,6 +63,11 @@ public class DeptStudentTableService {
         dto.setYearOfStudy(s.getYearOfStudy());
         dto.setCgpa(s.getCgpa());
 
+        if (s.getMentor() != null) {
+            dto.setMentorName(s.getMentor().getName());
+        } else {
+            dto.setMentorName("Not Assigned");
+        }
         // convert boolean → string
         dto.setStatus(s.getIsActive() != null && s.getIsActive() ? "Active" : "Inactive");
 
