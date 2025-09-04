@@ -39,7 +39,8 @@ Boolean existsByCollegeEmail(@Param("email") String email);
         SELECT COUNT(*) AS artsCollegesCount
          FROM tb_college c
          JOIN tb_college_type t ON c.college_type = t.id
-         WHERE t.name = 'Arts & Science';
+         WHERE t.name = 'Arts & Science'
+         AND LOWER(c.status) = 'approved';;
     """, nativeQuery = true)
     long getArtsCount();
 
