@@ -76,9 +76,6 @@ function* updateCollegeStatusSaga(action) {
   }
 }
 
-
-
-
 export default function* superadminSaga() {
   yield takeLatest(FETCH_SUPERADMIN_SUMMARY_REQUEST, fetchSuperadminSummarySaga);
   yield takeLatest(FETCH_COLLEGES_REQUEST, fetchCollegesSaga);

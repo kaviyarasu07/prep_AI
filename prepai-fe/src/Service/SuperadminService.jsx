@@ -19,6 +19,15 @@ export function updateCollegeStatusService({ id, status }) {
   return axios({
     method: "PUT",
     url: `${BaseUrl}sa/request/col/${id}/status`,
-    params: { status },
+    params: { status }, 
   });
 }
+
+
+
+
+
+
+
+
+

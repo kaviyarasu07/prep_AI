@@ -18,14 +18,17 @@ const superadminReducer = (state = initialState, action) => {
             return { ...state, loading: false, summary: action.payload };
         case FETCH_COLLEGES_SUCCESS:
             return { ...state, loading: false, colleges: action.payload };
-        case UPDATE_COLLEGE_STATUS_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                colleges: state.colleges.map((col) =>
-                    col.id === action.payload.id ? action.payload : col
-                ),
-            };
+case UPDATE_COLLEGE_STATUS_SUCCESS:
+  return {
+    ...state,
+    loading: true,
+    colleges: state.colleges.map((col) =>
+  col.id === action.payload.id ? action.payload : col
+),
+
+  };
+
+
 
         case FETCH_SUPERADMIN_SUMMARY_FAILURE:
         case FETCH_COLLEGES_FAILURE:

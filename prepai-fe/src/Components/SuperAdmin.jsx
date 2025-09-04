@@ -60,12 +60,14 @@ const SuperadminDashboard = () => {
     };
 
     const handleStatusChange = (collegeId, status) => {
-   const selectedCollege = colleges.find(col => col.id === collegeId);
+    const selectedCollege = colleges.find(col => col.id === collegeId);
 
     console.log("🎯 Selected College Object:", selectedCollege);
     console.log("👉 Status Clicked:", status);
-        dispatch(updateCollegeStatusRequest({ id: collegeId, status }));
-    };
+
+    dispatch(updateCollegeStatusRequest({ id: collegeId, status }));
+};
+
 
 
    
@@ -165,24 +167,25 @@ const SuperadminDashboard = () => {
                                             <td>{getStatusBadge(college.status)}</td>
                                             <td className="actions-cell">
                                                 {college.status.toLowerCase() === "pending" ? (
-                                                    <>
-                                                        <button
-                                                            className="btn btn-sm btn-success me-1"
-                                                            onClick={() => handleStatusChange(college.id, "APPROVED")}
-                                                        >
-                                                            Approve
-                                                        </button>
-                                                        <button
-                                                            className="btn btn-sm btn-danger me-1"
-                                                            onClick={() => handleStatusChange(college.id, "REJECTED")}
-                                                        >
-                                                            Reject
-                                                        </button>
-                                                        <button className="btn btn-sm btn-primary">View</button>
-                                                    </>
-                                                ) : (
-                                                    <button className="btn btn-sm btn-primary">View</button>
-                                                )}
+    <>
+        <button
+            className="btn btn-sm btn-success me-1"
+            onClick={() => handleStatusChange(college.id, "APPROVED")}
+        >
+            Approve
+        </button>
+        <button
+            className="btn btn-sm btn-danger me-1"
+            onClick={() => handleStatusChange(college.id, "REJECTED")}
+        >
+            Reject
+        </button>
+        <button className="btn btn-sm btn-primary">View</button>
+    </>
+) : (
+    <button className="btn btn-sm btn-primary">View</button>
+)}
+
                                             </td>
                                         </tr>
                                     ))}
@@ -225,3 +228,11 @@ const SuperadminDashboard = () => {
 };
 
 export default SuperadminDashboard;
+
+
+
+
+
+
+
+
