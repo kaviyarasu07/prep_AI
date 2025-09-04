@@ -98,13 +98,13 @@ public class DeptStudentTableService {
         }
 
          //mentor
-//        if (mentor != null && !mentor.isEmpty()) {
-//            String filterMentor = mentor.trim().toLowerCase();
-//            students = students.stream()
-//                    .filter(s -> s.getMentorName() != null &&
-//                            s.getMentorName().trim().toLowerCase().equals(filterMentor))
-//                    .toList();
-//        }
+        if (mentor != null && !mentor.isEmpty()) {
+            String filterMentor = mentor.trim().toLowerCase();
+            students = students.stream()
+                    .filter(s -> s.getMentorName() != null &&
+                            s.getMentorName().trim().toLowerCase().equals(filterMentor))
+                    .toList();
+        }
 
         if (status != null && !status.isEmpty()) {
             String filterStatus = status.trim().toLowerCase();
