@@ -38,7 +38,7 @@ public class SaRequestColController {
     }
 
 
-    // Update college status
+
     @PutMapping("col/{id}/status")
     public ResponseEntity<String> updateCollegeStatus(
             @PathVariable Integer id,
@@ -49,6 +49,7 @@ public class SaRequestColController {
             return ResponseEntity.ok("College status updated to: " + status);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body("College not found");
+                .body("College not found or invalid status");
     }
+
 }

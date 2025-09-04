@@ -29,10 +29,13 @@ public class SaRequestedColService {
     public boolean updateCollegeStatus(Integer id, String status) {
         return collegeRepo.findById(id).map(c -> {
             Status newStatus = Status.valueOf(status.toUpperCase());
+            c.setStatus(newStatus);
             collegeRepo.save(c);
             return true;
         }).orElse(false);
     }
+
+
 
     // Map entity to DTO with actions
     private SaRequestCollegeDTO mapToDtoWithActions(College c) {
