@@ -981,7 +981,7 @@ import React, { useEffect, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDispatch, useSelector } from "react-redux";
 import { FaHome, FaBuilding, FaUsers, FaClipboardList, FaUserCheck, FaCogs, FaCalendarAlt } from 'react-icons/fa';
-import { fetchCollegeSummaryRequest, fetchDepartmentsRequest } from "../Redux_saga/Action/College_Action";
+import { fetchCollegeSummaryRequest, fetchDepartmentsRequest, searchDepartmentsRequest } from "../Redux_saga/Action/College_Action";
 
 function CollegeDepartment() {
   const [activeItem, setActiveItem] = useState("Dashboard");
@@ -1002,6 +1002,11 @@ function CollegeDepartment() {
    
       dispatch(fetchDepartmentsRequest());  //
   }, [dispatch]);
+
+   const handleSearch = (e) => {
+    const value = e.target.value;
+    dispatch(searchDepartmentsRequest(value)); // call the search API with adminName
+  };
 
   // Correct summaryData mapping
 const summaryData = Object.keys(summary || {}).length === 0
@@ -1073,7 +1078,12 @@ const summaryData = Object.keys(summary || {}).length === 0
           {/* Department Table */}
           <h6>Department Summary</h6>
           <div className="mb-3">
-            <input type="text" className="form-control" placeholder="Search by department or admin name" />
+            <input
+          type="text"
+          className="form-control"
+          placeholder="Search by department or admin name"
+          onChange={handleSearch}
+        />
           </div>
           <div className="table-responsive mb-4">
             <table className="table table-bordered bg-white shadow-sm">
@@ -1088,31 +1098,35 @@ const summaryData = Object.keys(summary || {}).length === 0
                   <th>Actions</th>
                 </tr>
               </thead>
-              <tbody>
-  {departments.length === 0 ? (
+           <tbody>
+  {departments && departments.length > 0 ? (
+    departments.map((dept, index) => (
+      <tr key={index}>
+        <td>{dept.departmentName}</td>
+        <td>{dept.assignedAdmins}</td>
+        <td>{dept.numberOfStudents}</td>
+        <td>{dept.assessments || 0}</td>
+        <td>{dept.mockInterviews || 0}</td>
+        <td>
+          <span className={`badge ${dept.status === "Active" ? "bg-success" : "bg-secondary"}`}>
+            {dept.status}
+          </span>
+        </td>
+        <td>
+          <a href="#!" className="me-2">View</a>
+          <a href="#!" className="me-2">Edit</a>
+          <a href="#!" className="text-danger">Remove</a>
+        </td>
+      </tr>
+    ))
+  ) : (
     <tr>
       <td colSpan="7" className="text-center">No departments available</td>
     </tr>
-  ) : departments.map((dept, index) => (
-    <tr key={index}>
-      <td>{dept.departmentName}</td>
-      <td><a href="#!">{dept.assignedAdmins}</a></td>
-      <td>{dept.numberOfStudents}</td>
-      <td>{dept.assessments || 0}</td>             {/* default if undefined */}
-      <td>{dept.mockInterviews || 0}</td>         {/* default if undefined */}
-      <td>
-        <span className={`badge ${dept.status === "Active" ? "bg-success" : "bg-secondary"}`}>
-          {dept.status}
-        </span>
-      </td>
-      <td>
-        <a href="#!" className="text-decoration-none me-2">View</a>
-        <a href="#!" className="text-decoration-none me-2">Edit</a>
-        <a href="#!" className="text-decoration-none text-danger">Remove</a>
-      </td>
-    </tr>
-  ))}
+  )}
 </tbody>
+
+
 
             </table>
           </div>

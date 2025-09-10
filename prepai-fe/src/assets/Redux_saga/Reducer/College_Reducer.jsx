@@ -35,7 +35,10 @@ import {
   FETCH_COLLEGE_SUMMARY_FAILURE,
   FETCH_DEPARTMENTS_REQUEST,
   FETCH_DEPARTMENTS_SUCCESS,
-  FETCH_DEPARTMENTS_FAILURE
+  FETCH_DEPARTMENTS_FAILURE,
+  SEARCH_DEPARTMENTS_REQUEST,
+  SEARCH_DEPARTMENTS_SUCCESS,
+  SEARCH_DEPARTMENTS_FAILURE
 } from "../Types/College_Types";
 
 const initialState = {
@@ -62,6 +65,13 @@ const collegeReducer = (state = initialState, action) => {
       return { ...state, loading: false, departments: action.payload, error: null };
     case FETCH_DEPARTMENTS_FAILURE:
       return { ...state, loading: false, departments: [], error: action.payload };
+
+      case SEARCH_DEPARTMENTS_REQUEST:
+  return { ...state, loading: true };
+case SEARCH_DEPARTMENTS_SUCCESS:
+  return { ...state, loading: false, departments: action.payload, error: null };
+case SEARCH_DEPARTMENTS_FAILURE:
+  return { ...state, loading: false, departments: [], error: action.payload };
 
     default:
       return state;

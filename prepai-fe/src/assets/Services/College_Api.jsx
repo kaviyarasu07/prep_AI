@@ -29,3 +29,17 @@ export const getDepartments = async () => {
   const res = await axios.get(`${BASE_URL}/department/getAll`);
   return res.data;
 };
+
+
+// Search departments by assignedAdmins
+export const searchDepartmentsByAdmin = async (adminName) => {
+  try {
+    const res = await axios.get(`${BASE_URL}/search/summary`, {
+      params: { assignedAdmins: adminName }
+    });
+    return res.data.content; // Return only the content array
+  } catch (error) {
+    console.error("Search API Error:", error);
+    throw error;
+  }
+};

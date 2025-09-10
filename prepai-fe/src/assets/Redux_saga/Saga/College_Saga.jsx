@@ -22,14 +22,17 @@
 // }
 
 import { call, put, takeLatest } from "redux-saga/effects";
-import { getCollegeSummary, getDepartments } from "../../Services/College_Api";
+import { getCollegeSummary, getDepartments, searchDepartmentsByAdmin } from "../../Services/College_Api";
 import {
   FETCH_COLLEGE_SUMMARY_REQUEST,
   FETCH_COLLEGE_SUMMARY_SUCCESS,
   FETCH_COLLEGE_SUMMARY_FAILURE,
   FETCH_DEPARTMENTS_REQUEST,
   FETCH_DEPARTMENTS_SUCCESS,
-  FETCH_DEPARTMENTS_FAILURE
+  FETCH_DEPARTMENTS_FAILURE,
+  SEARCH_DEPARTMENTS_SUCCESS,
+  SEARCH_DEPARTMENTS_FAILURE,
+  SEARCH_DEPARTMENTS_REQUEST
 } from "../Types/College_Types";
 
 // College Summary
@@ -45,14 +48,27 @@ function* fetchCollegeSummarySaga() {
 function* fetchDepartmentsSaga() {
   try {
     const response = yield call(getDepartments);
-    yield put({ type: FETCH_DEPARTMENTS_SUCCESS, payload: response });
+    console.log("Departments API Response:", response);
+
+    // Extract only the content array
+    yield put({ type: FETCH_DEPARTMENTS_SUCCESS, payload: response.content });
   } catch (error) {
     yield put({ type: FETCH_DEPARTMENTS_FAILURE, payload: error.message });
+  }
+}
+
+function* searchDepartmentsSaga(action) {
+  try {
+    const response = yield call(searchDepartmentsByAdmin, action.payload);
+    yield put({ type: SEARCH_DEPARTMENTS_SUCCESS, payload: response });
+  } catch (error) {
+    yield put({ type: SEARCH_DEPARTMENTS_FAILURE, payload: error.message });
   }
 }
 
 export default function* collegeSaga() {
   yield takeLatest(FETCH_COLLEGE_SUMMARY_REQUEST, fetchCollegeSummarySaga);
   yield takeLatest(FETCH_DEPARTMENTS_REQUEST, fetchDepartmentsSaga);
+  yield takeLatest(SEARCH_DEPARTMENTS_REQUEST, searchDepartmentsSaga);
 }
 

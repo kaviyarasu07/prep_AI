@@ -26,7 +26,10 @@ import {
   FETCH_COLLEGE_SUMMARY_FAILURE,
   FETCH_DEPARTMENTS_REQUEST,
   FETCH_DEPARTMENTS_SUCCESS,
-  FETCH_DEPARTMENTS_FAILURE
+  FETCH_DEPARTMENTS_FAILURE,
+  SEARCH_DEPARTMENTS_REQUEST,
+  SEARCH_DEPARTMENTS_SUCCESS,
+  SEARCH_DEPARTMENTS_FAILURE
 } from "../Types/College_Types";
 
 // === College Summary Actions ===
@@ -59,3 +62,18 @@ export const fetchDepartmentsFailure = (error) => ({
   payload: error,
 });
 
+
+export const searchDepartmentsRequest = (adminName) => ({
+  type: SEARCH_DEPARTMENTS_REQUEST,
+  payload: adminName
+});
+
+export const searchDepartmentsSuccess = (data) => ({
+  type: SEARCH_DEPARTMENTS_SUCCESS,
+  payload: data
+});
+
+export const searchDepartmentsFailure = (error) => ({
+  type: SEARCH_DEPARTMENTS_FAILURE,
+  payload: error
+});
