@@ -16,7 +16,7 @@ public interface DepartmentSummarySearchRepo extends JpaRepository<Department,In
                                                    d.id AS departmentId,
                                                    dm.department_name AS departmentName,
                                                    GROUP_CONCAT(DISTINCT sd.staff_name ORDER BY sd.staff_name SEPARATOR ' ') AS assignedAdmins,
-                                                   COUNT(DISTINCT st.student_id) AS numberOfStudents,
+                                                   COUNT(DISTINCT st.id) AS numberOfStudents,
                                                    CASE WHEN d.is_active = 1 THEN 'Active' ELSE 'Inactive' END AS status
                                                FROM tb_department d
                                                JOIN tb_department_master dm ON d.department_master_id = dm.id
@@ -30,7 +30,7 @@ public interface DepartmentSummarySearchRepo extends JpaRepository<Department,In
                                                         (:status = 'Inactive' AND d.is_active = 0))
                                                GROUP BY d.id, dm.department_name, d.is_active
                                                HAVING (:assignedAdmins IS NULL OR LOWER(GROUP_CONCAT(DISTINCT sd.staff_name SEPARATOR ' ')) LIKE LOWER(CONCAT('%', :assignedAdmins, '%')))
-                                                  AND (:numberOfStudents IS NULL OR COUNT(DISTINCT st.student_id) = :numberOfStudents)
+                                                  AND (:numberOfStudents IS NULL OR COUNT(DISTINCT st.id) = :numberOfStudents)
                                                ORDER BY dm.department_name ASC
             """, nativeQuery = true)
     List<Object[]> searchDepartmentSummary(
