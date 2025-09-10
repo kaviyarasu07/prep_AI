@@ -977,49 +977,277 @@
 // export default CollegeDepartment;
 
 
+// import React, { useEffect, useState } from "react";
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import { useDispatch, useSelector } from "react-redux";
+// import { FaHome, FaBuilding, FaUsers, FaClipboardList, FaUserCheck, FaCogs, FaCalendarAlt } from 'react-icons/fa';
+// import { fetchCollegeSummaryRequest, fetchDepartmentsRequest, searchDepartmentsRequest } from "../Redux_saga/Action/College_Action";
+
+// function CollegeDepartment() {
+//   const [activeItem, setActiveItem] = useState("Dashboard");
+//    const [searchTerm, setSearchTerm] = useState("");
+//   const dispatch = useDispatch();
+
+//   // Safely get college data from Redux
+//   const collegeData = useSelector((state) => state.collegeData || {});
+//   const { summary = {}, departments = [], interviews = [], loading = false, error = null } = collegeData;
+
+//   // Fetch data when component mounts
+//   useEffect(() => {
+//     dispatch(fetchCollegeSummaryRequest());
+     
+//   }, [dispatch]);
+
+//    // Fetch data when component mounts
+//   useEffect(() => {
+   
+//       dispatch(fetchDepartmentsRequest());  //
+//   }, [dispatch]);
+
+//  const handleSearch = (e) => {
+//   const value = e.target.value;
+//   setSearchTerm(value);
+//   dispatch(searchDepartmentsRequest(value));  // Make sure this action is defined
+// };
+
+
+
+//   // Correct summaryData mapping
+// const summaryData = Object.keys(summary || {}).length === 0
+//   ? [
+//       { title: "Total Departments", value: 0 },
+//       { title: "Total Students", value: 0 },
+//       { title: "Total Department Admins", value: 0 }
+//     ]
+//   : [
+//       { title: "Total Departments", value: summary.totalDepartments || 0 },
+//       { title: "Total Students", value: summary.totalStudents || 0 },
+//       { title: "Total Department Admins", value: summary.totalDepartmentAdmins || 0 }
+//     ];
+
+//   return (
+//     <div className="container-fluid">
+//       <div className="row vh-100">
+//         {/* Sidebar */}
+//         <div className="col-md-2 bg-white border-end d-flex flex-column justify-content-between" style={{ minHeight: '100vh' }}>
+//           <div>
+//             <div className="p-3 border-bottom">
+//               <h5>PrepMentor AI</h5>
+//             </div>
+//             <ul className="nav flex-column mt-3">
+//               <SidebarItem name="Dashboard" icon={<FaHome />} activeItem={activeItem} setActiveItem={setActiveItem} />
+//               <SidebarItem name="Department Management" icon={<FaBuilding />} activeItem={activeItem} setActiveItem={setActiveItem} />
+//               <SidebarItem name="Department Admins" icon={<FaUserCheck />} activeItem={activeItem} setActiveItem={setActiveItem} />
+//               <SidebarItem name="Students" icon={<FaUsers />} activeItem={activeItem} setActiveItem={setActiveItem} />
+//               <SidebarItem name="Assessments" icon={<FaClipboardList />} activeItem={activeItem} setActiveItem={setActiveItem} />
+//               <SidebarItem name="Mock Interviews" icon={<FaCalendarAlt />} activeItem={activeItem} setActiveItem={setActiveItem} />
+//               <SidebarItem name="Reports" icon={<FaCogs />} activeItem={activeItem} setActiveItem={setActiveItem} />
+//             </ul>
+//           </div>
+//           <div className="p-3 border-top text-center">
+//             <button className="btn btn-outline-secondary btn-sm">Settings</button>
+//           </div>
+//         </div>
+
+//         {/* Main Content */}
+//         <div className="col-md-10 p-4 bg-light overflow-auto" style={{ minHeight: '100vh' }}>
+//           {/* Header */}
+//           <div className="d-flex justify-content-between align-items-center mb-4">
+//             <h3>Welcome, Amelia</h3>
+//             <div 
+//               className="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
+//               style={{ width: '40px', height: '40px' }}
+//             >
+//               A
+//             </div>
+//           </div>
+
+//           {/* Loading/Error */}
+//           {loading && <div className="alert alert-info">Loading data...</div>}
+//           {error && <div className="alert alert-danger">Error: {error}</div>}
+
+//           {/* Summary Cards */}
+//           <h6>Summary</h6>
+//           <div className="row g-3 mb-4">
+//             {summaryData.map((item, index) => (
+//               <div key={index} className="col-md-3">
+//                 <div className="p-3 bg-white rounded shadow-sm">
+//                   <div className="text-muted small">{item.title}</div>
+//                   <div className="h5">{item.value}</div>
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+
+//           {/* Department Table */}
+//           <h6>Department Summary</h6>
+//           <div className="mb-3">
+//           <input
+//         type="text"
+//         className="form-control mb-3"
+//         placeholder="Search by department or admin name"
+//         value={searchTerm}
+//         onChange={handleSearch}
+//       />
+//           </div>
+//           <div className="table-responsive mb-4">
+//             <table className="table table-bordered bg-white shadow-sm">
+//               <thead className="table-light">
+//                 <tr>
+//                   <th>Department Name</th>
+//                   <th>Assigned Admin</th>
+//                   <th>No. of Students</th>
+//                   <th>Assessments Conducted</th>
+//                   <th>Mock Interviews Conducted</th>
+//                   <th>Status</th>
+//                   <th>Actions</th>
+//                 </tr>
+//               </thead>
+//            <tbody>
+//   {departments && departments.length > 0 ? (
+//     departments.map((dept, index) => (
+//       <tr key={index}>
+//         <td>{dept.departmentName}</td>
+//         <td>{dept.assignedAdmins}</td>
+//         <td>{dept.numberOfStudents}</td>
+//         <td>{dept.assessments || 0}</td>
+//         <td>{dept.mockInterviews || 0}</td>
+//         <td>
+//           <span className={`badge ${dept.status === "Active" ? "bg-success" : "bg-secondary"}`}>
+//             {dept.status}
+//           </span>
+//         </td>
+//         <td>
+//           <a href="#!" className="me-2">View</a>
+//           <a href="#!" className="me-2">Edit</a>
+//           <a href="#!" className="text-danger">Remove</a>
+//         </td>
+//       </tr>
+//     ))
+//   ) : (
+//     <tr>
+//       <td colSpan="7" className="text-center">No departments available</td>
+//     </tr>
+//   )}
+// </tbody>
+
+
+
+//             </table>
+//           </div>
+
+//           {/* Upcoming Interviews Table */}
+//           <h6>Upcoming Interviews</h6>
+//           <div className="table-responsive mb-3">
+//             <table className="table table-bordered bg-white shadow-sm">
+//               <thead className="table-light">
+//                 <tr>
+//                   <th>Date</th>
+//                   <th>Time</th>
+//                   <th>Student Name</th>
+//                   <th>Department</th>
+//                   <th>Assigned Admin</th>
+//                   <th>Status</th>
+//                 </tr>
+//               </thead>
+//               <tbody>
+//                 {interviews.length === 0 ? (
+//                   <tr>
+//                     <td colSpan="6" className="text-center">No interviews scheduled</td>
+//                   </tr>
+//                 ) : interviews.map((interview, index) => (
+//                   <tr key={index}>
+//                     <td>{interview.date}</td>
+//                     <td>{interview.time}</td>
+//                     <td>{interview.name}</td>
+//                     <td>{interview.department}</td>
+//                     <td>{interview.admin}</td>
+//                     <td><span className="badge bg-secondary">Scheduled</span></td>
+//                   </tr>
+//                 ))}
+//               </tbody>
+//             </table>
+//           </div>
+//           <div className="text-end">
+//             <button className="btn btn-outline-primary btn-sm">View All</button>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+// const SidebarItem = ({ name, icon, activeItem, setActiveItem }) => (
+//   <li className="nav-item">
+//     <button
+//       className={`nav-link d-flex align-items-center ${activeItem === name ? 'active bg-light text-dark' : 'text-muted'}`}
+//       onClick={() => setActiveItem(name)}
+//       style={{ borderRadius: '0.375rem' }}
+//     >
+//       <span className="me-2">{icon}</span>
+//       {name}
+//     </button>
+//   </li>
+// );
+
+// export default CollegeDepartment;
+
+
 import React, { useEffect, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDispatch, useSelector } from "react-redux";
 import { FaHome, FaBuilding, FaUsers, FaClipboardList, FaUserCheck, FaCogs, FaCalendarAlt } from 'react-icons/fa';
-import { fetchCollegeSummaryRequest, fetchDepartmentsRequest, searchDepartmentsRequest } from "../Redux_saga/Action/College_Action";
+import {
+  fetchCollegeSummaryRequest,
+  fetchDepartmentByIdRequest,
+  fetchDepartmentsRequest,
+  searchDepartmentsRequest
+} from "../Redux_saga/Action/College_Action";
 
 function CollegeDepartment() {
   const [activeItem, setActiveItem] = useState("Dashboard");
+  const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
 
-  // Safely get college data from Redux
+  // Get state from Redux
   const collegeData = useSelector((state) => state.collegeData || {});
   const { summary = {}, departments = [], interviews = [], loading = false, error = null } = collegeData;
 
-  // Fetch data when component mounts
+  // Fetch summary when component mounts
   useEffect(() => {
     dispatch(fetchCollegeSummaryRequest());
-     
+    
   }, [dispatch]);
 
-   // Fetch data when component mounts
+  // Fetch all departments when component mounts
   useEffect(() => {
-   
-      dispatch(fetchDepartmentsRequest());  //
+    dispatch(fetchDepartmentsRequest());
   }, [dispatch]);
 
-   const handleSearch = (e) => {
+  useEffect(() => {
+  console.log("Departments:", departments);
+}, [departments]);
+
+  // Handle search input
+  const handleSearch = (e) => {
     const value = e.target.value;
-    dispatch(searchDepartmentsRequest(value)); // call the search API with adminName
+    setSearchTerm(value);
+     console.log("Search input:", value);  // 
+    dispatch(searchDepartmentsRequest(value)); // Dispatch search action
   };
 
-  // Correct summaryData mapping
-const summaryData = Object.keys(summary || {}).length === 0
-  ? [
-      { title: "Total Departments", value: 0 },
-      { title: "Total Students", value: 0 },
-      { title: "Total Department Admins", value: 0 }
-    ]
-  : [
-      { title: "Total Departments", value: summary.totalDepartments || 0 },
-      { title: "Total Students", value: summary.totalStudents || 0 },
-      { title: "Total Department Admins", value: summary.totalDepartmentAdmins || 0 }
-    ];
+  // Prepare summary data
+  const summaryData = Object.keys(summary).length === 0
+    ? [
+        { title: "Total Departments", value: 0 },
+        { title: "Total Students", value: 0 },
+        { title: "Total Department Admins", value: 0 }
+      ]
+    : [
+        { title: "Total Departments", value: summary.totalDepartments || 0 },
+        { title: "Total Students", value: summary.totalStudents || 0 },
+        { title: "Total Department Admins", value: summary.totalDepartmentAdmins || 0 }
+      ];
 
   return (
     <div className="container-fluid">
@@ -1047,10 +1275,9 @@ const summaryData = Object.keys(summary || {}).length === 0
 
         {/* Main Content */}
         <div className="col-md-10 p-4 bg-light overflow-auto" style={{ minHeight: '100vh' }}>
-          {/* Header */}
           <div className="d-flex justify-content-between align-items-center mb-4">
             <h3>Welcome, Amelia</h3>
-            <div 
+            <div
               className="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
               style={{ width: '40px', height: '40px' }}
             >
@@ -1058,11 +1285,9 @@ const summaryData = Object.keys(summary || {}).length === 0
             </div>
           </div>
 
-          {/* Loading/Error */}
           {loading && <div className="alert alert-info">Loading data...</div>}
           {error && <div className="alert alert-danger">Error: {error}</div>}
 
-          {/* Summary Cards */}
           <h6>Summary</h6>
           <div className="row g-3 mb-4">
             {summaryData.map((item, index) => (
@@ -1075,15 +1300,15 @@ const summaryData = Object.keys(summary || {}).length === 0
             ))}
           </div>
 
-          {/* Department Table */}
           <h6>Department Summary</h6>
           <div className="mb-3">
             <input
-          type="text"
-          className="form-control"
-          placeholder="Search by department or admin name"
-          onChange={handleSearch}
-        />
+              type="text"
+              className="form-control"
+              placeholder="Search by department or admin name"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
           </div>
           <div className="table-responsive mb-4">
             <table className="table table-bordered bg-white shadow-sm">
@@ -1098,40 +1323,44 @@ const summaryData = Object.keys(summary || {}).length === 0
                   <th>Actions</th>
                 </tr>
               </thead>
-           <tbody>
-  {departments && departments.length > 0 ? (
-    departments.map((dept, index) => (
-      <tr key={index}>
+              <tbody>
+  {departments.length === 0 ? (
+    <tr>
+      <td colSpan="7" className="text-center">No departments available</td>
+    </tr>
+  ) : (
+    departments.map((dept) => (
+      <tr key={dept.id}>
         <td>{dept.departmentName}</td>
         <td>{dept.assignedAdmins}</td>
         <td>{dept.numberOfStudents}</td>
         <td>{dept.assessments || 0}</td>
         <td>{dept.mockInterviews || 0}</td>
+           
         <td>
           <span className={`badge ${dept.status === "Active" ? "bg-success" : "bg-secondary"}`}>
             {dept.status}
           </span>
         </td>
         <td>
-          <a href="#!" className="me-2">View</a>
+          <button
+    className="btn btn-sm btn-primary me-2"
+    onClick={() => dispatch(fetchDepartmentByIdRequest(dept.id))}
+  
+  >
+    view
+  </button>
           <a href="#!" className="me-2">Edit</a>
           <a href="#!" className="text-danger">Remove</a>
         </td>
       </tr>
     ))
-  ) : (
-    <tr>
-      <td colSpan="7" className="text-center">No departments available</td>
-    </tr>
   )}
 </tbody>
-
-
 
             </table>
           </div>
 
-          {/* Upcoming Interviews Table */}
           <h6>Upcoming Interviews</h6>
           <div className="table-responsive mb-3">
             <table className="table table-bordered bg-white shadow-sm">
@@ -1150,16 +1379,18 @@ const summaryData = Object.keys(summary || {}).length === 0
                   <tr>
                     <td colSpan="6" className="text-center">No interviews scheduled</td>
                   </tr>
-                ) : interviews.map((interview, index) => (
-                  <tr key={index}>
-                    <td>{interview.date}</td>
-                    <td>{interview.time}</td>
-                    <td>{interview.name}</td>
-                    <td>{interview.department}</td>
-                    <td>{interview.admin}</td>
-                    <td><span className="badge bg-secondary">Scheduled</span></td>
-                  </tr>
-                ))}
+                ) : (
+                  interviews.map((interview, index) => (
+                    <tr key={index}>
+                      <td>{interview.date}</td>
+                      <td>{interview.time}</td>
+                      <td>{interview.name}</td>
+                      <td>{interview.department}</td>
+                      <td>{interview.admin}</td>
+                      <td><span className="badge bg-secondary">Scheduled</span></td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>

@@ -22,7 +22,7 @@
 // }
 
 import { call, put, takeLatest } from "redux-saga/effects";
-import { getCollegeSummary, getDepartments, searchDepartmentsByAdmin } from "../../Services/College_Api";
+import { getCollegeSummary, getDepartmentById, getDepartments, searchDepartmentsByAdmin } from "../../Services/College_Api";
 import {
   FETCH_COLLEGE_SUMMARY_REQUEST,
   FETCH_COLLEGE_SUMMARY_SUCCESS,
@@ -32,7 +32,10 @@ import {
   FETCH_DEPARTMENTS_FAILURE,
   SEARCH_DEPARTMENTS_SUCCESS,
   SEARCH_DEPARTMENTS_FAILURE,
-  SEARCH_DEPARTMENTS_REQUEST
+  SEARCH_DEPARTMENTS_REQUEST,
+  FETCH_DEPARTMENT_BY_ID_SUCCESS,
+  FETCH_DEPARTMENT_BY_ID_FAILURE,
+  FETCH_DEPARTMENT_BY_ID_REQUEST
 } from "../Types/College_Types";
 
 // College Summary
@@ -60,15 +63,31 @@ function* fetchDepartmentsSaga() {
 function* searchDepartmentsSaga(action) {
   try {
     const response = yield call(searchDepartmentsByAdmin, action.payload);
+     console.log(response)
     yield put({ type: SEARCH_DEPARTMENTS_SUCCESS, payload: response });
+   
   } catch (error) {
     yield put({ type: SEARCH_DEPARTMENTS_FAILURE, payload: error.message });
   }
 }
 
+
+function* fetchDepartmentByIdSaga(action) {
+  try {
+    const response = yield call(getDepartmentById, action.payload);
+    console.log("Department by ID:", response);
+    yield put({ type: FETCH_DEPARTMENT_BY_ID_SUCCESS, payload: response });
+  } catch (error) {
+    yield put({ type: FETCH_DEPARTMENT_BY_ID_FAILURE, payload: error.message });
+  }
+}
+
+
 export default function* collegeSaga() {
   yield takeLatest(FETCH_COLLEGE_SUMMARY_REQUEST, fetchCollegeSummarySaga);
   yield takeLatest(FETCH_DEPARTMENTS_REQUEST, fetchDepartmentsSaga);
-  yield takeLatest(SEARCH_DEPARTMENTS_REQUEST, searchDepartmentsSaga);
+yield takeLatest(SEARCH_DEPARTMENTS_REQUEST, searchDepartmentsSaga);
+ yield takeLatest(FETCH_DEPARTMENT_BY_ID_REQUEST, fetchDepartmentByIdSaga);
+
 }
 

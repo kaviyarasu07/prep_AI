@@ -29,7 +29,10 @@ import {
   FETCH_DEPARTMENTS_FAILURE,
   SEARCH_DEPARTMENTS_REQUEST,
   SEARCH_DEPARTMENTS_SUCCESS,
-  SEARCH_DEPARTMENTS_FAILURE
+  SEARCH_DEPARTMENTS_FAILURE,
+  FETCH_DEPARTMENT_BY_ID_REQUEST,
+  FETCH_DEPARTMENT_BY_ID_SUCCESS,
+  FETCH_DEPARTMENT_BY_ID_FAILURE
 } from "../Types/College_Types";
 
 // === College Summary Actions ===
@@ -65,7 +68,7 @@ export const fetchDepartmentsFailure = (error) => ({
 
 export const searchDepartmentsRequest = (adminName) => ({
   type: SEARCH_DEPARTMENTS_REQUEST,
-  payload: adminName
+  payload: adminName,
 });
 
 export const searchDepartmentsSuccess = (data) => ({
@@ -77,3 +80,20 @@ export const searchDepartmentsFailure = (error) => ({
   type: SEARCH_DEPARTMENTS_FAILURE,
   payload: error
 });
+
+
+export const fetchDepartmentByIdRequest = (id) => ({
+  type: FETCH_DEPARTMENT_BY_ID_REQUEST,
+  payload: id,  // ID pass panna use pannuvom
+});
+
+export const fetchDepartmentByIdSuccess = (data) => ({
+  type: FETCH_DEPARTMENT_BY_ID_SUCCESS,
+  payload: data,  // API response data
+});
+
+export const fetchDepartmentByIdFailure = (error) => ({
+  type: FETCH_DEPARTMENT_BY_ID_FAILURE,
+  payload: error,  // Error message
+});
+

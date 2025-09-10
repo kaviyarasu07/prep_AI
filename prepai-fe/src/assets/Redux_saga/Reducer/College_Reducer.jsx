@@ -38,7 +38,10 @@ import {
   FETCH_DEPARTMENTS_FAILURE,
   SEARCH_DEPARTMENTS_REQUEST,
   SEARCH_DEPARTMENTS_SUCCESS,
-  SEARCH_DEPARTMENTS_FAILURE
+  SEARCH_DEPARTMENTS_FAILURE,
+  FETCH_DEPARTMENT_BY_ID_REQUEST,
+  FETCH_DEPARTMENT_BY_ID_SUCCESS,
+  FETCH_DEPARTMENT_BY_ID_FAILURE
 } from "../Types/College_Types";
 
 const initialState = {
@@ -69,9 +72,19 @@ const collegeReducer = (state = initialState, action) => {
       case SEARCH_DEPARTMENTS_REQUEST:
   return { ...state, loading: true };
 case SEARCH_DEPARTMENTS_SUCCESS:
+  console.log("Reducer search result:", action.payload); // ✅ print panna
   return { ...state, loading: false, departments: action.payload, error: null };
 case SEARCH_DEPARTMENTS_FAILURE:
   return { ...state, loading: false, departments: [], error: action.payload };
+;
+
+case FETCH_DEPARTMENT_BY_ID_REQUEST:
+      return { ...state, loading: true };
+    case FETCH_DEPARTMENT_BY_ID_SUCCESS:
+      return { ...state, loading: false, departmentById: action.payload, error: null };
+    case FETCH_DEPARTMENT_BY_ID_FAILURE:
+      return { ...state, loading: false, departmentById: null, error: action.payload };
+
 
     default:
       return state;

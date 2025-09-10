@@ -1,18 +1,4 @@
-// import axios from "axios";
 
-// // Make sure BASE_URL is declared at the top and not inside a function
-// const BASE_URL = "http://localhost:8080/api/ca/dashBoard/college";
-
-// // Exported function to call the API
-// export const getCollegeSummary = async () => {
-//   try {
-//     const response = await axios.get(`${BASE_URL}/admin`);
-//     return response.data; // return only the data
-//   } catch (error) {
-//     console.error("API Error:", error);
-//     throw error; // propagate the error
-//   }
-// };
 
 
 import axios from "axios";
@@ -31,15 +17,23 @@ export const getDepartments = async () => {
 };
 
 
-// Search departments by assignedAdmins
 export const searchDepartmentsByAdmin = async (adminName) => {
   try {
+    console.log("Search API called with:", adminName); // ✅ print panna
     const res = await axios.get(`${BASE_URL}/search/summary`, {
       params: { assignedAdmins: adminName }
     });
-    return res.data.content; // Return only the content array
+    console.log("Search API result:", res); // ✅ print panna
+    return res.data;
   } catch (error) {
     console.error("Search API Error:", error);
     throw error;
   }
 };
+
+
+export const getDepartmentById = async (id) => {
+  const res = await axios.get(`${BASE_URL}/department/${id}`);
+  return res.data; // single department object
+};
+
