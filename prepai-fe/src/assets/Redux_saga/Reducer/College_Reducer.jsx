@@ -41,13 +41,19 @@ import {
   SEARCH_DEPARTMENTS_FAILURE,
   FETCH_DEPARTMENT_BY_ID_REQUEST,
   FETCH_DEPARTMENT_BY_ID_SUCCESS,
-  FETCH_DEPARTMENT_BY_ID_FAILURE
+  FETCH_DEPARTMENT_BY_ID_FAILURE,
+  UPDATE_DEPARTMENT_FAILURE,
+  UPDATE_DEPARTMENT_SUCCESS,
+  DELETE_DEPARTMENT_REQUEST,
+  DELETE_DEPARTMENT_SUCCESS,
+  DELETE_DEPARTMENT_FAILURE
 } from "../Types/College_Types";
 
 const initialState = {
-  loading: false,
+   loading: false,
   summary: {},
   departments: [],
+  departmentById: null,
   error: null
 };
 
@@ -86,6 +92,27 @@ case FETCH_DEPARTMENT_BY_ID_REQUEST:
       return { ...state, loading: false, departmentById: null, error: action.payload };
 
 
+ case UPDATE_DEPARTMENT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        departments: state.departments.map(dept =>
+          dept.id === action.payload.id ? action.payload : dept
+        ),
+        error: null
+      };
+
+    case UPDATE_DEPARTMENT_FAILURE:
+      return { ...state, loading: false, error: action.payload };
+
+      
+
+      case DELETE_DEPARTMENT_REQUEST:
+  return { ...state, loading: true };
+case DELETE_DEPARTMENT_SUCCESS:
+  return { ...state, loading: false, message: action.payload, error: null };
+case DELETE_DEPARTMENT_FAILURE:
+  return { ...state, loading: false, error: action.payload };
     default:
       return state;
   }

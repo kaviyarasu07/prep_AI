@@ -22,7 +22,7 @@
 // }
 
 import { call, put, takeLatest } from "redux-saga/effects";
-import { getCollegeSummary, getDepartmentById, getDepartments, searchDepartmentsByAdmin } from "../../Services/College_Api";
+import { deleteDepartment, getCollegeSummary, getDepartmentById, getDepartments, searchDepartmentsByAdmin, updateDepartment } from "../../Services/College_Api";
 import {
   FETCH_COLLEGE_SUMMARY_REQUEST,
   FETCH_COLLEGE_SUMMARY_SUCCESS,
@@ -35,7 +35,13 @@ import {
   SEARCH_DEPARTMENTS_REQUEST,
   FETCH_DEPARTMENT_BY_ID_SUCCESS,
   FETCH_DEPARTMENT_BY_ID_FAILURE,
-  FETCH_DEPARTMENT_BY_ID_REQUEST
+  FETCH_DEPARTMENT_BY_ID_REQUEST,
+  UPDATE_DEPARTMENT_REQUEST,
+  UPDATE_DEPARTMENT_SUCCESS,
+  UPDATE_DEPARTMENT_FAILURE,
+  DELETE_DEPARTMENT_REQUEST,
+  DELETE_DEPARTMENT_SUCCESS,
+  DELETE_DEPARTMENT_FAILURE
 } from "../Types/College_Types";
 
 // College Summary
@@ -83,11 +89,47 @@ function* fetchDepartmentByIdSaga(action) {
 }
 
 
+// Update Department Saga
+function updateDepartmentApi(id, data) {
+  return fetch(`http://localhost:8080/api/ca/department/update/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  }).then(res => res.json());
+}
+
+function* updateDepartmentSaga(action) {
+  try {
+    const { id, data } = action.payload;
+    const updatedDept = yield call(updateDepartment, id, data); // ✅ correct API function call
+    console.log("Updated Department:", updatedDept);
+
+    yield put({ type: UPDATE_DEPARTMENT_SUCCESS, payload: updatedDept }); // ✅ success action
+    alert("Department updated successfully!");
+  } catch (error) {
+    yield put({ type: UPDATE_DEPARTMENT_FAILURE, payload: error.message }); // ✅ failure action
+    alert("Update failed: " + error.message);
+  }
+}
+
+function* deleteDepartmentSaga(action) {
+  try {
+    const message = yield call(deleteDepartment, action.payload);
+    yield put({ type: DELETE_DEPARTMENT_SUCCESS, payload: message });
+    alert("Department deleted successfully!");
+  } catch (error) {
+    yield put({ type: DELETE_DEPARTMENT_FAILURE, payload: error.message });
+    alert("Delete failed: " + error.message);
+  }
+}
+
 export default function* collegeSaga() {
   yield takeLatest(FETCH_COLLEGE_SUMMARY_REQUEST, fetchCollegeSummarySaga);
   yield takeLatest(FETCH_DEPARTMENTS_REQUEST, fetchDepartmentsSaga);
 yield takeLatest(SEARCH_DEPARTMENTS_REQUEST, searchDepartmentsSaga);
  yield takeLatest(FETCH_DEPARTMENT_BY_ID_REQUEST, fetchDepartmentByIdSaga);
+ yield takeLatest(UPDATE_DEPARTMENT_REQUEST, updateDepartmentSaga);  
+ yield takeLatest(DELETE_DEPARTMENT_REQUEST, deleteDepartmentSaga);
 
 }
 

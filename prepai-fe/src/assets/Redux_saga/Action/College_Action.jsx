@@ -32,7 +32,13 @@ import {
   SEARCH_DEPARTMENTS_FAILURE,
   FETCH_DEPARTMENT_BY_ID_REQUEST,
   FETCH_DEPARTMENT_BY_ID_SUCCESS,
-  FETCH_DEPARTMENT_BY_ID_FAILURE
+  FETCH_DEPARTMENT_BY_ID_FAILURE,
+  UPDATE_DEPARTMENT_FAILURE,
+  UPDATE_DEPARTMENT_SUCCESS,
+  UPDATE_DEPARTMENT_REQUEST,
+  DELETE_DEPARTMENT_FAILURE,
+  DELETE_DEPARTMENT_SUCCESS,
+  DELETE_DEPARTMENT_REQUEST
 } from "../Types/College_Types";
 
 // === College Summary Actions ===
@@ -97,3 +103,32 @@ export const fetchDepartmentByIdFailure = (error) => ({
   payload: error,  // Error message
 });
 
+export const updateDepartmentRequest = (id, data) => ({
+  type: UPDATE_DEPARTMENT_REQUEST,
+  payload: { id, data }
+});
+
+export const updateDepartmentSuccess = (updatedDept) => ({
+  type: UPDATE_DEPARTMENT_SUCCESS,
+  payload: updatedDept
+});
+
+export const updateDepartmentFailure = (error) => ({
+  type: UPDATE_DEPARTMENT_FAILURE,
+  payload: error
+});
+
+export const deleteDepartmentRequest = (id) => ({
+  type: DELETE_DEPARTMENT_REQUEST,
+  payload: id,
+});
+
+export const deleteDepartmentSuccess = (message) => ({
+  type: DELETE_DEPARTMENT_SUCCESS,
+  payload: message,
+});
+
+export const deleteDepartmentFailure = (error) => ({
+  type: DELETE_DEPARTMENT_FAILURE,
+  payload: error,
+});
