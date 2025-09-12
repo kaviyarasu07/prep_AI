@@ -1,12 +1,20 @@
-import React from 'react'
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Navbar from '../../Layout/Navbar';
 
 function DepartmentAdmins() {
+  // Sample data for admins
+
+
   return (
-    <div>
-      
-    </div>
-  )
+    <>
+      <Navbar />
+      <div>
+       
+      </div>
+    </>
+  );
 }
 
-export default DepartmentAdmins
+export default DepartmentAdmins;
 

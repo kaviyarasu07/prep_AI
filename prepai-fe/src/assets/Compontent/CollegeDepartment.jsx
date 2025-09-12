@@ -859,7 +859,7 @@ function CollegeDepartment() {
               <h5 className="m-0">PrepMentor AI</h5>
             </div>
             <ul className="nav flex-column mt-3 px-2">
-              <SidebarItem name="Dashboard" icon={<FaHome />} activeItem={activeItem} setActiveItem={setActiveItem} navigate={navigate} />
+              <SidebarItem name="Dashboard" icon={<FaHome />} activeItem={activeItem} setActiveItem={setActiveItem}  />
               <SidebarItem name="Department Management" icon={<FaBuilding />} activeItem={activeItem} setActiveItem={setActiveItem} navigate={navigate} />
               <SidebarItem name="Department Admins" icon={<FaUserCheck />} activeItem={activeItem} setActiveItem={setActiveItem} navigate={navigate} />
               <SidebarItem name="Students" icon={<FaUsers />} activeItem={activeItem} setActiveItem={setActiveItem} navigate={navigate} />
@@ -1087,7 +1087,7 @@ const SidebarItem = ({ name, icon, activeItem, setActiveItem, navigate }) => {
         navigate("/Departmentmanger");
         break;
       case "Department Admins":
-        navigate("/DepartmentAdmins");
+        navigate("/Departmentadmin");
         break;
       case "Students":
         navigate("/Students");
