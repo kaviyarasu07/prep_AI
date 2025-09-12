@@ -83,7 +83,7 @@ public class DepartmentSummaryService {
         }
         String assignedAdmins = assignedAdminsBuilder.toString();
 
-        int numberOfStudents = studentdetailsrepo.countByDepartmentId(id);
+        int numberOfStudents = studentdetailsrepo.countByDepartment_Id(id);
 
         DepartmentSummaryDto dto = new DepartmentSummaryDto();
         dto.setId(department.getId());
