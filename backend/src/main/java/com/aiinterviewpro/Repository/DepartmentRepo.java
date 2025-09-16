@@ -57,7 +57,7 @@ public interface DepartmentRepo extends JpaRepository<Department, Integer> {
     SELECT d.id,
            dm.department_name AS department_name,
            COALESCE(GROUP_CONCAT(DISTINCT sd.staff_name SEPARATOR ', '), 'Unassigned') AS assignedAdmins,
-           COUNT(DISTINCT std.student_id) AS numberOfStudents,
+           COUNT(DISTINCT std.id) AS numberOfStudents,
            CASE WHEN d.is_active = 1 THEN 'Active' ELSE 'Inactive' END AS status
     FROM tb_department d
     JOIN tb_department_master dm ON d.department_master_id = dm.id
