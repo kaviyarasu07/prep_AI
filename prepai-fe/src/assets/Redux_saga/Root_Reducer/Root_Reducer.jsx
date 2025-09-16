@@ -12,10 +12,12 @@
 // rootReducer.js
 import { combineReducers } from "redux";
 import collegeReducer from "../Reducer/College_Reducer";
+import departmentReducer from "../Reducer/Department_Reducer";
 // import collegeReducer from "./collegeReducer";
 
 const rootReducer = combineReducers({
-  collegeData: collegeReducer // selector should use state.collegeData
+  collegeData: collegeReducer ,
+   departmentData: departmentReducer
 });
 
 export default rootReducer;
