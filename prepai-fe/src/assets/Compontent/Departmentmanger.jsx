@@ -415,8 +415,8 @@ function DepartmentManager() {
   degreeType: "UG",
   departmentAdminName: formData.adminName,
   mailId: formData.mail,
-  collegeId:parseInt(formData.totalcollgeId) || 0 ,
-  totalNoOfStudents: parseInt(formData.totalStudents) || 0
+  // collegeId:parseInt(formData.totalcollgeId) || 0 ,
+  // totalNoOfStudents: parseInt(formData.totalStudents) || 0
 };
 
 dispatch(addDepartmentRequest(payload));
