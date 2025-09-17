@@ -17,7 +17,7 @@ public class DepartmentManagementDto {
     @Email(message = "Email format is invalid")
     private String mailId;
     private int departmentId;
-    private int totalNoOfStudents;
+    private Integer totalNoOfStudents;
     @NotBlank(message = "Degree type is required")
     private String degreeType;
     @NotNull(message = "College ID is required")
