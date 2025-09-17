@@ -9,5 +9,15 @@ public interface StudentDetailsRepo extends JpaRepository<StudentDetails, Intege
     @Query(value= "SELECT COUNT(*) FROM tb_student_details", nativeQuery = true)
     int countTotalStudents();
 
+    int countByDepartmentId(int id);
+
+    int countTotalStudentsByDepartmentId(Integer id);
+
+    int countByDepartmentIdAndIsActiveTrue(Integer id);
+
+    @Query("SELECT COUNT(s) FROM StudentDetails s")
+    Long getTotalStudents();
+
+
     int countByDepartment_Id(int departmentId);
 }

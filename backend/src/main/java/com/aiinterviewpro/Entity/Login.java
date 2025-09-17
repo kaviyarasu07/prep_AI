@@ -24,19 +24,19 @@ public class Login implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     @Column(name = "email")
     private String email;
 
     @Column(name = "password")
     private String password;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     @ManyToOne
     @JoinColumn(name = "role_id")
@@ -99,23 +99,16 @@ public class Login implements UserDetails {
         return Boolean.TRUE.equals(isActive);
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-
-
-
     public void setIsTempPassword(boolean b) {
         this.isTempPassword = b;
     }
 
     public boolean isDisabled() {
        return  !isActive;
+    }
+
+
+    public void getRole(Role role) {
     }
 
 

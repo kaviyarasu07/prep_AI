@@ -43,4 +43,6 @@ public class StaffDetails {
 
     @Column(name = "last_updated_at")
     private LocalDateTime lastUpdatedAt = LocalDateTime.now();
+
+
 }

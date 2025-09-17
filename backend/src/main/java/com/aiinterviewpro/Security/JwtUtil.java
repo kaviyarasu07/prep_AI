@@ -1,5 +1,6 @@
 package com.aiinterviewpro.Security;
 
+
 import com.aiinterviewpro.Entity.Login;
 import com.aiinterviewpro.Entity.Role;
 import com.aiinterviewpro.Repository.LoginRepo;
@@ -19,6 +20,8 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JwtUtil {
     private final LoginRepo userDetailsRepository;
+
+
 
     @Value("${jwt.secret}")
     private String jwtSecret;

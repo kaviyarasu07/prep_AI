@@ -45,7 +45,7 @@ public class StudentDetails {
     private College college;
 
     @Column(name = "is_active")
-    private Boolean isActive = true;
+    private boolean isActive = true;
 
     @Column(name = "last_updated_at")
     private LocalDateTime lastUpdatedAt = LocalDateTime.now();
@@ -54,5 +54,5 @@ public class StudentDetails {
     private String assignedTo;
 
     @Column(name = "is_assigned")
-    private Boolean isAssigned = false;
+    private boolean isAssigned = false;
 }
