@@ -1,14 +1,18 @@
 import {
   ADD_DEPARTMENT_REQUEST,
   ADD_DEPARTMENT_SUCCESS,
-  ADD_DEPARTMENT_FAILURE
+  ADD_DEPARTMENT_FAILURE,
+  FETCH_DEPARTMENTS_FAILURE,
+  FETCH_DEPARTMENTS_SUCCESS,
+  FETCH_DEPARTMENTS_REQUEST
 } from "../Types/Department_Types";
 
 const initialState = {
   loading: false,
-  department: {},
+  departments: [],  // ✅ should be array
   error: ""
 };
+
 
 const departmentReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -29,6 +33,20 @@ const departmentReducer = (state = initialState, action) => {
         department: {},
         error: action.payload
       };
+case FETCH_DEPARTMENTS_REQUEST:
+      return { ...state, loading: true, error: "" };
+
+    case FETCH_DEPARTMENTS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        departments: action.payload,  // full list store panna
+        error: ""
+      };
+
+    case FETCH_DEPARTMENTS_FAILURE:
+      return { ...state, loading: false, error: action.payload };
+      
     default:
       return state;
   }
