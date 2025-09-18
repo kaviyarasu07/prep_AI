@@ -18,6 +18,8 @@ export const addDepartmentApi = (payload) => {
 
 
 
-export const getDepartmentsApi = () => {
+// DepartmentApi.js
+
+export const fetchAllDepartments = () => {
   return axios.get(`${BASE_URL}/registeredDepartment/getAll`);
 };

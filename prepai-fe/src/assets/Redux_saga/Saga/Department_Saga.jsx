@@ -4,10 +4,13 @@ import {
   ADD_DEPARTMENT_REQUEST,
   ADD_DEPARTMENT_SUCCESS,
   ADD_DEPARTMENT_FAILURE,
-  FETCH_DEPARTMENTS_REQUEST
+  FETCH_DEPARTMENTS_REQUEST,
+  FETCH_DEPARTMENTS_SUCCESS,
+  FETCH_DEPARTMENTS_FAILURE
 } from "../Types/Department_Types";
-import { addDepartmentApi, getDepartmentsApi } from "../../Services/Department_Api";
+import { addDepartmentApi, fetchAllDepartments  } from "../../Services/Department_Api";
 import { fetchDepartmentsFailure, fetchDepartmentsSuccess } from "../Action/Department_Action";
+
 
 // worker saga
 function* addDepartmentSaga(action) {
@@ -18,16 +21,14 @@ function* addDepartmentSaga(action) {
     yield put({ type: ADD_DEPARTMENT_FAILURE, payload: error.message });
   }
 }
-
 function* fetchDepartmentsSaga() {
   try {
-    const response = yield call(getDepartmentsApi);
+    const response = yield call(fetchAllDepartments);
     yield put(fetchDepartmentsSuccess(response.data));
   } catch (error) {
     yield put(fetchDepartmentsFailure(error.message));
   }
 }
-
 // watcher saga
 function* departmentSaga() {
   yield takeLatest(ADD_DEPARTMENT_REQUEST, addDepartmentSaga);

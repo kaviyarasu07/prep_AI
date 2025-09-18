@@ -21,18 +21,19 @@ const departmentReducer = (state = initialState, action) => {
         ...state,
         loading: true
       };
-    case ADD_DEPARTMENT_SUCCESS:
-      return {
-        loading: false,
-        department: action.payload,
-        error: ""
-      };
-    case ADD_DEPARTMENT_FAILURE:
-      return {
-        loading: false,
-        department: {},
-        error: action.payload
-      };
+   case ADD_DEPARTMENT_SUCCESS:
+  return {
+    ...state,
+    loading: false,
+    departments: [...state.departments, action.payload], // add new
+    error: ""
+  };
+case ADD_DEPARTMENT_FAILURE:
+  return {
+    ...state,
+    loading: false,
+    error: action.payload
+  };
 case FETCH_DEPARTMENTS_REQUEST:
       return { ...state, loading: true, error: "" };
 
