@@ -29,7 +29,7 @@ public interface DepartmentRepo extends JpaRepository<Department, Integer> {
       d.id AS id,
       m.department_name AS departmentName,
       m.department_code AS departmentCode,
-      COUNT(s.student_id) AS totalStudents,
+      COUNT(s.id) AS totalStudents,
       SUM(CASE WHEN s.is_active = TRUE THEN 1 ELSE 0 END) AS activeStudents,
       d.is_active AS isActive,
       d.created_at AS creationDate
