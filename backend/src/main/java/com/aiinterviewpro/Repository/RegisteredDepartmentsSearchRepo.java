@@ -13,7 +13,7 @@ public interface RegisteredDepartmentsSearchRepo extends JpaRepository<Departmen
            d.id,
            dm.department_name AS departmentName,
            dm.department_code AS departmentCode,
-           COUNT(s.student_id) AS totalStudents,
+           COUNT(s.id) AS totalStudents,
            COUNT(CASE WHEN s.is_active = true THEN 1 END) AS activeStudents,
            d.is_active AS status
            FROM tb_department d
