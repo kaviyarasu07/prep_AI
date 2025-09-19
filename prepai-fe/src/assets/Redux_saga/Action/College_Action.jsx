@@ -24,9 +24,7 @@ import {
   FETCH_COLLEGE_SUMMARY_REQUEST,
   FETCH_COLLEGE_SUMMARY_SUCCESS,
   FETCH_COLLEGE_SUMMARY_FAILURE,
-  FETCH_DEPARTMENTS_REQUEST,
-  FETCH_DEPARTMENTS_SUCCESS,
-  FETCH_DEPARTMENTS_FAILURE,
+  
   SEARCH_DEPARTMENTS_REQUEST,
   SEARCH_DEPARTMENTS_SUCCESS,
   SEARCH_DEPARTMENTS_FAILURE,
@@ -38,7 +36,10 @@ import {
   UPDATE_DEPARTMENT_REQUEST,
   DELETE_DEPARTMENT_FAILURE,
   DELETE_DEPARTMENT_SUCCESS,
-  DELETE_DEPARTMENT_REQUEST
+  DELETE_DEPARTMENT_REQUEST,
+  FETCH_COLLEGE_DEPARTMENTS_SUCCESS,
+  FETCH_COLLEGE_DEPARTMENTS_FAILURE,
+  FETCH_COLLEGE_DEPARTMENTS_REQUEST
 } from "../Types/College_Types";
 
 // === College Summary Actions ===
@@ -57,17 +58,18 @@ export const fetchCollegeSummaryFailure = (error) => ({
 });
 
 // === Departments Actions ===
-export const fetchDepartmentsRequest = () => ({
-  type: FETCH_DEPARTMENTS_REQUEST,
+
+export const fetchCollegeDepartmentsRequest = () => ({
+  type: FETCH_COLLEGE_DEPARTMENTS_REQUEST,
 });
 
-export const fetchDepartmentsSuccess = (data) => ({
-  type: FETCH_DEPARTMENTS_SUCCESS,
-  payload: data,
+export const fetchCollegeDepartmentsSuccess = (departments) => ({
+  type: FETCH_COLLEGE_DEPARTMENTS_SUCCESS,
+  payload: departments,
 });
 
-export const fetchDepartmentsFailure = (error) => ({
-  type: FETCH_DEPARTMENTS_FAILURE,
+export const fetchCollegeDepartmentsFailure = (error) => ({
+  type: FETCH_COLLEGE_DEPARTMENTS_FAILURE,
   payload: error,
 });
 

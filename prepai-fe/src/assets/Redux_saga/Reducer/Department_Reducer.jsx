@@ -9,8 +9,8 @@ import {
 
 const initialState = {
   loading: false,
-  departments: [],  // ✅ should be array
-  error: ""
+  departments: [],  
+  error: null,
 };
 
 

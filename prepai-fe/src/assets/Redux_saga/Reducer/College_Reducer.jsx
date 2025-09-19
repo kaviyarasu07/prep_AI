@@ -33,9 +33,7 @@ import {
   FETCH_COLLEGE_SUMMARY_REQUEST,
   FETCH_COLLEGE_SUMMARY_SUCCESS,
   FETCH_COLLEGE_SUMMARY_FAILURE,
-  FETCH_DEPARTMENTS_REQUEST,
-  FETCH_DEPARTMENTS_SUCCESS,
-  FETCH_DEPARTMENTS_FAILURE,
+  
   SEARCH_DEPARTMENTS_REQUEST,
   SEARCH_DEPARTMENTS_SUCCESS,
   SEARCH_DEPARTMENTS_FAILURE,
@@ -46,7 +44,10 @@ import {
   UPDATE_DEPARTMENT_SUCCESS,
   DELETE_DEPARTMENT_REQUEST,
   DELETE_DEPARTMENT_SUCCESS,
-  DELETE_DEPARTMENT_FAILURE
+  DELETE_DEPARTMENT_FAILURE,
+  FETCH_COLLEGE_DEPARTMENTS_REQUEST,
+  FETCH_COLLEGE_DEPARTMENTS_SUCCESS,
+  FETCH_COLLEGE_DEPARTMENTS_FAILURE
 } from "../Types/College_Types";
 
 const initialState = {
@@ -67,13 +68,12 @@ const collegeReducer = (state = initialState, action) => {
     case FETCH_COLLEGE_SUMMARY_FAILURE:
       return { ...state, loading: false, summary: {}, error: action.payload };
 
-    // === Departments ===
-    case FETCH_DEPARTMENTS_REQUEST:
+ case FETCH_COLLEGE_DEPARTMENTS_REQUEST:
       return { ...state, loading: true };
-    case FETCH_DEPARTMENTS_SUCCESS:
+    case FETCH_COLLEGE_DEPARTMENTS_SUCCESS:
       return { ...state, loading: false, departments: action.payload, error: null };
-    case FETCH_DEPARTMENTS_FAILURE:
-      return { ...state, loading: false, departments: [], error: action.payload };
+    case FETCH_COLLEGE_DEPARTMENTS_FAILURE:
+      return { ...state, loading: false, error: action.payload };
 
       case SEARCH_DEPARTMENTS_REQUEST:
   return { ...state, loading: true };

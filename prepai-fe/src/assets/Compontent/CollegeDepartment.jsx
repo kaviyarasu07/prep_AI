@@ -803,10 +803,11 @@ import { FaHome, FaBuilding, FaUsers, FaClipboardList, FaUserCheck, FaCogs, FaCa
 import {
   fetchCollegeSummaryRequest,
   fetchDepartmentByIdRequest,
-  fetchDepartmentsRequest,
+  
   searchDepartmentsRequest,
   updateDepartmentRequest,
-  deleteDepartmentRequest   // ✅ Import delete action
+  deleteDepartmentRequest,   // ✅ Import delete action
+  fetchCollegeDepartmentsRequest
 } from "../Redux_saga/Action/College_Action";
 
 function CollegeDepartment() {
@@ -828,7 +829,7 @@ function CollegeDepartment() {
 
   useEffect(() => {
     dispatch(fetchCollegeSummaryRequest());
-    dispatch(fetchDepartmentsRequest());
+    dispatch( fetchCollegeDepartmentsRequest ());
   }, [dispatch]);
 
   const handleSearch = (e) => {
@@ -920,58 +921,63 @@ function CollegeDepartment() {
                   <th>Actions</th>
                 </tr>
               </thead>
-              <tbody>
-                {departments.length === 0 ? (
-                  <tr>
-                    <td colSpan="7" className="text-center">No departments available</td>
-                  </tr>
-                ) : (
-                  departments.map((dept) => (
-                    <tr key={dept.id}>
-                      <td>{dept.departmentName}</td>
-                      <td>{dept.assignedAdmins}</td>
-                      <td>{dept.numberOfStudents}</td>
-                      <td>{dept.assessments || 0}</td>
-                      <td>{dept.mockInterviews || 0}</td>
-                      <td>
-                        <span className={`badge ${dept.status === "Active" ? "bg-success" : "bg-secondary"}`}>
-                          {dept.status}
-                        </span>
-                      </td>
-                      <td>
-                        <div className="btn-group" role="group">
-                          <button className="btn btn-sm btn-primary" onClick={() => dispatch(fetchDepartmentByIdRequest(dept.id))}>View</button>
-                          <button
-                            className="btn btn-sm btn-warning"
-                            onClick={() => {
-                              setEditData({
-                                id: dept.id,
-                                departmentName: dept.departmentName,
-                                assignedAdmins: dept.assignedAdmins,
-                                status: dept.status === "Active"
-                              });
-                              setShowEditForm(true);
-                            }}
-                          >
-                            Edit
-                          </button>
-                          {/* ✅ Delete button with dispatch */}
-                          <button
-                            className="btn btn-sm btn-danger"
-                            onClick={() => {
-                              if(window.confirm("Are you sure you want to delete this department?")) {
-                                dispatch(deleteDepartmentRequest(dept.id));
-                              }
-                            }}
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
+             <tbody>
+  {Array.isArray(departments) && departments.length > 0 ? (
+    departments.map((dept) => (
+      <tr key={dept.id}>
+        <td>{dept.departmentName}</td>
+        <td>{dept.assignedAdmins}</td>
+        <td>{dept.numberOfStudents}</td>
+        <td>{dept.assessments || 0}</td>
+        <td>{dept.mockInterviews || 0}</td>
+        <td>
+          <span className={`badge ${dept.status === "Active" ? "bg-success" : "bg-secondary"}`}>
+            {dept.status}
+          </span>
+        </td>
+        <td>
+          <div className="btn-group" role="group">
+            <button
+              className="btn btn-sm btn-primary"
+              onClick={() => dispatch(fetchDepartmentByIdRequest(dept.id))}
+            >
+              View
+            </button>
+            <button
+              className="btn btn-sm btn-warning"
+              onClick={() => {
+                setEditData({
+                  id: dept.id,
+                  departmentName: dept.departmentName,
+                  assignedAdmins: dept.assignedAdmins,
+                  status: dept.status === "Active"
+                });
+                setShowEditForm(true);
+              }}
+            >
+              Edit
+            </button>
+            <button
+              className="btn btn-sm btn-danger"
+              onClick={() => {
+                if (window.confirm("Are you sure you want to delete this department?")) {
+                  dispatch(deleteDepartmentRequest(dept.id));
+                }
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        </td>
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan="7" className="text-center">No departments available</td>
+    </tr>
+  )}
+</tbody>
+
             </table>
           </div>
 
@@ -1078,8 +1084,9 @@ function CollegeDepartment() {
     </div>
   );
 }
+const SidebarItem = ({ name, icon, activeItem, setActiveItem }) => {
+  const navigate = useNavigate(); // ✅ hook call
 
-const SidebarItem = ({ name, icon, activeItem, setActiveItem, navigate }) => {
   const handleClick = () => {
     setActiveItem(name);
     switch(name) {
@@ -1119,5 +1126,34 @@ const SidebarItem = ({ name, icon, activeItem, setActiveItem, navigate }) => {
     </li>
   );
 };
+
+// Full Sidebar Example
+const Sidebar = () => {
+  const [activeItem, setActiveItem] = useState("");
+
+  const menuItems = [
+    { name: "Department Management", icon: <FaBuilding /> },
+    { name: "Department Admins", icon: <FaUser /> },
+    { name: "Students", icon: <FaBook /> },
+    { name: "Assessments", icon: <FaBook /> },
+    { name: "Mock Interviews", icon: <FaBook /> },
+    { name: "Reports", icon: <FaBook /> },
+  ];
+
+  return (
+    <ul className="nav flex-column">
+      {menuItems.map((item, idx) => (
+        <SidebarItem
+          key={idx}
+          name={item.name}
+          icon={item.icon}
+          activeItem={activeItem}
+          setActiveItem={setActiveItem}
+        />
+      ))}
+    </ul>
+  );
+};
+
 
 export default CollegeDepartment;

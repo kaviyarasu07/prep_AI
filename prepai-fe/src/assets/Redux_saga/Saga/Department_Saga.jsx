@@ -23,16 +23,21 @@ function* addDepartmentSaga(action) {
 }
 function* fetchDepartmentsSaga() {
   try {
-    const response = yield call(fetchAllDepartments);
-    yield put(fetchDepartmentsSuccess(response.data));
+    const response = yield call(fetchAllDepartments); // ✅ API call
+    console.log("Departments API Response in Saga:", response);
+    yield put({ type: FETCH_DEPARTMENTS_SUCCESS, payload: response.content || [] });
   } catch (error) {
-    yield put(fetchDepartmentsFailure(error.message));
+    yield put({ type: FETCH_DEPARTMENTS_FAILURE, payload: error.message });
   }
 }
+
+
+
+
 // watcher saga
 function* departmentSaga() {
   yield takeLatest(ADD_DEPARTMENT_REQUEST, addDepartmentSaga);
-    yield takeLatest(FETCH_DEPARTMENTS_REQUEST, fetchDepartmentsSaga);
+     yield takeLatest(FETCH_DEPARTMENTS_REQUEST, fetchDepartmentsSaga);
 }
 
 export default departmentSaga; // ✅ Export default panna venum

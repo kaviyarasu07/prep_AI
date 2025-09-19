@@ -36,6 +36,19 @@
 // export default Store;
 
 
+// import { createStore, applyMiddleware } from "redux";
+// import createSagaMiddleware from "redux-saga";
+// import rootReducer from "../Root_Reducer/Root_Reducer";
+// import rootSaga from "../Root_saga/Root_saga";
+
+// const sagaMiddleware = createSagaMiddleware();
+
+// const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
+
+// sagaMiddleware.run(rootSaga);
+
+// export default store;
+
 import { createStore, applyMiddleware } from "redux";
 import createSagaMiddleware from "redux-saga";
 import rootReducer from "../Root_Reducer/Root_Reducer";
@@ -45,6 +58,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
 
-sagaMiddleware.run(rootSaga);
+sagaMiddleware.run(rootSaga);  // ✅ saga run pannum
 
 export default store;
+

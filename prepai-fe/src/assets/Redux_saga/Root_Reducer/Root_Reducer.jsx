@@ -13,12 +13,11 @@
 import { combineReducers } from "redux";
 import collegeReducer from "../Reducer/College_Reducer";
 import departmentReducer from "../Reducer/Department_Reducer";
-// import departmentReducer from "../Reducer/Department_Reducer";
-// import collegeReducer from "./collegeReducer";
+
 
 const rootReducer = combineReducers({
   collegeData: collegeReducer ,
-  departments: departmentReducer, 
+ departmentData: departmentReducer,  // ✅ key must match your useSelector
 
 });
 

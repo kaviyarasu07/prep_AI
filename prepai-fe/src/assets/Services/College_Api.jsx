@@ -13,8 +13,9 @@ export const getCollegeSummary = async () => {
 
 export const getDepartments = async () => {
   const res = await axios.get(`${BASE_URL}/department/getAll`);
-  return res.data;
+  return res.data;  // backend la kudukkura data return panrum
 };
+
 
 
 export const searchDepartmentsByAdmin = async (adminName) => {

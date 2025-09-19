@@ -20,6 +20,8 @@ export const addDepartmentApi = (payload) => {
 
 // DepartmentApi.js
 
-export const fetchAllDepartments = () => {
-  return axios.get(`${BASE_URL}/registeredDepartment/getAll`);
+export const fetchAllDepartments = async () => {
+  const res = await axios.get(`${BASE_URL}/registeredDepartment/getAll`);
+  return res.data;
 };
+

@@ -27,9 +27,7 @@ import {
   FETCH_COLLEGE_SUMMARY_REQUEST,
   FETCH_COLLEGE_SUMMARY_SUCCESS,
   FETCH_COLLEGE_SUMMARY_FAILURE,
-  FETCH_DEPARTMENTS_REQUEST,
-  FETCH_DEPARTMENTS_SUCCESS,
-  FETCH_DEPARTMENTS_FAILURE,
+  
   SEARCH_DEPARTMENTS_SUCCESS,
   SEARCH_DEPARTMENTS_FAILURE,
   SEARCH_DEPARTMENTS_REQUEST,
@@ -41,7 +39,10 @@ import {
   UPDATE_DEPARTMENT_FAILURE,
   DELETE_DEPARTMENT_REQUEST,
   DELETE_DEPARTMENT_SUCCESS,
-  DELETE_DEPARTMENT_FAILURE
+  DELETE_DEPARTMENT_FAILURE,
+  FETCH_COLLEGE_DEPARTMENTS_REQUEST,
+  FETCH_COLLEGE_DEPARTMENTS_FAILURE,
+  FETCH_COLLEGE_DEPARTMENTS_SUCCESS
 } from "../Types/College_Types";
 
 // College Summary
@@ -54,17 +55,26 @@ function* fetchCollegeSummarySaga() {
   }
 }
 
-function* fetchDepartmentsSaga() {
+// College_Saga.js
+
+// ✅ Saga
+function* fetchCollegeDepartmentsSaga() {
   try {
     const response = yield call(getDepartments);
-    console.log("Departments API Response:", response);
+    console.log("College Departments API Response:", response);
 
-    // Extract only the content array
-    yield put({ type: FETCH_DEPARTMENTS_SUCCESS, payload: response.content });
+    yield put({
+      type: FETCH_COLLEGE_DEPARTMENTS_SUCCESS,
+      payload: response.content || [],
+    });
   } catch (error) {
-    yield put({ type: FETCH_DEPARTMENTS_FAILURE, payload: error.message });
+    yield put({
+      type: FETCH_COLLEGE_DEPARTMENTS_FAILURE,
+      payload: error.message,
+    });
   }
 }
+
 
 function* searchDepartmentsSaga(action) {
   try {
@@ -89,14 +99,6 @@ function* fetchDepartmentByIdSaga(action) {
 }
 
 
-// Update Department Saga
-function updateDepartmentApi(id, data) {
-  return fetch(`http://localhost:8080/api/ca/department/update/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
-  }).then(res => res.json());
-}
 
 function* updateDepartmentSaga(action) {
   try {
@@ -125,7 +127,7 @@ function* deleteDepartmentSaga(action) {
 
 export default function* collegeSaga() {
   yield takeLatest(FETCH_COLLEGE_SUMMARY_REQUEST, fetchCollegeSummarySaga);
-  yield takeLatest(FETCH_DEPARTMENTS_REQUEST, fetchDepartmentsSaga);
+    yield takeLatest(FETCH_COLLEGE_DEPARTMENTS_REQUEST, fetchCollegeDepartmentsSaga);
 yield takeLatest(SEARCH_DEPARTMENTS_REQUEST, searchDepartmentsSaga);
  yield takeLatest(FETCH_DEPARTMENT_BY_ID_REQUEST, fetchDepartmentByIdSaga);
  yield takeLatest(UPDATE_DEPARTMENT_REQUEST, updateDepartmentSaga);  
