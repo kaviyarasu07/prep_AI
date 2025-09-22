@@ -1148,7 +1148,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaSearch } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import Navbar from '../../Layout/Navbar';
-import { addDepartmentRequest, fetchDepartmentsRequest } from '../Redux_saga/Action/Department_Action';
+import { addDepartmentRequest, editDepartmentRequest, fetchDepartmentsRequest, removeDepartmentRequest } from '../Redux_saga/Action/Department_Action';
 
 function DepartmentManager() {
   const dispatch = useDispatch();
@@ -1397,10 +1397,24 @@ const filteredDepartments = Array.isArray(departments)
                     </span>
                   </td>
                   <td>{dep.creationDate || "-"}</td>
-                  <td>
-                    <button className="btn btn-sm btn-link">Edit</button> |{" "}
-                    <button className="btn btn-sm btn-link text-danger">Deactivate</button>
-                  </td>
+                 <td>
+ <button
+  className="btn btn-sm btn-link"
+  onClick={() =>
+    dispatch(editDepartmentRequest(dep.id, { ...dep, status: "Active" }))
+  }
+>
+
+    Edit
+  </button>
+  <button
+    className="btn btn-sm btn-link text-danger"
+    onClick={() => dispatch(removeDepartmentRequest(dep.id))}
+  >
+    Deactivate
+  </button>
+</td>
+
                 </tr>
               ))}
             </tbody>

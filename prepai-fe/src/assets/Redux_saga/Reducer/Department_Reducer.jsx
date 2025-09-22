@@ -4,7 +4,9 @@ import {
   ADD_DEPARTMENT_FAILURE,
   FETCH_DEPARTMENTS_FAILURE,
   FETCH_DEPARTMENTS_SUCCESS,
-  FETCH_DEPARTMENTS_REQUEST
+  FETCH_DEPARTMENTS_REQUEST,
+  REMOVE_DEPARTMENT_SUCCESS,
+  EDIT_DEPARTMENT_SUCCESS
 } from "../Types/Department_Types";
 
 const initialState = {
@@ -47,6 +49,22 @@ case FETCH_DEPARTMENTS_REQUEST:
 
     case FETCH_DEPARTMENTS_FAILURE:
       return { ...state, loading: false, error: action.payload };
+
+      case EDIT_DEPARTMENT_SUCCESS:
+      return {
+        ...state,
+        departments: state.departments.map((dep) =>
+          dep.id === action.payload.id ? action.payload : dep
+        ),
+      };
+
+      case REMOVE_DEPARTMENT_SUCCESS:
+      return {
+        ...state,
+        departments: state.departments.filter(
+          (dep) => dep.id !== action.payload
+        ),
+      };
       
     default:
       return state;

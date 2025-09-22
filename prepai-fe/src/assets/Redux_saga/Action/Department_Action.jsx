@@ -53,3 +53,35 @@ export const fetchDepartmentsFailure = (error) => {
   };
 };
 
+
+// ✅ Edit
+export const editDepartmentRequest = (id, updatedData) => ({
+  type: "EDIT_DEPARTMENT_REQUEST",
+  payload: { id, updatedData },
+});
+
+export const editDepartmentSuccess = (data) => ({
+  type: "EDIT_DEPARTMENT_SUCCESS",
+  payload: data,
+});
+
+export const editDepartmentFailure = (error) => ({
+  type: "EDIT_DEPARTMENT_FAILURE",
+  payload: error,
+});
+
+// ✅ Remove
+export const removeDepartmentRequest = (id) => ({
+  type: "REMOVE_DEPARTMENT_REQUEST",
+  payload: id,
+});
+
+export const removeDepartmentSuccess = (id) => ({
+  type: "REMOVE_DEPARTMENT_SUCCESS",
+  payload: id,
+});
+
+export const removeDepartmentFailure = (error) => ({
+  type: "REMOVE_DEPARTMENT_FAILURE",
+  payload: error,
+});

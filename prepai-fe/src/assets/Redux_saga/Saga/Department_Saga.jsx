@@ -6,10 +6,12 @@ import {
   ADD_DEPARTMENT_FAILURE,
   FETCH_DEPARTMENTS_REQUEST,
   FETCH_DEPARTMENTS_SUCCESS,
-  FETCH_DEPARTMENTS_FAILURE
+  FETCH_DEPARTMENTS_FAILURE,
+  REMOVE_DEPARTMENT_REQUEST,
+  EDIT_DEPARTMENT_REQUEST
 } from "../Types/Department_Types";
-import { addDepartmentApi, fetchAllDepartments  } from "../../Services/Department_Api";
-import { fetchDepartmentsFailure, fetchDepartmentsSuccess } from "../Action/Department_Action";
+import { addDepartmentApi, editDepartmentApi, fetchAllDepartments, removeDepartmentApi  } from "../../Services/Department_Api";
+import { editDepartmentFailure, editDepartmentSuccess, fetchDepartmentsFailure, fetchDepartmentsSuccess, removeDepartmentFailure, removeDepartmentSuccess } from "../Action/Department_Action";
 
 
 // worker saga
@@ -32,12 +34,40 @@ function* fetchDepartmentsSaga() {
 }
 
 
+function* editDepartmentSaga(action) {
+  try {
+    const response = yield call(
+      editDepartmentApi,
+      action.payload.id,
+      action.payload.updatedData
+    );
+    yield put(editDepartmentSuccess(response.data));
+  } catch (error) {
+    yield put(editDepartmentFailure(error.message));
+  }
+}
+
+
+
+// ✅ Worker Saga for Remove
+function* removeDepartmentSaga(action) {
+  try {
+    yield call(removeDepartmentApi, action.payload);
+    yield put(removeDepartmentSuccess(action.payload));
+  } catch (error) {
+    yield put(removeDepartmentFailure(error.message));
+  }
+}
+
 
 
 // watcher saga
 function* departmentSaga() {
   yield takeLatest(ADD_DEPARTMENT_REQUEST, addDepartmentSaga);
      yield takeLatest(FETCH_DEPARTMENTS_REQUEST, fetchDepartmentsSaga);
+       yield takeLatest(EDIT_DEPARTMENT_REQUEST, editDepartmentSaga);
+  yield takeLatest(REMOVE_DEPARTMENT_REQUEST, removeDepartmentSaga);
+
 }
 
 export default departmentSaga; // ✅ Export default panna venum
