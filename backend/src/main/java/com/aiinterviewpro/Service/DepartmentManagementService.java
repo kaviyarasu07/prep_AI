@@ -1,6 +1,7 @@
 package com.aiinterviewpro.Service;
 
 import com.aiinterviewpro.DTO.DepartmentManagementDto;
+//import com.aiinterviewpro.DTO.StudentCountDto;
 import com.aiinterviewpro.Entity.*;
 import com.aiinterviewpro.Repository.*;
 import com.aiinterviewpro.Util.PasswordUtil;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 
@@ -63,53 +65,61 @@ public class DepartmentManagementService {
             department = new Department();
             department.setCollege(college);
             department.setDepartmentMaster(master);
+
+            if (dto.getIsActive() != null)
+                department.setIsActive(dto.getIsActive() == true); // true = active, false = inactive
+            else {
+                department.setIsActive(true); // default to active
+            }
             department = deptrepo.save(department);
+
+
+            dto.setDepartmentId(department.getId());
+
+            // 4. Create Staff, Login, Email only if staff doesn't already exist
+            boolean staffExists = staffrepo.existsByEmail(dto.getMailId());
+            if (!staffExists) {
+                StaffDetails staff = new StaffDetails();
+                staff.setStaffName(dto.getDepartmentAdminName());
+                staff.setEmail(dto.getMailId());
+                staff.setCollege(college);
+                staff.setDepartment(department);
+
+                String tempPassword = PasswordUtil.generateTemporaryPassword(10);
+
+                String subject = "Department Admin Credentials Created";
+                String body = String.format(
+                        "Dear %s,\n\nYou have been assigned as the Department Admin for the %s department at %s.\n\n" +
+                                "Your temporary password is: %s\n\nPlease log in and reset your password immediately.\n\nRegards,\nAdmin Team",
+                        staff.getStaffName(), master.getDepartmentName(), college.getName(), tempPassword
+                );
+
+                email.sendAdminEmail(staff.getEmail(), subject, body);
+
+                Role role = rolerepo.findByName("Department Admin")
+                        .orElseThrow(() -> new IllegalStateException("Role not found: Department Admin"));
+                staff.setRole(role);
+                staffrepo.save(staff);
+
+                Login login = new Login();
+                login.setEmail(staff.getEmail());
+                login.setPassword(encoder.encode(tempPassword));
+                login.setRole(role);
+                login.setUserId(staff.getId());
+                login.setIsTempPassword(true);
+                login.setCreatedAt(LocalDateTime.now());
+                login.setUpdatedAt(LocalDateTime.now());
+                loginrepo.save(login);
+            }
+
+
+
         }
-
-        dto.setDepartmentId(department.getId());
-
-        // 4. Create Staff, Login, Email only if staff doesn't already exist
-        boolean staffExists = staffrepo.existsByEmail(dto.getMailId());
-        if (!staffExists) {
-            StaffDetails staff = new StaffDetails();
-            staff.setStaffName(dto.getDepartmentAdminName());
-            staff.setEmail(dto.getMailId());
-            staff.setCollege(college);
-            staff.setDepartment(department);
-
-            String tempPassword = PasswordUtil.generateTemporaryPassword(10);
-
-            String subject = "Department Admin Credentials Created";
-            String body = String.format(
-                    "Dear %s,\n\nYou have been assigned as the Department Admin for the %s department at %s.\n\n" +
-                            "Your temporary password is: %s\n\nPlease log in and reset your password immediately.\n\nRegards,\nAdmin Team",
-                    staff.getStaffName(), master.getDepartmentName(), college.getName(), tempPassword
-            );
-
-            email.sendAdminEmail(staff.getEmail(), subject, body);
-
-            Role role = rolerepo.findByName("Department Admin")
-                    .orElseThrow(() -> new IllegalStateException("Role not found: Department Admin"));
-            staff.setRole(role);
-            staffrepo.save(staff);
-
-            Login login = new Login();
-            login.setEmail(staff.getEmail());
-            login.setPassword(encoder.encode(tempPassword));
-            login.setRole(role);
-            login.setUserId(staff.getId());
-            login.setIsTempPassword(true);
-            login.setCreatedAt(LocalDateTime.now());
-            login.setUpdatedAt(LocalDateTime.now());
-            loginrepo.save(login);
-        }
-
-        // 5. Set Student Count
-        int totalNoOfStudents = student.countByDepartmentId(department.getId());
-        dto.setTotalNoOfStudents(totalNoOfStudents);
-
         return dto;
     }
+public long getStudentCountbyDepartmentName(String departmentName){
+        return student.countByDepartmentName(departmentName);
+}
 
     public void handleForgotPassword (@NotBlank @Email String email){
             Login user = loginrepo.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found with this email"));

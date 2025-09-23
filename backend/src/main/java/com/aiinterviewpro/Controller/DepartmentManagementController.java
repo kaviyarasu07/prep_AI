@@ -31,6 +31,13 @@ public class DepartmentManagementController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedDto);
     }
 
+
+    @GetMapping("/count/{departmentName}")
+    public ResponseEntity<Long> getStudentCount(@PathVariable String departmentName) {
+        long count = departmentservice.getStudentCountbyDepartmentName(departmentName);
+        return ResponseEntity.ok(count);
+    }
+
     @PostMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequestDto request, Principal principal) {
         try {
