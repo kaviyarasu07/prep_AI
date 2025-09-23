@@ -25,14 +25,12 @@ public interface StudentDetailsRepo extends JpaRepository<StudentDetails, Intege
     int countByDepartment_Id(int id);
 
     @Query(value = "SELECT COUNT(*) FROM tb_student_details s " +
-
             "JOIN tb_department d ON s.department_id = d.id " +
-
             "JOIN tb_department_master m ON d.department_master_id = m.id " +
-
-            "WHERE m.department_name = :departmentName",
-
+            "JOIN tb_college c ON d.college_id = c.id " +
+            "WHERE LOWER(m.department_name) = LOWER(:departmentName) AND c.id=:collegeId",
             nativeQuery = true)
-    long countByDepartmentName(@Param("departmentName") String departmentName);
+    long countByDepartmentName(@Param("departmentName") String departmentName,
+                               @Param("collegeId") int collegeId);
 
 }
