@@ -1441,17 +1441,721 @@
 
 // export default DepartmentManager;
 
-import React, { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { FaSearch } from 'react-icons/fa';
-import { useDispatch, useSelector } from 'react-redux';
-import Navbar from '../../Layout/Navbar';
+// import React, { useState, useEffect } from 'react';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import { FaSearch } from 'react-icons/fa';
+// import { useDispatch, useSelector } from 'react-redux';
+// import Navbar from '../../Layout/Navbar';
+// import {
+//   addDepartmentRequest,
+//   editDepartmentRequest,
+//   fetchDepartmentsRequest,
+//   removeDepartmentRequest,
+// } from '../Redux_saga/Action/Department_Action';
+
+// function DepartmentManager() {
+//   const dispatch = useDispatch();
+
+//   const { departments = [], loading = false, error = null } = useSelector(
+//     (state) => state.departmentData || {}
+//   );
+
+//   // Form state
+//   const [formData, setFormData] = useState({
+//     name: '',
+//     code: '',
+//     adminName: '',
+//     mail: '',
+//     totalStudents: '',
+//     collegeId: '',
+//     isActive:','
+//   });
+
+//   const [errors, setErrors] = useState({});
+//   const [searchTerm, setSearchTerm] = useState('');
+//   const [editingId, setEditingId] = useState(null); // store editing department id
+
+//   // Initial load - fetch departments from API
+//   useEffect(() => {
+//     dispatch(fetchDepartmentsRequest());
+//   }, [dispatch]);
+
+//   // Input change
+//   const handleChange = (e) => {
+//     setFormData({ ...formData, [e.target.name]: e.target.value });
+//     setErrors({ ...errors, [e.target.name]: '' });
+//   };
+
+//   // Department dropdown change
+//   const handleDepartmentChange = (e) => {
+//     const selectedDeptName = e.target.value;
+//     const selectedDept = departments.find(
+//       (dep) => dep.departmentName === selectedDeptName
+//     );
+
+//     setFormData({
+//       ...formData,
+//       name: selectedDeptName,
+//       totalStudents: selectedDept?.totalNoOfStudents || '',
+//       code: selectedDept?.departmentCode || '',
+//       adminName: selectedDept?.departmentAdminName || '',
+//       mail: selectedDept?.mailId || '',
+//       collegeId: selectedDept?.collegeId || '',
+//       isActive: selectedDept?.collegeId  || '',
+//     });
+
+//     setErrors({ ...errors, name: '' });
+//     setEditingId(selectedDept?.id || null); // auto-fill editing id if exists
+//   };
+
+//   // Form submit
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     let valid = true;
+//     let newErrors = {};
+
+//     if (!formData.name.trim()) {
+//       newErrors.name = 'Department Name is required';
+//       valid = false;
+//     }
+//     if (!formData.code.trim()) {
+//       newErrors.code = 'Department Code is required';
+//       valid = false;
+//     }
+//     if (!formData.adminName.trim()) {
+//       newErrors.adminName = 'Admin Name is required';
+//       valid = false;
+//     }
+//     if (!formData.mail.trim()) {
+//       newErrors.mail = 'Mail ID is required';
+//       valid = false;
+//     } else if (!/\S+@\S+\.\S+/.test(formData.mail)) {
+//       newErrors.mail = 'Enter a valid email address';
+//       valid = false;
+//     }
+//     if (!formData.totalStudents || formData.totalStudents <= 0) {
+//       newErrors.totalStudents = 'Enter a valid number of students';
+//       valid = false;
+//     }
+
+//     setErrors(newErrors);
+
+//   const payload = {
+//   departmentName: formData.name,
+//   departmentCode: formData.code,
+//   degreeType: 'UG',
+//   departmentAdminName: formData.adminName,
+//   mailId: formData.mail,
+//   collegeId: formData.collegeId || getCollegeIdForDepartment(formData.name),
+//   totalNoOfStudents: Number(formData.totalStudents),
+//   isActive: true  // <- add default value
+// };
+
+
+
+
+//     if (editingId) {
+//       // Edit mode
+//       dispatch(editDepartmentRequest(editingId, payload));
+//     } else {
+//       // Add mode
+//       dispatch(addDepartmentRequest(payload));
+//     }
+
+//     // Clear form after submit
+//     setFormData({
+//       name: '',
+//       code: '',
+//       adminName: '',
+//       mail: '',
+//       totalStudents: '',
+//       collegeId: '',
+//     });
+//     setEditingId(null);
+//   };
+
+//   const getCollegeIdForDepartment = (deptName) => {
+//     const mapping = {
+//       'Computer Science': 1,
+//       'Electrical Engineering': 2,
+//       'Mechanical Engineering': 3,
+//       'Civil Engineering': 4,
+//       Biology: 5,
+//     };
+//     return mapping[deptName] || 0;
+//   };
+
+//   // Filter departments for search
+//   const filteredDepartments = Array.isArray(departments)
+//     ? departments.filter((dep) =>
+//         dep.departmentName?.toLowerCase().includes(searchTerm.toLowerCase())
+//       )
+//     : [];
+
+//   // Fill form for editing
+//   const handleEdit = (dep) => {
+//     setFormData({
+//       name: dep.departmentName || '',
+//       code: dep.departmentCode || '',
+//       adminName: dep.departmentAdminName || '',
+//       mail: dep.mailId || '',
+//       totalStudents: dep.totalNoOfStudents || '',
+//       collegeId: dep.collegeId || '',
+//     });
+//     setEditingId(dep.id);
+//   };
+
+//   return (
+//     <>
+//       <Navbar />
+//       <div className="container my-5">
+//         {/* Header */}
+//         <div className="d-flex justify-content-between align-items-center mb-3">
+//           <h2 className="fw-bold">Department Management</h2>
+//         </div>
+//         <p className="text-muted mb-4">
+//           Manage all departments within the university, including student
+//           statistics and department details.
+//         </p>
+
+//         {/* Form */}
+//         <div className="card p-4 mb-5 shadow-sm rounded-4">
+//           <form onSubmit={handleSubmit}>
+//             {/* Department Name */}
+//             <div className="mb-3">
+//               <label className="form-label fw-semibold">Department Name</label>
+//               <input
+//                 type="text"
+//                 name="name"
+//                 className={`form-control rounded-pill ${errors.name ? 'is-invalid' : ''}`}
+//                 value={formData.name}
+//                 onChange={handleChange}
+//               />
+//               {errors.name && <div className="invalid-feedback">{errors.name}</div>}
+//             </div>
+
+//             {/* Department Code */}
+//             <div className="mb-3">
+//               <label className="form-label fw-semibold">Department Code</label>
+//               <input
+//                 type="text"
+//                 name="code"
+//                 className={`form-control rounded-pill ${errors.code ? 'is-invalid' : ''}`}
+//                 value={formData.code}
+//                 onChange={handleChange}
+//               />
+//               {errors.code && <div className="invalid-feedback">{errors.code}</div>}
+//             </div>
+
+//             {/* Admin Name */}
+//             <div className="mb-3">
+//               <label className="form-label fw-semibold">Department Admin Name</label>
+//               <input
+//                 type="text"
+//                 name="adminName"
+//                 className={`form-control rounded-pill ${errors.adminName ? 'is-invalid' : ''}`}
+//                 value={formData.adminName}
+//                 onChange={handleChange}
+//               />
+//               {errors.adminName && (
+//                 <div className="invalid-feedback">{errors.adminName}</div>
+//               )}
+//             </div>
+
+//             {/* Mail ID */}
+//             <div className="mb-3">
+//               <label className="form-label fw-semibold">Mail ID</label>
+//               <input
+//                 type="email"
+//                 name="mail"
+//                 className={`form-control rounded-pill ${errors.mail ? 'is-invalid' : ''}`}
+//                 value={formData.mail}
+//                 onChange={handleChange}
+//               />
+//               {errors.mail && <div className="invalid-feedback">{errors.mail}</div>}
+//             </div>
+
+//             {/* Total Students */}
+//             <div className="mb-3">
+//               <label className="form-label fw-semibold">Total No. of Students</label>
+//               <input
+//                 type="number"
+//                 name="totalStudents"
+//                 className={`form-control rounded-pill ${errors.totalStudents ? 'is-invalid' : ''}`}
+//                 value={formData.totalStudents}
+//                 onChange={handleChange}
+//               />
+//               {errors.totalStudents && (
+//                 <div className="invalid-feedback">{errors.totalStudents}</div>
+//               )}
+//             </div>
+
+//             <button
+//               type="submit"
+//               className="btn btn-primary rounded-pill px-4 py-2 shadow-sm fw-semibold"
+//             >
+//               {editingId ? 'Update Department' : 'Add Department'}
+//             </button>
+//           </form>
+//         </div>
+
+//         {/* Search */}
+//         <div className="mb-3 position-relative">
+//           <FaSearch className="position-absolute top-50 translate-middle-y ms-3 text-muted" />
+//           <input
+//             type="text"
+//             className="form-control rounded-pill ps-5"
+//             placeholder="Search departments..."
+//             value={searchTerm}
+//             onChange={(e) => setSearchTerm(e.target.value)}
+//           />
+//         </div>
+
+//         {/* Table */}
+//         <div className="table-responsive shadow-sm rounded-4 bg-white">
+//           <table className="table table-hover text-center align-middle mb-0">
+//             <thead className="table-light rounded-4">
+//               <tr>
+//                 <th>Department Name</th>
+//                 <th>Department Code</th>
+//                 <th>Total Students</th>
+//                 <th>Active Students</th>
+//                 <th>Status</th>
+//                 <th>Creation Date</th>
+//                 <th>Actions</th>
+//               </tr>
+//             </thead>
+//             <tbody>
+//               {loading && (
+//                 <tr>
+//                   <td colSpan="7">Loading...</td>
+//                 </tr>
+//               )}
+//               {error && (
+//                 <tr>
+//                   <td colSpan="7" className="text-danger">
+//                     Error: {error}
+//                   </td>
+//                 </tr>
+//               )}
+//               {filteredDepartments.map((dep, index) => (
+//                 <tr key={index}>
+//                   <td>{dep.departmentName}</td>
+//                   <td>{dep.departmentCode}</td>
+//                   <td>{dep.totalNoOfStudents}</td>
+//                   <td>{dep.activeStudents || 0}</td>
+//                   <td>
+//                     <span
+//                       className={`badge ${
+//                         dep.status === 'Active' ? 'bg-success' : 'bg-secondary'
+//                       }`}
+//                     >
+//                       {dep.status || 'Active'}
+//                     </span>
+//                   </td>
+//                   <td>{dep.creationDate || '-'}</td>
+//                   <td>
+//                     <button
+//                       className="btn btn-sm btn-link"
+//                       onClick={() => handleEdit(dep)}
+//                     >
+//                       Edit
+//                     </button>
+//                     <button
+//                       className="btn btn-sm btn-link text-danger"
+//                       onClick={() => dispatch(removeDepartmentRequest(dep.id))}
+//                     >
+//                       Deactivate
+//                     </button>
+//                   </td>
+//                 </tr>
+//               ))}
+//             </tbody>
+//           </table>
+//         </div>
+//       </div>
+//     </>
+//   );
+// }
+
+// export default DepartmentManager;
+
+
+// import React, { useState, useEffect } from 'react';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import { FaSearch } from 'react-icons/fa';
+// import { useDispatch, useSelector } from 'react-redux';
+// import Navbar from '../../Layout/Navbar';
+// import {
+//   addDepartmentRequest,
+//   editDepartmentRequest,
+//   fetchDepartmentsRequest,
+//   removeDepartmentRequest,
+//   searchDepartmentRequest,
+// } from '../Redux_saga/Action/Department_Action';
+
+// function DepartmentManager() {
+//   const dispatch = useDispatch();
+
+//   const { departments = [], loading = false, error = null } = useSelector(
+//     (state) => state.departmentData || {}
+//   );
+
+//   // Form state
+//   const [formData, setFormData] = useState({
+//     name: '',
+//     code: '',
+//     adminName: '',
+//     mail: '',
+//     totalStudents: '',
+//     collegeId: '',
+//     status: 'Active', // default status
+//   });
+
+//   const [errors, setErrors] = useState({});
+//   const [searchTerm, setSearchTerm] = useState('');
+//   const [editingId, setEditingId] = useState(null);
+
+//   // Initial load - fetch departments from API
+//   useEffect(() => {
+//     dispatch(fetchDepartmentsRequest());
+//   }, [dispatch]);
+
+//   // Input change
+//   const handleChange = (e) => {
+//     setFormData({ ...formData, [e.target.name]: e.target.value });
+//     setErrors({ ...errors, [e.target.name]: '' });
+//   };
+
+//   // Department dropdown change
+//   const handleDepartmentChange = (e) => {
+//     const selectedDeptName = e.target.value;
+//     const selectedDept = departments.find(
+//       (dep) => dep.departmentName === selectedDeptName
+//     );
+
+//     setFormData({
+//       ...formData,
+//       name: selectedDeptName,
+//       totalStudents: selectedDept?.totalNoOfStudents || '',
+//       code: selectedDept?.departmentCode || '',
+//       adminName: selectedDept?.departmentAdminName || '',
+//       mail: selectedDept?.mailId || '',
+//       collegeId: selectedDept?.collegeId || '',
+//       status: selectedDept?.isActive ? 'Active' : 'Inactive',
+//     });
+
+//     setErrors({ ...errors, name: '' });
+//     setEditingId(selectedDept?.id || null);
+//   };
+
+//   // Form submit
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     let valid = true;
+//     let newErrors = {};
+
+//     if (!formData.name.trim()) {
+//       newErrors.name = 'Department Name is required';
+//       valid = false;
+//     }
+//     if (!formData.code.trim()) {
+//       newErrors.code = 'Department Code is required';
+//       valid = false;
+//     }
+//     if (!formData.adminName.trim()) {
+//       newErrors.adminName = 'Admin Name is required';
+//       valid = false;
+//     }
+//     if (!formData.mail.trim()) {
+//       newErrors.mail = 'Mail ID is required';
+//       valid = false;
+//     } else if (!/\S+@\S+\.\S+/.test(formData.mail)) {
+//       newErrors.mail = 'Enter a valid email address';
+//       valid = false;
+//     }
+//     if (!formData.totalStudents || formData.totalStudents <= 0) {
+//       newErrors.totalStudents = 'Enter a valid number of students';
+//       valid = false;
+//     }
+
+//     setErrors(newErrors);
+//     if (!valid) return;
+
+//     const payload = {
+//       departmentName: formData.name,
+//       departmentCode: formData.code,
+//       degreeType: 'UG',
+//       departmentAdminName: formData.adminName,
+//       mailId: formData.mail,
+//       collegeId: formData.collegeId || getCollegeIdForDepartment(formData.name),
+//       totalNoOfStudents: Number(formData.totalStudents),
+//       isActive: formData.status === 'Active' ? true : false,
+//     };
+
+//     if (editingId) {
+//       // Edit mode
+//       dispatch(editDepartmentRequest(editingId, payload));
+//     } else {
+//       // Add mode
+//       dispatch(addDepartmentRequest(payload));
+//     }
+
+//     // Clear form after submit
+//     setFormData({
+//       name: '',
+//       code: '',
+//       adminName: '',
+//       mail: '',
+//       totalStudents: '',
+//       collegeId: '',
+//       status: 'Active',
+//     });
+//     setEditingId(null);
+//   };
+
+//   const getCollegeIdForDepartment = (deptName) => {
+//     const mapping = {
+//       'Computer Science': 1,
+//       'Electrical Engineering': 2,
+//       'Mechanical Engineering': 3,
+//       'Civil Engineering': 4,
+//       Biology: 5,
+//     };
+//     return mapping[deptName] || 0;
+//   };
+
+//   // Filter departments for search
+//   const filteredDepartments = Array.isArray(departments)
+//     ? departments.filter((dep) =>
+//         dep.departmentName?.toLowerCase().includes(searchTerm.toLowerCase())
+//       )
+//     : [];
+
+//   // Fill form for editing
+//   const handleEdit = (dep) => {
+//     setFormData({
+//       name: dep.departmentName || '',
+//       code: dep.departmentCode || '',
+//       adminName: dep.departmentAdminName || '',
+//       mail: dep.mailId || '',
+//       totalStudents: dep.totalNoOfStudents || '',
+//       collegeId: dep.collegeId || '',
+//       status: dep.isActive ? 'Active' : 'Inactive',
+//     });
+//     setEditingId(dep.id);
+//   };
+
+
+//   const handleSearch = (e) => {
+//   const value = e.target.value;
+//   setSearchTerm(value);
+
+
+//   if (value.trim() !== "") {
+//     dispatch(searchDepartmentRequest(value));
+//   }
+// };
+
+//   return (
+//     <>
+//       <Navbar />
+//       <div className="container my-5">
+//         {/* Header */}
+//         <div className="d-flex justify-content-between align-items-center mb-3">
+//           <h2 className="fw-bold">Department Management</h2>
+//         </div>
+//         <p className="text-muted mb-4">
+//           Manage all departments within the university, including student
+//           statistics and department details.
+//         </p>
+
+//         {/* Form */}
+//         <div className="card p-4 mb-5 shadow-sm rounded-4">
+//           <form onSubmit={handleSubmit}>
+//             {/* Department Name */}
+//             <div className="mb-3">
+//               <label className="form-label fw-semibold">Department Name</label>
+//               <input
+//                 type="text"
+//                 name="name"
+//                 className={`form-control rounded-pill ${errors.name ? 'is-invalid' : ''}`}
+//                 value={formData.name}
+//                 onChange={handleChange}
+//               />
+//               {errors.name && <div className="invalid-feedback">{errors.name}</div>}
+//             </div>
+
+//             {/* Department Code */}
+//             <div className="mb-3">
+//               <label className="form-label fw-semibold">Department Code</label>
+//               <input
+//                 type="text"
+//                 name="code"
+//                 className={`form-control rounded-pill ${errors.code ? 'is-invalid' : ''}`}
+//                 value={formData.code}
+//                 onChange={handleChange}
+//               />
+//               {errors.code && <div className="invalid-feedback">{errors.code}</div>}
+//             </div>
+
+//             {/* Admin Name */}
+//             <div className="mb-3">
+//               <label className="form-label fw-semibold">Department Admin Name</label>
+//               <input
+//                 type="text"
+//                 name="adminName"
+//                 className={`form-control rounded-pill ${errors.adminName ? 'is-invalid' : ''}`}
+//                 value={formData.adminName}
+//                 onChange={handleChange}
+//               />
+//               {errors.adminName && <div className="invalid-feedback">{errors.adminName}</div>}
+//             </div>
+
+//             {/* Mail ID */}
+//             <div className="mb-3">
+//               <label className="form-label fw-semibold">Mail ID</label>
+//               <input
+//                 type="email"
+//                 name="mail"
+//                 className={`form-control rounded-pill ${errors.mail ? 'is-invalid' : ''}`}
+//                 value={formData.mail}
+//                 onChange={handleChange}
+//               />
+//               {errors.mail && <div className="invalid-feedback">{errors.mail}</div>}
+//             </div>
+
+//             {/* Total Students */}
+//             <div className="mb-3">
+//               <label className="form-label fw-semibold">Total No. of Students</label>
+//               <input
+//                 type="number"
+//                 name="totalStudents"
+//                 className={`form-control rounded-pill ${errors.totalStudents ? 'is-invalid' : ''}`}
+//                 value={formData.totalStudents}
+//                 onChange={handleChange}
+//               />
+//               {errors.totalStudents && (
+//                 <div className="invalid-feedback">{errors.totalStudents}</div>
+//               )}
+//             </div>
+
+//             {/* Status */}
+//             <div className="mb-3">
+//               <label className="form-label fw-semibold">Status</label>
+//               <select
+//                 name="status"
+//                 className="form-control rounded-pill"
+//                 value={formData.status}
+//                 onChange={handleChange}
+//               >
+//                 <option value="Active">Active</option>
+//                 <option value="Inactive">Inactive</option>
+//               </select>
+//             </div>
+
+//             <button
+//               type="submit"
+//               className="btn btn-primary rounded-pill px-4 py-2 shadow-sm fw-semibold"
+//             >
+//               {editingId ? 'Update Department' : 'Add Department'}
+//             </button>
+//           </form>
+//         </div>
+
+//         {/* Search */}
+//         <div className="mb-3 position-relative">
+//   <FaSearch className="position-absolute top-50 translate-middle-y ms-3 text-muted" />
+//   <input
+//     type="text"
+//     className="form-control rounded-pill ps-5"
+//     placeholder="Search departments..."
+//     value={searchTerm}
+//     onChange={handleSearch}   
+//   />
+// </div>
+
+
+//         {/* Table */}
+//         <div className="table-responsive shadow-sm rounded-4 bg-white">
+//           <table className="table table-hover text-center align-middle mb-0">
+//             <thead className="table-light rounded-4">
+//               <tr>
+//                 <th>Department Name</th>
+//                 <th>Department Code</th>
+//                 <th>Total Students</th>
+//                 <th>Active Students</th>
+//                 <th>Status</th>
+//                 <th>Creation Date</th>
+//                 <th>Actions</th>
+//               </tr>
+//             </thead>
+//             <tbody>
+//               {loading && (
+//                 <tr>
+//                   <td colSpan="7">Loading...</td>
+//                 </tr>
+//               )}
+//               {error && (
+//                 <tr>
+//                   <td colSpan="7" className="text-danger">
+//                     Error: {error}
+//                   </td>
+//                 </tr>
+//               )}
+//               {filteredDepartments.map((dep, index) => (
+//                 <tr key={index}>
+//                   <td>{dep.departmentName}</td>
+//                   <td>{dep.departmentCode}</td>
+//                   <td>{dep.totalNoOfStudents}</td>
+//                   <td>{dep.activeStudents || 0}</td>
+//                   <td>
+//                     <span
+//                       className={`badge ${dep.isActive ? 'bg-success' : 'bg-secondary'}`}
+//                     >
+//                       {dep.isActive ? 'Active' : 'Inactive'}
+//                     </span>
+//                   </td>
+//                   <td>{dep.creationDate || '-'}</td>
+//                   <td>
+//                     <button
+//                       className="btn btn-sm btn-link"
+//                       onClick={() => handleEdit(dep)}
+//                     >
+//                       Edit
+//                     </button>
+//                     <button
+//                       className="btn btn-sm btn-link text-danger"
+//                       onClick={() => dispatch(removeDepartmentRequest(dep.id))}
+//                     >
+//                       Deactivate
+//                     </button>
+//                   </td>
+//                 </tr>
+//               ))}
+//             </tbody>
+//           </table>
+//         </div>
+//       </div>
+//     </>
+//   );
+// }
+
+// export default DepartmentManager;
+
+
+import React, { useState, useEffect } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { FaSearch } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import Navbar from "../../Layout/Navbar";
 import {
   addDepartmentRequest,
   editDepartmentRequest,
   fetchDepartmentsRequest,
   removeDepartmentRequest,
-} from '../Redux_saga/Action/Department_Action';
+  searchDepartmentRequest,
+} from "../Redux_saga/Action/Department_Action";
 
 function DepartmentManager() {
   const dispatch = useDispatch();
@@ -1462,19 +2166,20 @@ function DepartmentManager() {
 
   // Form state
   const [formData, setFormData] = useState({
-    name: '',
-    code: '',
-    adminName: '',
-    mail: '',
-    totalStudents: '',
-    collegeId: '',
+    name: "",
+    code: "",
+    adminName: "",
+    mail: "",
+    totalStudents: "",
+    collegeId: "",
+    status: "Active",
   });
 
   const [errors, setErrors] = useState({});
-  const [searchTerm, setSearchTerm] = useState('');
-  const [editingId, setEditingId] = useState(null); // store editing department id
+  const [searchTerm, setSearchTerm] = useState("");
+  const [editingId, setEditingId] = useState(null);
 
-  // Initial load - fetch departments from API
+  // Initial load - fetch departments
   useEffect(() => {
     dispatch(fetchDepartmentsRequest());
   }, [dispatch]);
@@ -1482,28 +2187,7 @@ function DepartmentManager() {
   // Input change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: '' });
-  };
-
-  // Department dropdown change
-  const handleDepartmentChange = (e) => {
-    const selectedDeptName = e.target.value;
-    const selectedDept = departments.find(
-      (dep) => dep.departmentName === selectedDeptName
-    );
-
-    setFormData({
-      ...formData,
-      name: selectedDeptName,
-      totalStudents: selectedDept?.totalNoOfStudents || '',
-      code: selectedDept?.departmentCode || '',
-      adminName: selectedDept?.departmentAdminName || '',
-      mail: selectedDept?.mailId || '',
-      collegeId: selectedDept?.collegeId || '',
-    });
-
-    setErrors({ ...errors, name: '' });
-    setEditingId(selectedDept?.id || null); // auto-fill editing id if exists
+    setErrors({ ...errors, [e.target.name]: "" });
   };
 
   // Form submit
@@ -1513,100 +2197,108 @@ function DepartmentManager() {
     let newErrors = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Department Name is required';
+      newErrors.name = "Department Name is required";
       valid = false;
     }
     if (!formData.code.trim()) {
-      newErrors.code = 'Department Code is required';
+      newErrors.code = "Department Code is required";
       valid = false;
     }
     if (!formData.adminName.trim()) {
-      newErrors.adminName = 'Admin Name is required';
+      newErrors.adminName = "Admin Name is required";
       valid = false;
     }
     if (!formData.mail.trim()) {
-      newErrors.mail = 'Mail ID is required';
+      newErrors.mail = "Mail ID is required";
       valid = false;
     } else if (!/\S+@\S+\.\S+/.test(formData.mail)) {
-      newErrors.mail = 'Enter a valid email address';
+      newErrors.mail = "Enter a valid email address";
       valid = false;
     }
     if (!formData.totalStudents || formData.totalStudents <= 0) {
-      newErrors.totalStudents = 'Enter a valid number of students';
+      newErrors.totalStudents = "Enter a valid number of students";
       valid = false;
     }
 
     setErrors(newErrors);
-
     if (!valid) return;
-
-    const payload = {
+const payload = {
   departmentName: formData.name,
   departmentCode: formData.code,
-  degreeType: 'UG',
+  degreeType: "UG",
   departmentAdminName: formData.adminName,
   mailId: formData.mail,
-  collegeId: formData.collegeId || getCollegeIdForDepartment(formData.name),
+  collegeId: "1", // 👈 automatic 1
   totalNoOfStudents: Number(formData.totalStudents),
+  isActive: formData.status === "Active",
 };
 
 
     if (editingId) {
-      // Edit mode
       dispatch(editDepartmentRequest(editingId, payload));
     } else {
-      // Add mode
       dispatch(addDepartmentRequest(payload));
     }
 
     // Clear form after submit
     setFormData({
-      name: '',
-      code: '',
-      adminName: '',
-      mail: '',
-      totalStudents: '',
-      collegeId: '',
+      name: "",
+      code: "",
+      adminName: "",
+      mail: "",
+      totalStudents: "",
+      collegeId: "",
+      status: "Active",
     });
     setEditingId(null);
   };
 
   const getCollegeIdForDepartment = (deptName) => {
     const mapping = {
-      'Computer Science': 1,
-      'Electrical Engineering': 2,
-      'Mechanical Engineering': 3,
-      'Civil Engineering': 4,
+      "Computer Science": 1,
+      "Electrical Engineering": 2,
+      "Mechanical Engineering": 3,
+      "Civil Engineering": 4,
       Biology: 5,
     };
     return mapping[deptName] || 0;
   };
 
-  // Filter departments for search
+  // Filter departments
   const filteredDepartments = Array.isArray(departments)
     ? departments.filter((dep) =>
         dep.departmentName?.toLowerCase().includes(searchTerm.toLowerCase())
       )
     : [];
 
-  // Fill form for editing
+  // Edit fill form
   const handleEdit = (dep) => {
     setFormData({
-      name: dep.departmentName || '',
-      code: dep.departmentCode || '',
-      adminName: dep.departmentAdminName || '',
-      mail: dep.mailId || '',
-      totalStudents: dep.totalNoOfStudents || '',
-      collegeId: dep.collegeId || '',
+      name: dep.departmentName || "",
+      code: dep.departmentCode || "",
+      adminName: dep.departmentAdminName || "",
+      mail: dep.mailId || "",
+      totalStudents: dep.totalNoOfStudents || "",
+      collegeId: dep.collegeId || "",
+      status: dep.isActive ? "Active" : "Inactive",
     });
-    setEditingId(dep.id);
+    setEditingId(dep.departmentId || dep.id);
+  };
+
+  // Search
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+
+    if (value.trim() !== "") {
+      dispatch(searchDepartmentRequest(value));
+    }
   };
 
   return (
     <>
       <Navbar />
       <div className="container my-5">
-        {/* Header */}
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h2 className="fw-bold">Department Management</h2>
         </div>
@@ -1624,11 +2316,15 @@ function DepartmentManager() {
               <input
                 type="text"
                 name="name"
-                className={`form-control rounded-pill ${errors.name ? 'is-invalid' : ''}`}
+                className={`form-control rounded-pill ${
+                  errors.name ? "is-invalid" : ""
+                }`}
                 value={formData.name}
                 onChange={handleChange}
               />
-              {errors.name && <div className="invalid-feedback">{errors.name}</div>}
+              {errors.name && (
+                <div className="invalid-feedback">{errors.name}</div>
+              )}
             </div>
 
             {/* Department Code */}
@@ -1637,20 +2333,28 @@ function DepartmentManager() {
               <input
                 type="text"
                 name="code"
-                className={`form-control rounded-pill ${errors.code ? 'is-invalid' : ''}`}
+                className={`form-control rounded-pill ${
+                  errors.code ? "is-invalid" : ""
+                }`}
                 value={formData.code}
                 onChange={handleChange}
               />
-              {errors.code && <div className="invalid-feedback">{errors.code}</div>}
+              {errors.code && (
+                <div className="invalid-feedback">{errors.code}</div>
+              )}
             </div>
 
             {/* Admin Name */}
             <div className="mb-3">
-              <label className="form-label fw-semibold">Department Admin Name</label>
+              <label className="form-label fw-semibold">
+                Department Admin Name
+              </label>
               <input
                 type="text"
                 name="adminName"
-                className={`form-control rounded-pill ${errors.adminName ? 'is-invalid' : ''}`}
+                className={`form-control rounded-pill ${
+                  errors.adminName ? "is-invalid" : ""
+                }`}
                 value={formData.adminName}
                 onChange={handleChange}
               />
@@ -1665,20 +2369,28 @@ function DepartmentManager() {
               <input
                 type="email"
                 name="mail"
-                className={`form-control rounded-pill ${errors.mail ? 'is-invalid' : ''}`}
+                className={`form-control rounded-pill ${
+                  errors.mail ? "is-invalid" : ""
+                }`}
                 value={formData.mail}
                 onChange={handleChange}
               />
-              {errors.mail && <div className="invalid-feedback">{errors.mail}</div>}
+              {errors.mail && (
+                <div className="invalid-feedback">{errors.mail}</div>
+              )}
             </div>
 
             {/* Total Students */}
             <div className="mb-3">
-              <label className="form-label fw-semibold">Total No. of Students</label>
+              <label className="form-label fw-semibold">
+                Total No. of Students
+              </label>
               <input
                 type="number"
                 name="totalStudents"
-                className={`form-control rounded-pill ${errors.totalStudents ? 'is-invalid' : ''}`}
+                className={`form-control rounded-pill ${
+                  errors.totalStudents ? "is-invalid" : ""
+                }`}
                 value={formData.totalStudents}
                 onChange={handleChange}
               />
@@ -1687,11 +2399,25 @@ function DepartmentManager() {
               )}
             </div>
 
+            {/* Status */}
+            <div className="mb-3">
+              <label className="form-label fw-semibold">Status</label>
+              <select
+                name="status"
+                className="form-control rounded-pill"
+                value={formData.status}
+                onChange={handleChange}
+              >
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </div>
+
             <button
               type="submit"
               className="btn btn-primary rounded-pill px-4 py-2 shadow-sm fw-semibold"
             >
-              {editingId ? 'Update Department' : 'Add Department'}
+              {editingId ? "Update Department" : "Add Department"}
             </button>
           </form>
         </div>
@@ -1704,7 +2430,7 @@ function DepartmentManager() {
             className="form-control rounded-pill ps-5"
             placeholder="Search departments..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={handleSearch}
           />
         </div>
 
@@ -1716,7 +2442,6 @@ function DepartmentManager() {
                 <th>Department Name</th>
                 <th>Department Code</th>
                 <th>Total Students</th>
-                <th>Active Students</th>
                 <th>Status</th>
                 <th>Creation Date</th>
                 <th>Actions</th>
@@ -1725,12 +2450,12 @@ function DepartmentManager() {
             <tbody>
               {loading && (
                 <tr>
-                  <td colSpan="7">Loading...</td>
+                  <td colSpan="6">Loading...</td>
                 </tr>
               )}
               {error && (
                 <tr>
-                  <td colSpan="7" className="text-danger">
+                  <td colSpan="6" className="text-danger">
                     Error: {error}
                   </td>
                 </tr>
@@ -1740,17 +2465,16 @@ function DepartmentManager() {
                   <td>{dep.departmentName}</td>
                   <td>{dep.departmentCode}</td>
                   <td>{dep.totalNoOfStudents}</td>
-                  <td>{dep.activeStudents || 0}</td>
                   <td>
                     <span
                       className={`badge ${
-                        dep.status === 'Active' ? 'bg-success' : 'bg-secondary'
+                        dep.isActive ? "bg-success" : "bg-secondary"
                       }`}
                     >
-                      {dep.status || 'Active'}
+                      {dep.isActive ? "Active" : "Inactive"}
                     </span>
                   </td>
-                  <td>{dep.creationDate || '-'}</td>
+                  <td>{dep.creationDate || "-"}</td>
                   <td>
                     <button
                       className="btn btn-sm btn-link"
@@ -1760,7 +2484,9 @@ function DepartmentManager() {
                     </button>
                     <button
                       className="btn btn-sm btn-link text-danger"
-                      onClick={() => dispatch(removeDepartmentRequest(dep.id))}
+                      onClick={() =>
+                        dispatch(removeDepartmentRequest(dep.departmentId || dep.id))
+                      }
                     >
                       Deactivate
                     </button>

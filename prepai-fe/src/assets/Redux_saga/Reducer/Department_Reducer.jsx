@@ -6,7 +6,10 @@ import {
   FETCH_DEPARTMENTS_SUCCESS,
   FETCH_DEPARTMENTS_REQUEST,
   REMOVE_DEPARTMENT_SUCCESS,
-  EDIT_DEPARTMENT_SUCCESS
+  EDIT_DEPARTMENT_SUCCESS,
+  SEARCH_DEPARTMENT_FAILURE,
+  SEARCH_DEPARTMENT_SUCCESS,
+  SEARCH_DEPARTMENT_REQUEST
 } from "../Types/Department_Types";
 
 const initialState = {
@@ -65,6 +68,13 @@ case FETCH_DEPARTMENTS_REQUEST:
           (dep) => dep.id !== action.payload
         ),
       };
+
+      case SEARCH_DEPARTMENT_REQUEST:
+      return { ...state, loading: true, error: null };
+    case SEARCH_DEPARTMENT_SUCCESS:
+      return { ...state, loading: false, departments: action.payload };
+    case SEARCH_DEPARTMENT_FAILURE:
+      return { ...state, loading: false, error: action.payload };
       
     default:
       return state;
