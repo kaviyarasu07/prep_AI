@@ -32,9 +32,9 @@ public class DepartmentManagementController {
     }
 
 
-    @GetMapping("/count/{departmentName}")
-    public ResponseEntity<Long> getStudentCount(@PathVariable String departmentName) {
-        long count = departmentservice.getStudentCountbyDepartmentName(departmentName);
+    @GetMapping("/count")
+    public ResponseEntity<Long> getStudentCount(@RequestParam String departmentName,int collegeId) {
+        long count = departmentservice.getStudentCountbyDepartmentName(departmentName,collegeId);
         return ResponseEntity.ok(count);
     }
 

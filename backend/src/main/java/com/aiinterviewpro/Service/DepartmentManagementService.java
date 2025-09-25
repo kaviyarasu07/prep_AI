@@ -117,8 +117,8 @@ public class DepartmentManagementService {
         }
         return dto;
     }
-public long getStudentCountbyDepartmentName(String departmentName){
-        return student.countByDepartmentName(departmentName);
+public long getStudentCountbyDepartmentName(String departmentName,int collegeId){
+        return student.countByDepartmentName(departmentName,collegeId);
 }
 
     public void handleForgotPassword (@NotBlank @Email String email){
