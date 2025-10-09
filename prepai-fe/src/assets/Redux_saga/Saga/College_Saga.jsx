@@ -103,13 +103,13 @@ function* fetchDepartmentByIdSaga(action) {
 function* updateDepartmentSaga(action) {
   try {
     const { id, data } = action.payload;
-    const updatedDept = yield call(updateDepartment, id, data); // ✅ correct API function call
+    const updatedDept = yield call(updateDepartment, id, data);
     console.log("Updated Department:", updatedDept);
 
-    yield put({ type: UPDATE_DEPARTMENT_SUCCESS, payload: updatedDept }); // ✅ success action
+    yield put({ type: UPDATE_DEPARTMENT_SUCCESS, payload: updatedDept });
     alert("Department updated successfully!");
   } catch (error) {
-    yield put({ type: UPDATE_DEPARTMENT_FAILURE, payload: error.message }); // ✅ failure action
+    yield put({ type: UPDATE_DEPARTMENT_FAILURE, payload: error.message }); 
     alert("Update failed: " + error.message);
   }
 }
@@ -131,7 +131,7 @@ export default function* collegeSaga() {
 yield takeLatest(SEARCH_DEPARTMENTS_REQUEST, searchDepartmentsSaga);
  yield takeLatest(FETCH_DEPARTMENT_BY_ID_REQUEST, fetchDepartmentByIdSaga);
  yield takeLatest(UPDATE_DEPARTMENT_REQUEST, updateDepartmentSaga);  
- yield takeLatest(DELETE_DEPARTMENT_REQUEST, deleteDepartmentSaga);
+ yield takeLatest(DELETE_DEPARTMENT_REQUEST, deleteDepartmentSaga); 
 
 }
 

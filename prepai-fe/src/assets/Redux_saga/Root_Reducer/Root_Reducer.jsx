@@ -17,7 +17,8 @@ import departmentReducer from "../Reducer/Department_Reducer";
 
 const rootReducer = combineReducers({
   collegeData: collegeReducer ,
- departmentData: departmentReducer,  // ✅ key must match your useSelector
+ departmentData: departmentReducer,
+ 
 
 });
 

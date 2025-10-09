@@ -30,7 +30,7 @@ const departmentReducer = (state = initialState, action) => {
   return {
     ...state,
     loading: false,
-    departments: [...state.departments, action.payload], // add new
+    departments: [...state.departments, action.payload], 
     error: ""
   };
 case ADD_DEPARTMENT_FAILURE:
@@ -46,7 +46,7 @@ case FETCH_DEPARTMENTS_REQUEST:
       return {
         ...state,
         loading: false,
-        departments: action.payload,  // full list store panna
+        departments: action.payload,  
         error: ""
       };
 
