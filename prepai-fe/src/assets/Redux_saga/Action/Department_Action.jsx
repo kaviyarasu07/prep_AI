@@ -4,7 +4,10 @@ import {
   ADD_DEPARTMENT_FAILURE,
   FETCH_DEPARTMENTS_FAILURE,
   FETCH_DEPARTMENTS_SUCCESS,
-  FETCH_DEPARTMENTS_REQUEST
+  FETCH_DEPARTMENTS_REQUEST,
+  SEARCH_DEPARTMENT_FAILURE,
+  SEARCH_DEPARTMENT_SUCCESS,
+  SEARCH_DEPARTMENT_REQUEST
 } from "../Types/Department_Types";
 
 // Request action
@@ -31,9 +34,10 @@ export const addDepartmentFailure = (error) => {
   };
 };
 
-export const fetchDepartmentsRequest = () => {
+export const fetchDepartmentsRequest = (payload) => {
   return {
     type: FETCH_DEPARTMENTS_REQUEST,
+    payload
   };
 };
 
@@ -70,7 +74,7 @@ export const editDepartmentFailure = (error) => ({
   payload: error,
 });
 
-// ✅ Remove
+
 export const removeDepartmentRequest = (id) => ({
   type: "REMOVE_DEPARTMENT_REQUEST",
   payload: id,
@@ -83,5 +87,21 @@ export const removeDepartmentSuccess = (id) => ({
 
 export const removeDepartmentFailure = (error) => ({
   type: "REMOVE_DEPARTMENT_FAILURE",
+  payload: error,
+});
+
+
+export const searchDepartmentRequest = (code) => ({
+  type: SEARCH_DEPARTMENT_REQUEST,
+  payload: code,
+});
+
+export const searchDepartmentSuccess = (data) => ({
+  type: SEARCH_DEPARTMENT_SUCCESS,
+  payload: data,
+});
+
+export const searchDepartmentFailure = (error) => ({
+  type: SEARCH_DEPARTMENT_FAILURE,
   payload: error,
 });

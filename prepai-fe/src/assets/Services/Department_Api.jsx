@@ -3,6 +3,7 @@ import axios from "axios";
 const BASE_URL = "http://localhost:8080/api/ca";
 
 export const addDepartmentApi = (payload) => {
+  
   return axios.post(`${BASE_URL}/addDepartment/create`, payload);
 };
 
@@ -10,6 +11,10 @@ export const addDepartmentApi = (payload) => {
 
 
 
+export const searchDepartmentApi = (code) => {
+  return axios.get(`${BASE_URL}/search/searchBy?departmentCode=${code}`);
+};
+ 
 export const fetchAllDepartments = async () => {
   const res = await axios.get(`${BASE_URL}/registeredDepartment/getAll`);
   return res.data;
