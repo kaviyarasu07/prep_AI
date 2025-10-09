@@ -72,8 +72,7 @@ public class DepartmentManagementService {
                 department.setIsActive(true); // default to active
             }
             department = deptrepo.save(department);
-
-
+        }
             dto.setDepartmentId(department.getId());
 
             // 4. Create Staff, Login, Email only if staff doesn't already exist
@@ -114,7 +113,7 @@ public class DepartmentManagementService {
 
 
 
-        }
+
         return dto;
     }
 public long getStudentCountbyDepartmentName(String departmentName,int collegeId){
