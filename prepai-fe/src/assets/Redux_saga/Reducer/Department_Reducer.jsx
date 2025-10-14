@@ -9,7 +9,10 @@ import {
   EDIT_DEPARTMENT_SUCCESS,
   SEARCH_DEPARTMENT_FAILURE,
   SEARCH_DEPARTMENT_SUCCESS,
-  SEARCH_DEPARTMENT_REQUEST
+  SEARCH_DEPARTMENT_REQUEST,
+  FETCH_COLLEGE_REQUEST,
+  FETCH_COLLEGE_SUCCESS,
+  FETCH_COLLEGE_FAILURE
 } from "../Types/Department_Types";
 
 const initialState = {
@@ -76,6 +79,12 @@ case FETCH_DEPARTMENTS_REQUEST:
     case SEARCH_DEPARTMENT_FAILURE:
       return { ...state, loading: false, error: action.payload };
       
+      case FETCH_COLLEGE_REQUEST:
+  return { ...state, loading: true, error: null };
+case FETCH_COLLEGE_SUCCESS:
+  return { ...state, loading: false, colleges: action.payload };
+case FETCH_COLLEGE_FAILURE:
+  return { ...state, loading: false, error: action.payload };
     default:
       return state;
   }

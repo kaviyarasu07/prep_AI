@@ -7,7 +7,10 @@ import {
   FETCH_DEPARTMENTS_REQUEST,
   SEARCH_DEPARTMENT_FAILURE,
   SEARCH_DEPARTMENT_SUCCESS,
-  SEARCH_DEPARTMENT_REQUEST
+  SEARCH_DEPARTMENT_REQUEST,
+  FETCH_COLLEGE_FAILURE,
+  FETCH_COLLEGE_SUCCESS,
+  FETCH_COLLEGE_REQUEST
 } from "../Types/Department_Types";
 
 // Request action
@@ -103,5 +106,21 @@ export const searchDepartmentSuccess = (data) => ({
 
 export const searchDepartmentFailure = (error) => ({
   type: SEARCH_DEPARTMENT_FAILURE,
+  payload: error,
+});
+
+export const fetchCollegeRequest = () => ({
+  type: FETCH_COLLEGE_REQUEST,
+});
+
+// Success Action
+export const fetchCollegeSuccess = (data) => ({
+  type: FETCH_COLLEGE_SUCCESS,
+  payload: data,
+});
+
+// Failure Action
+export const fetchCollegeFailure = (error) => ({
+  type: FETCH_COLLEGE_FAILURE,
   payload: error,
 });

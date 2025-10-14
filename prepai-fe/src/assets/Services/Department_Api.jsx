@@ -30,3 +30,8 @@ export function editDepartmentApi(id, updatedData) {
 export function removeDepartmentApi(id) {
   return axios.delete(`${BASE_URL}/delete/${id}`);
 }
+
+export const fetchAllCollegesApi = async () => {
+  const res = await axios.get(`${BASE_URL}/addDepartment/getAll`);
+  return res.data; // array of colleges
+}; 
