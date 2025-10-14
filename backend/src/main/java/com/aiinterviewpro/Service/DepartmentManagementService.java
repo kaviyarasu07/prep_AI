@@ -1,5 +1,6 @@
 package com.aiinterviewpro.Service;
 
+import com.aiinterviewpro.DTO.CollegeDropDownDto;
 import com.aiinterviewpro.DTO.DepartmentManagementDto;
 //import com.aiinterviewpro.DTO.StudentCountDto;
 import com.aiinterviewpro.Entity.*;
@@ -10,9 +11,11 @@ import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +41,8 @@ public class DepartmentManagementService {
     private PasswordEncoder encoder;
     @Autowired
     private LoginRepo loginrepo;
+
+    @Transactional
     public DepartmentManagementDto create(DepartmentManagementDto dto) {
         // 1. Check if DepartmentMaster already exists
         List<DepartmentMaster> masters = masterepo.findByDepartmentName(dto.getDepartmentName());
@@ -73,88 +78,99 @@ public class DepartmentManagementService {
             }
             department = deptrepo.save(department);
         }
-            dto.setDepartmentId(department.getId());
+        dto.setDepartmentId(department.getId());
 
-            // 4. Create Staff, Login, Email only if staff doesn't already exist
-            boolean staffExists = staffrepo.existsByEmail(dto.getMailId());
-            if (!staffExists) {
-                StaffDetails staff = new StaffDetails();
-                staff.setStaffName(dto.getDepartmentAdminName());
-                staff.setEmail(dto.getMailId());
-                staff.setCollege(college);
-                staff.setDepartment(department);
+        // 4. Create Staff, Login, Email only if staff doesn't already exist
+        boolean staffExists = staffrepo.existsByEmail(dto.getMailId());
+        if (!staffExists) {
+            StaffDetails staff = new StaffDetails();
+            staff.setStaffName(dto.getDepartmentAdminName());
+            staff.setEmail(dto.getMailId());
+            staff.setCollege(college);
+            staff.setDepartment(department);
 
-                String tempPassword = PasswordUtil.generateTemporaryPassword(10);
+            String tempPassword = PasswordUtil.generateTemporaryPassword(10);
 
-                String subject = "Department Admin Credentials Created";
-                String body = String.format(
-                        "Dear %s,\n\nYou have been assigned as the Department Admin for the %s department at %s.\n\n" +
-                                "Your temporary password is: %s\n\nPlease log in and reset your password immediately.\n\nRegards,\nAdmin Team",
-                        staff.getStaffName(), master.getDepartmentName(), college.getName(), tempPassword
-                );
+            String subject = "Department Admin Credentials Created";
+            String body = String.format(
+                    "Dear %s,\n\nYou have been assigned as the Department Admin for the %s department at %s.\n\n" +
+                            "Your temporary password is: %s\n\nPlease log in and reset your password immediately.\n\nRegards,\nAdmin Team",
+                    staff.getStaffName(), master.getDepartmentName(), college.getName(), tempPassword
+            );
 
-                email.sendAdminEmail(staff.getEmail(), subject, body);
+            email.sendAdminEmail(staff.getEmail(), subject, body);
 
-                Role role = rolerepo.findByName("Department Admin")
-                        .orElseThrow(() -> new IllegalStateException("Role not found: Department Admin"));
-                staff.setRole(role);
-                staffrepo.save(staff);
+            Role role = rolerepo.findByName("Department Admin")
+                    .orElseThrow(() -> new IllegalStateException("Role not found: Department Admin"));
+            staff.setRole(role);
+            staffrepo.save(staff);
 
-                Login login = new Login();
-                login.setEmail(staff.getEmail());
-                login.setPassword(encoder.encode(tempPassword));
-                login.setRole(role);
-                login.setUserId(staff.getId());
-                login.setIsTempPassword(true);
-                login.setCreatedAt(LocalDateTime.now());
-                login.setUpdatedAt(LocalDateTime.now());
-                loginrepo.save(login);
-            }
-
-
+            Login login = new Login();
+            login.setEmail(staff.getEmail());
+            login.setPassword(encoder.encode(tempPassword));
+            login.setRole(role);
+            login.setUserId(staff.getId());
+            login.setIsTempPassword(true);
+            login.setCreatedAt(LocalDateTime.now());
+            login.setUpdatedAt(LocalDateTime.now());
+            loginrepo.save(login);
+        }
 
 
         return dto;
     }
-public long getStudentCountbyDepartmentName(String departmentName,int collegeId){
-        return student.countByDepartmentName(departmentName,collegeId);
-}
 
-    public void handleForgotPassword (@NotBlank @Email String email){
-            Login user = loginrepo.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found with this email"));
-
-            if (user.isDisabled()) {
-                throw new RuntimeException("Account is disabled");
-            }
-
-            String tempPassword = PasswordUtil.generateTemporaryPassword(10);
-            String encodedPassword = encoder.encode(tempPassword);
-
-            user.setPassword(encodedPassword);
-            user.setIsTempPassword(true);
-            loginrepo.save(user);
-            String body = "Your temporary password is: " + tempPassword + "\nPlease login using this password and reset it immediately.";
-
-            this.email.sendAdminEmail(email, "Temporary Password", body);
-        }
-
-        public void resetPassword (String newPassword, Principal principal){
-
-            String email = principal.getName();
-            Login user = loginrepo.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
-
-            if (!user.isTempPassword()) {
-                throw new RuntimeException("You can only reset your password if you have a temporary password");
-            }
-
-            if (newPassword == null || newPassword.length() < 10) {
-                throw new RuntimeException("Password must be at least 10 characters long");
-            }
-
-            user.setPassword(encoder.encode(newPassword));
-            user.setIsTempPassword(false);
-            user.setLastLoginAt(LocalDateTime.now());
-
-            loginrepo.save(user);
-        }
+    public long getStudentCountbyDepartmentName(String departmentName, int collegeId) {
+        return student.countByDepartmentName(departmentName, collegeId);
     }
+
+    public void handleForgotPassword(@NotBlank @Email String email) {
+        Login user = loginrepo.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found with this email"));
+
+        if (user.isDisabled()) {
+            throw new RuntimeException("Account is disabled");
+        }
+
+        String tempPassword = PasswordUtil.generateTemporaryPassword(10);
+        String encodedPassword = encoder.encode(tempPassword);
+
+        user.setPassword(encodedPassword);
+        user.setIsTempPassword(true);
+        loginrepo.save(user);
+        String body = "Your temporary password is: " + tempPassword + "\nPlease login using this password and reset it immediately.";
+
+        this.email.sendAdminEmail(email, "Temporary Password", body);
+    }
+
+    public void resetPassword(String newPassword, Principal principal) {
+
+        String email = principal.getName();
+        Login user = loginrepo.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!user.isTempPassword()) {
+            throw new RuntimeException("You can only reset your password if you have a temporary password");
+        }
+
+        if (newPassword == null || newPassword.length() < 10) {
+            throw new RuntimeException("Password must be at least 10 characters long");
+        }
+
+        user.setPassword(encoder.encode(newPassword));
+        user.setIsTempPassword(false);
+        user.setLastLoginAt(LocalDateTime.now());
+
+        loginrepo.save(user);
+    }
+
+    public List<CollegeDropDownDto> getAll() {
+        List<College> colleges =  collegerepo.findAll();
+        List<CollegeDropDownDto> dtolist = new ArrayList<>();
+        for(College college: colleges){
+            CollegeDropDownDto dto = new CollegeDropDownDto();
+            dto.setCollegeId(college.getId());
+            dto.setCollegeName(college.getName());
+            dtolist.add(dto);
+        }
+return dtolist;
+    }
+}

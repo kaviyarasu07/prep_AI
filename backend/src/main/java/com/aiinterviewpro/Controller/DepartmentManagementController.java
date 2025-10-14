@@ -1,5 +1,6 @@
 package com.aiinterviewpro.Controller;
 
+import com.aiinterviewpro.DTO.CollegeDropDownDto;
 import com.aiinterviewpro.DTO.DepartmentManagementDto;
 import com.aiinterviewpro.DTO.ResetPasswordRequestDto;
 import com.aiinterviewpro.Service.DepartmentManagementService;
@@ -12,6 +13,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.security.Principal;
+import java.util.List;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/ca/addDepartment")
@@ -47,4 +50,10 @@ public class DepartmentManagementController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
+
+    @GetMapping("/getAll")
+    public List<CollegeDropDownDto> findAll(){
+        return departmentservice.getAll();
+    }
 }
+
