@@ -9,10 +9,13 @@ import {
   FETCH_DEPARTMENTS_FAILURE,
   REMOVE_DEPARTMENT_REQUEST,
   EDIT_DEPARTMENT_REQUEST,
-  SEARCH_DEPARTMENT_REQUEST
+  SEARCH_DEPARTMENT_REQUEST,
+ 
+  FETCH_COLLEGE_REQUEST,
+ 
 } from "../Types/Department_Types";
-import { addDepartmentApi, editDepartmentApi, fetchAllDepartments, removeDepartmentApi, searchDepartmentApi  } from "../../Services/Department_Api";
-import { editDepartmentFailure, editDepartmentSuccess, fetchDepartmentsFailure, fetchDepartmentsSuccess, removeDepartmentFailure, removeDepartmentSuccess, searchDepartmentFailure, searchDepartmentSuccess } from "../Action/Department_Action";
+import { addDepartmentApi, editDepartmentApi, fetchAllCollegesApi, fetchAllDepartments, removeDepartmentApi, searchDepartmentApi  } from "../../Services/Department_Api";
+import { editDepartmentFailure, editDepartmentSuccess, fetchCollegeFailure, fetchCollegeSuccess, fetchDepartmentsFailure, fetchDepartmentsSuccess, removeDepartmentFailure, removeDepartmentSuccess, searchDepartmentFailure, searchDepartmentSuccess } from "../Action/Department_Action";
 
 
 function* addDepartmentSaga(action) {
@@ -76,8 +79,17 @@ function* handleSearchDepartment(action) {
   } catch (error) {
     yield put(searchDepartmentFailure(error.message));
   }
+
 }
 
+function* fetchCollegeSaga() {
+  try {
+    const colleges = yield call(fetchAllCollegesApi);
+    yield put(fetchCollegeSuccess(colleges));
+  } catch (error) {
+    yield put(fetchCollegeFailure(error.message));
+  }
+}
 
 // watcher saga
 function* departmentSaga() {
@@ -86,6 +98,8 @@ function* departmentSaga() {
   yield takeLatest(EDIT_DEPARTMENT_REQUEST, editDepartmentSaga);
   yield takeLatest(REMOVE_DEPARTMENT_REQUEST, removeDepartmentSaga);
   yield takeLatest(SEARCH_DEPARTMENT_REQUEST, handleSearchDepartment);
+  yield takeLatest(FETCH_COLLEGE_REQUEST, fetchCollegeSaga);
+
 
 
 }

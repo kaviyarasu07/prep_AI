@@ -33,5 +33,5 @@ export function removeDepartmentApi(id) {
 
 export const fetchAllCollegesApi = async () => {
   const res = await axios.get(`${BASE_URL}/addDepartment/getAll`);
-  return res.data; // array of colleges
-}; 
+  return res.data; 
+};
