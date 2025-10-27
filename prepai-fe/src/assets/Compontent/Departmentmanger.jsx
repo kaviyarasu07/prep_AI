@@ -37,7 +37,7 @@ function DepartmentManager() {
 
   useEffect(() => {
     dispatch(fetchDepartmentsRequest());
-     dispatch(fetchCollegeRequest()); // ✅ Dispatch college fetch
+     dispatch(fetchCollegeRequest()); 
   }, [dispatch]);
 
   const handleChange = (e) => {
@@ -143,6 +143,12 @@ const handleEdit = (dep) => {
         dep.departmentName?.toLowerCase().includes(searchTerm.toLowerCase())
       )
     : [];
+
+
+    const handleDeactivate = (dep) => {
+   console.log("Deactivate clicked for:", dep);
+};
+
 
   return (
     <>
@@ -316,7 +322,7 @@ const handleEdit = (dep) => {
           <FaSearch className="position-absolute top-50 translate-middle-y ms-3 text-muted" />
           <input
             type="text"
-            className="form-control rounded-pill ps-5"
+            className="form-control rounded-pill ps-5" 
             placeholder="Search departments..."
             value={searchTerm}
             onChange={handleSearch}
@@ -404,13 +410,14 @@ const handleEdit = (dep) => {
       </li>
 
       <li>
-        <button
-          className="dropdown-item text-danger d-flex align-items-center"
-          onClick={() => handleDeactivate(dep)}
-        >
-          Deactivate
-        </button>
-      </li>
+  <button
+    className="dropdown-item text-danger d-flex align-items-center"
+    onClick={() => handleDeactivate(dep)}
+  >
+    Deactivate
+  </button>
+</li>
+
     </ul>
   </div>
 </td>
@@ -1247,3 +1254,7 @@ export default DepartmentManager;
 // }
 
 // export default DepartmentManager;
+
+
+
+

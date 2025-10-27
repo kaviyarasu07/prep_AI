@@ -803,10 +803,9 @@ import { FaHome, FaBuilding, FaUsers, FaClipboardList, FaUserCheck, FaCogs, FaCa
 import {
   fetchCollegeSummaryRequest,
   fetchDepartmentByIdRequest,
-  
   searchDepartmentsRequest,
   updateDepartmentRequest,
-  deleteDepartmentRequest,   // ✅ Import delete action
+  deleteDepartmentRequest,   
   fetchCollegeDepartmentsRequest
 } from "../Redux_saga/Action/College_Action";
 
@@ -1157,3 +1156,8 @@ const Sidebar = () => {
 
 
 export default CollegeDepartment;
+
+
+
+
+
