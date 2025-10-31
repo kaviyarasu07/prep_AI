@@ -87,11 +87,10 @@
 
 
 
-// MockInterviewsCreative.jsx
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaPlay, FaClock, FaCalendarAlt, FaStar, FaList } from "react-icons/fa";
-import Navbar from '../../Layout/Navbar'; // keep your Navbar
+import Navbar from '../../Layout/Navbar';  
 
 const summaryCards = [
   { id: 1, title: "Total Interviews", value: 82, hint: "All time", icon: <FaList /> , accent: "linear-gradient(135deg,#8ec5fc,#e0c3fc)"},
@@ -112,7 +111,7 @@ const past = [
 ];
 
 export default function MockInterviewsCreative() {
-  // small helpers for hover effect (inline-only)
+ 
   const handleEnter = (e) => {
     e.currentTarget.style.transform = "translateY(-6px)";
     e.currentTarget.style.boxShadow = "0 18px 40px rgba(30, 30, 60, 0.12)";
@@ -123,7 +122,7 @@ export default function MockInterviewsCreative() {
   };
 
   const startInterview = (title) => {
-    // placeholder action - integrate with router or API as needed
+   
     alert(`Starting interview: ${title}`);
   };
 
@@ -149,7 +148,7 @@ export default function MockInterviewsCreative() {
           </div>
         </div>
 
-        {/* Summary Cards — creative with gradient accent (inline bg) */}
+        
         <div className="row g-3 mb-4">
           {summaryCards.map(card => (
             <div className="col-12 col-sm-6 col-md-3" key={card.id}>
@@ -180,7 +179,6 @@ export default function MockInterviewsCreative() {
           ))}
         </div>
 
-        {/* Upcoming Section (card with subtle pastel bg) */}
         <div className="mb-4">
           <div className="d-flex align-items-center justify-content-between mb-3">
             <h2 className="h5 fw-bold mb-0">Upcoming Interviews</h2>
@@ -281,3 +279,4 @@ export default function MockInterviewsCreative() {
     </>
   );
 }
+

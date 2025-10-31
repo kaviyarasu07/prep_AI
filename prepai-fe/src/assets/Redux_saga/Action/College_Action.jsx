@@ -42,7 +42,7 @@ import {
   FETCH_COLLEGE_DEPARTMENTS_REQUEST
 } from "../Types/College_Types";
 
-// === College Summary Actions ===
+
 export const fetchCollegeSummaryRequest = () => ({
   type: FETCH_COLLEGE_SUMMARY_REQUEST,
 });
@@ -57,7 +57,7 @@ export const fetchCollegeSummaryFailure = (error) => ({
   payload: error,
 });
 
-// === Departments Actions ===
+
 
 export const fetchCollegeDepartmentsRequest = () => ({
   type: FETCH_COLLEGE_DEPARTMENTS_REQUEST,

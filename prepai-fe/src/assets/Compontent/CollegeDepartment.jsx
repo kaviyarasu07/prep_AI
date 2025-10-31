@@ -796,10 +796,19 @@
 
 // CollegeDepartment.jsx
 import React, { useEffect, useState } from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
+
+
+
+import 'bootstrap/dist/css/bootstrap.min.css';   
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
 import { useDispatch, useSelector } from "react-redux";
+
 import { useNavigate } from 'react-router-dom';
-import { FaHome, FaBuilding, FaUsers, FaClipboardList, FaUserCheck, FaCogs, FaCalendarAlt } from 'react-icons/fa';
+import { FaHome, FaBuilding, FaUsers, FaClipboardList, FaUserCheck, FaCogs, FaCalendarAlt, FaUser } from 'react-icons/fa';
 import {
   fetchCollegeSummaryRequest,
   fetchDepartmentByIdRequest,
@@ -826,10 +835,26 @@ function CollegeDepartment() {
   const collegeData = useSelector((state) => state.collegeData || {});
   const { summary = {}, departments = [], interviews = [], loading = false, error = null } = collegeData;
 
-  useEffect(() => {
-    dispatch(fetchCollegeSummaryRequest());
-    dispatch( fetchCollegeDepartmentsRequest ());
-  }, [dispatch]);
+useEffect(() => {
+  dispatch(fetchCollegeSummaryRequest());
+  dispatch(fetchCollegeDepartmentsRequest());
+}, [dispatch]);
+
+useEffect(() => {
+  if (!loading && departments.length > 0) {
+    toast.success("Departments loaded successfully!", {
+      position: "top-right",
+      autoClose: 2000,
+    });
+  }
+  if (error) {
+    toast.error("Failed to fetch departments!", {
+      position: "top-right",
+      autoClose: 2000,
+    });
+  }
+}, [loading, departments, error]);
+
 
   const handleSearch = (e) => {
     const value = e.target.value;
@@ -848,12 +873,17 @@ function CollegeDepartment() {
         { title: "Total Students", value: summary.totalStudents || 0 },
         { title: "Total Department Admins", value: summary.totalDepartmentAdmins || 0 }
       ];
+      
 
   return (
     <div className="container-fluid">
+  
+ 
+    <ToastContainer />
+
       <div className="row vh-100">
         {/* Sidebar */}
-        <div className="col-md-2 bg-white border-end d-flex flex-column justify-content-between" style={{ minHeight: '100vh' }}>
+        {/* <div className="col-md-2 bg-white border-end d-flex flex-column justify-content-between" style={{ minHeight: '100vh' }}>
           <div>
             <div className="p-3 border-bottom text-center bg-light">
               <h5 className="m-0">PrepMentor AI</h5>
@@ -871,7 +901,80 @@ function CollegeDepartment() {
           <div className="p-3 border-top text-center bg-light">
             <button className="btn btn-outline-secondary btn-sm">Settings</button>
           </div>
-        </div>
+        </div> */}
+
+
+{/* Sidebar */}
+<div
+  className="col-md-2 d-flex flex-column justify-content-between shadow-sm"
+  style={{
+    backgroundColor: "#ffffff",
+    borderRight: "1px solid #dee2e6",
+    minHeight: "100vh",
+    padding: "0",
+  }}
+>
+  {/* --- Brand Header --- */}
+  <div className="p-3 border-bottom text-center" style={{ backgroundColor: "#f8f9fa" }}>
+    <h5 className="m-0 fw-bold" style={{ color: "#333" }}>
+      PrepMentor AI
+    </h5>
+  </div>
+
+  {/* --- Navigation Menu --- */}
+  <ul className="nav flex-column px-3 py-3" style={{ flex: "1" }}>
+  
+    <SidebarItem
+      name="Department Management"
+      icon={<FaBuilding className="me-2 fs-5" />}
+      activeItem={activeItem}
+      setActiveItem={setActiveItem}
+    />
+    <SidebarItem
+      name="Department Admins"
+      icon={<FaUserCheck className="me-2 fs-5" />}
+      activeItem={activeItem}
+      setActiveItem={setActiveItem}
+    />
+    <SidebarItem
+      name="Students"
+      icon={<FaUsers className="me-2 fs-5" />}
+      activeItem={activeItem}
+      setActiveItem={setActiveItem}
+    />
+    <SidebarItem
+      name="Assessments"
+      icon={<FaClipboardList className="me-2 fs-5" />}
+      activeItem={activeItem}
+      setActiveItem={setActiveItem}
+    />
+    <SidebarItem
+      name="Mock Interviews"
+      icon={<FaCalendarAlt className="me-2 fs-5" />}
+      activeItem={activeItem}
+      setActiveItem={setActiveItem}
+    />
+    <SidebarItem
+      name="Reports"
+      icon={<FaCogs className="me-2 fs-5" />}
+      activeItem={activeItem}
+      setActiveItem={setActiveItem}
+    />
+  </ul>
+
+  {/* --- Bottom Settings Button --- */}
+  <div className="border-top text-center py-3" style={{ backgroundColor: "#f8f9fa" }}>
+    <button
+      className="btn btn-outline-secondary btn-sm px-4"
+      style={{
+        borderRadius: "20px",
+        fontWeight: "500",
+      }}
+    >
+      <i className="bi bi-gear me-2"></i>Settings
+    </button>
+  </div>
+</div>
 
         {/* Main Content */}
         <div className="col-md-10 p-4 bg-light overflow-auto" style={{ minHeight: '100vh' }}>
@@ -898,15 +1001,29 @@ function CollegeDepartment() {
           </div>
 
           <h6 className="text-muted mb-3">Department Summary</h6>
-          <div className="mb-3">
-            <input
-              type="text"
-              className="form-control rounded-pill"
-              placeholder="Search by department or admin name"
-              value={searchTerm}
-              onChange={handleSearch}
-            />
-          </div>
+    <div className="mb-3" style={{ maxWidth: "300px" }}>
+  <div className="input-group shadow-sm rounded-pill border">
+    <span className="input-group-text bg-white border-0 rounded-start-pill ps-2">
+      <i className="bi bi-search text-secondary"></i>
+    </span>
+    <input
+      type="text"
+      className="form-control border-0 rounded-end-pill py-1"
+      placeholder="Search..."
+      value={searchTerm}
+      onChange={handleSearch}
+      style={{
+        fontSize: "14px",
+        height: "36px",
+        backgroundColor: "#f8f9fa",
+        color: "#333",
+        transition: "all 0.3s ease",
+      }}
+    />
+  </div>
+</div>
+
+
           <div className="table-responsive mb-5">
             <table className="table table-hover table-bordered bg-white shadow-sm">
               <thead className="table-light">
@@ -930,44 +1047,122 @@ function CollegeDepartment() {
         <td>{dept.assessments || 0}</td>
         <td>{dept.mockInterviews || 0}</td>
         <td>
-          <span className={`badge ${dept.status === "Active" ? "bg-success" : "bg-secondary"}`}>
+          <span className={`badge ${dept.status === "Active" ? "bg-primary" : "bg-secondary"}`}>
             {dept.status}
           </span>
         </td>
-        <td>
-          <div className="btn-group" role="group">
-            <button
-              className="btn btn-sm btn-primary"
-              onClick={() => dispatch(fetchDepartmentByIdRequest(dept.id))}
-            >
-              View
-            </button>
-            <button
-              className="btn btn-sm btn-warning"
-              onClick={() => {
-                setEditData({
-                  id: dept.id,
-                  departmentName: dept.departmentName,
-                  assignedAdmins: dept.assignedAdmins,
-                  status: dept.status === "Active"
-                });
-                setShowEditForm(true);
-              }}
-            >
-              Edit
-            </button>
-            <button
-              className="btn btn-sm btn-danger"
-              onClick={() => {
-                if (window.confirm("Are you sure you want to delete this department?")) {
-                  dispatch(deleteDepartmentRequest(dept.id));
-                }
-              }}
-            >
-              Delete
-            </button>
-          </div>
-        </td>
+<td className="text-center">
+  <div className="dropdown">
+    {/* --- Three Dots Button --- */}
+    <button
+      className="btn btn-light btn-sm border-0 shadow-sm"
+      type="button"
+      id={`dropdownMenuButton${dept.id}`}
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+      style={{
+        borderRadius: "50%",
+        width: "36px",
+        height: "36px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <i className="bi bi-three-dots-vertical fs-5 text-secondary"></i>
+    </button>
+
+    {/* --- Dropdown Menu --- */}
+    <ul
+      className="dropdown-menu dropdown-menu-end shadow-lg border-0 p-2"
+      aria-labelledby={`dropdownMenuButton${dept.id}`}
+      style={{
+        borderRadius: "12px",
+        minWidth: "160px",
+        backgroundColor: "rgba(248, 244, 244, 0.95)",
+        fontSize:"15px"
+      }}
+    >
+      {/* View */}
+      <li>
+        <button
+          className="dropdown-item d-flex align-items-center rounded-3 mb-1"
+          style={{
+            color: "#111213ff",
+            fontWeight: 500,
+          }}
+          onClick={() => dispatch(fetchDepartmentByIdRequest(dept.id))}
+        >
+          <i className="bi bi-eye me-2 fs-6 text-primary"></i>
+          View
+        </button>
+      </li>
+
+      {/* Edit */}
+      <li>
+        <button
+          className="dropdown-item d-flex align-items-center rounded-3 mb-1"
+          style={{
+            color: "#151411ff",
+            fontWeight: 500,
+          }}
+          onClick={() => {
+            setEditData({
+              id: dept.id,
+              departmentName: dept.departmentName,
+              assignedAdmins: dept.assignedAdmins,
+              status: dept.status === "Active",
+            });
+            setShowEditForm(true);
+          }}
+        >
+          <i className="bi bi-pencil-square me-2 fs-6 text-warning"></i>
+          Edit
+        </button>
+      </li>
+
+      {/* Delete */}
+      <li>
+        <button
+          className="dropdown-item d-flex align-items-center rounded-3 mb-1"
+          style={{
+            color: "#020202ff",
+            fontWeight: 500,
+          }}
+          onClick={() => {
+            if (window.confirm("Are you sure you want to delete this department?")) {
+              dispatch(deleteDepartmentRequest(dept.id));
+            }
+          }}
+        >
+          <i className="bi bi-trash3 me-2 fs-6 text-danger"></i>
+          Delete
+        </button>
+      </li>
+
+      {/* Divider */}
+      <li>
+        <hr className="dropdown-divider" />
+      </li>
+
+      {/* Cancel */}
+      <li>
+        <button
+          className="dropdown-item d-flex align-items-center rounded-3"
+          style={{
+            color: "#090a0cff",
+            fontWeight: 500,
+          }}
+        >
+          <i className="bi bi-x-circle me-2 fs-6 text-secondary"></i>
+          Cancel
+        </button>
+      </li>
+    </ul>
+  </div>
+</td>
+
+
       </tr>
     ))
   ) : (
@@ -1083,15 +1278,75 @@ function CollegeDepartment() {
     </div>
   );
 }
+// const SidebarItem = ({ name, icon, activeItem, setActiveItem }) => {
+//   const navigate = useNavigate(); // ✅ hook call
+
+//   const handleClick = () => {
+//     setActiveItem(name);
+//     switch(name) {
+//       case "Department Management":
+//         navigate("/Departmentmanger");
+//         break;
+//       case "Department Admins":
+//         navigate("/Departmentadmin");
+//         break;
+//       case "Students":
+//         navigate("/Students");
+//         break;
+//       case "Assessments":
+//         navigate("/Assessment");
+//         break;
+//       case "Mock Interviews":
+//         navigate("/Mockinterview");
+//         break;
+//       case "Reports":
+//         navigate("/report");
+//         break;
+//       default:
+//         navigate("/");
+//     }
+//   };
+
+//   return (
+//     <li className="nav-item mb-1">
+//       <button
+//         className={`nav-link d-flex align-items-center ${activeItem === name ? 'bg-light text-dark' : 'text-muted'}`}
+//         onClick={handleClick}
+//         style={{ borderRadius: '0.375rem', padding: '10px' }}
+//       >
+//         <span className="me-2">{icon}</span>
+//         {name}
+//       </button>
+//     </li>
+//   );
+// };
+
 const SidebarItem = ({ name, icon, activeItem, setActiveItem }) => {
-  const navigate = useNavigate(); // ✅ hook call
+  const navigate = useNavigate();
 
   const handleClick = () => {
     setActiveItem(name);
-    switch(name) {
-      case "Department Management":
+
+    // ✅ When clicking Department Management
+    if (name === "Department Management") {
+      toast.success("Navigating to Department Management...", {
+        position: "top-right",
+        autoClose: 2000, // toast visible for 2 seconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+      });
+
+      // 👇 Navigate only after toast disappears
+      setTimeout(() => {
         navigate("/Departmentmanger");
-        break;
+      }, 2000);
+      return; // stop here so it doesn’t go to switch below
+    }
+
+    // ✅ Navigation for other menu items
+    switch (name) {
       case "Department Admins":
         navigate("/Departmentadmin");
         break;
@@ -1115,9 +1370,15 @@ const SidebarItem = ({ name, icon, activeItem, setActiveItem }) => {
   return (
     <li className="nav-item mb-1">
       <button
-        className={`nav-link d-flex align-items-center ${activeItem === name ? 'bg-light text-dark' : 'text-muted'}`}
+        className={`nav-link d-flex align-items-center ${
+          activeItem === name ? "bg-light text-dark fw-semibold shadow-sm" : "text-muted"
+        }`}
         onClick={handleClick}
-        style={{ borderRadius: '0.375rem', padding: '10px' }}
+        style={{
+          borderRadius: "0.5rem",
+          padding: "10px 12px",
+          transition: "0.3s",
+        }}
       >
         <span className="me-2">{icon}</span>
         {name}
@@ -1126,13 +1387,14 @@ const SidebarItem = ({ name, icon, activeItem, setActiveItem }) => {
   );
 };
 
+
 // Full Sidebar Example
 const Sidebar = () => {
   const [activeItem, setActiveItem] = useState("");
 
   const menuItems = [
     { name: "Department Management", icon: <FaBuilding /> },
-    { name: "Department Admins", icon: <FaUser /> },
+    { name: "Department Admins", icon: <FaUser/> },
     { name: "Students", icon: <FaBook /> },
     { name: "Assessments", icon: <FaBook /> },
     { name: "Mock Interviews", icon: <FaBook /> },
@@ -1156,8 +1418,3 @@ const Sidebar = () => {
 
 
 export default CollegeDepartment;
-
-
-
-
-

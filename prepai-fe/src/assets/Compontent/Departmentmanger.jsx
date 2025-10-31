@@ -3,6 +3,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { FaSearch } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../../Layout/Navbar";
+
+
+
 import {
   addDepartmentRequest,
   editDepartmentRequest,
@@ -21,7 +24,7 @@ function DepartmentManager() {
     console.log(colleges)
 
   const [formData, setFormData] = useState({
-    name: "",
+    name: "", 
     code: "",
     adminName: "",
     mail: "",
@@ -29,7 +32,7 @@ function DepartmentManager() {
     college: "",
     collegeId: "",
     status: "Active",
-  });
+  }); 
 
   const [errors, setErrors] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
@@ -96,7 +99,7 @@ function DepartmentManager() {
       collegeName: formData.college,
       collegeId:  Number( formData.collegeId),
     };
-console.log(payload)
+    console.log(payload)
     if (editingId) {
       dispatch(editDepartmentRequest(editingId, payload));
     } else {
@@ -364,7 +367,7 @@ const handleEdit = (dep) => {
       <td>{dep.totalNoOfStudents ?? 0}</td>
       <td>
         {/* ✅ Always Active */}
-        <span className="badge bg-success">Active</span>
+        <span className="badge bg-primary">Active</span>
       </td>
       <td>
         {dep.creationDate

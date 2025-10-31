@@ -1,6 +1,8 @@
 
 
 import React from 'react';
+
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import CollegeDepartment from './assets/Compontent/CollegeDepartment';
 import Reports from './assets/Compontent/Reports';
@@ -14,6 +16,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+
+
         {/* <Route path="/" element={<CollegeDepartment />} /> */}
         <Route path="/collegeDepartment" element={<CollegeDepartment />} />
         <Route path="/report" element={<Reports />} />
