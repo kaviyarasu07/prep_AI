@@ -794,19 +794,13 @@
 
 // export default CollegeDepartment;
 
-// CollegeDepartment.jsx
+
 import React, { useEffect, useState } from "react";
-
-
-
 import 'bootstrap/dist/css/bootstrap.min.css';   
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-
 import { useDispatch, useSelector } from "react-redux";
-
 import { useNavigate } from 'react-router-dom';
 import { FaHome, FaBuilding, FaUsers, FaClipboardList, FaUserCheck, FaCogs, FaCalendarAlt, FaUser } from 'react-icons/fa';
 import {
@@ -1023,8 +1017,7 @@ useEffect(() => {
   </div>
 </div>
 
-
-          <div className="table-responsive mb-5">
+       <div className="table-responsive mb-5">
             <table className="table table-hover table-bordered bg-white shadow-sm">
               <thead className="table-light">
                 <tr>
@@ -1327,25 +1320,25 @@ const SidebarItem = ({ name, icon, activeItem, setActiveItem }) => {
   const handleClick = () => {
     setActiveItem(name);
 
-    // ✅ When clicking Department Management
+   
     if (name === "Department Management") {
       toast.success("Navigating to Department Management...", {
         position: "top-right",
-        autoClose: 2000, // toast visible for 2 seconds
+        autoClose: 2000, 
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,
         draggable: true,
       });
 
-      // 👇 Navigate only after toast disappears
+     
       setTimeout(() => {
         navigate("/Departmentmanger");
       }, 2000);
-      return; // stop here so it doesn’t go to switch below
+      return; 
     }
 
-    // ✅ Navigation for other menu items
+   
     switch (name) {
       case "Department Admins":
         navigate("/Departmentadmin");
@@ -1408,7 +1401,7 @@ const Sidebar = () => {
           key={idx}
           name={item.name}
           icon={item.icon}
-          activeItem={activeItem}
+          activeItem={activeItem}w
           setActiveItem={setActiveItem}
         />
       ))}
@@ -1417,4 +1410,4 @@ const Sidebar = () => {
 };
 
 
-export default CollegeDepartment;
+export default CollegeDepartment; 
