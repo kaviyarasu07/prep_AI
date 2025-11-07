@@ -802,7 +802,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { FaHome, FaBuilding, FaUsers, FaClipboardList, FaUserCheck, FaCogs, FaCalendarAlt, FaUser } from 'react-icons/fa';
+import {  FaBuilding, FaUsers, FaClipboardList, FaUserCheck, FaCogs, FaCalendarAlt, FaUser } from 'react-icons/fa';
 import {
   fetchCollegeSummaryRequest,
   fetchDepartmentByIdRequest,
@@ -870,36 +870,12 @@ useEffect(() => {
       
 
   return (
-    <div className="container-fluid">
-  
- 
-    <ToastContainer />
+    <div className="container-fluid"><ToastContainer />
 
       <div className="row vh-100">
         {/* Sidebar */}
-        {/* <div className="col-md-2 bg-white border-end d-flex flex-column justify-content-between" style={{ minHeight: '100vh' }}>
-          <div>
-            <div className="p-3 border-bottom text-center bg-light">
-              <h5 className="m-0">PrepMentor AI</h5>
-            </div>
-            <ul className="nav flex-column mt-3 px-2">
-              <SidebarItem name="Dashboard" icon={<FaHome />} activeItem={activeItem} setActiveItem={setActiveItem}  />
-              <SidebarItem name="Department Management" icon={<FaBuilding />} activeItem={activeItem} setActiveItem={setActiveItem} navigate={navigate} />
-              <SidebarItem name="Department Admins" icon={<FaUserCheck />} activeItem={activeItem} setActiveItem={setActiveItem} navigate={navigate} />
-              <SidebarItem name="Students" icon={<FaUsers />} activeItem={activeItem} setActiveItem={setActiveItem} navigate={navigate} />
-              <SidebarItem name="Assessments" icon={<FaClipboardList />} activeItem={activeItem} setActiveItem={setActiveItem} navigate={navigate} />
-              <SidebarItem name="Mock Interviews" icon={<FaCalendarAlt />} activeItem={activeItem} setActiveItem={setActiveItem} navigate={navigate} />
-              <SidebarItem name="Reports" icon={<FaCogs />} activeItem={activeItem} setActiveItem={setActiveItem} navigate={navigate} />
-            </ul>
-          </div>
-          <div className="p-3 border-top text-center bg-light">
-            <button className="btn btn-outline-secondary btn-sm">Settings</button>
-          </div>
-        </div> */}
-
-
-{/* Sidebar */}
-<div
+      
+      <div
   className="col-md-2 d-flex flex-column justify-content-between shadow-sm"
   style={{
     backgroundColor: "#ffffff",
