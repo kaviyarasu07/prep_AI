@@ -697,23 +697,303 @@
 
 // export default Addstudents;
 
-import React, { useState, useRef, useEffect } from "react";
+// import React, { useState, useRef, useEffect } from "react";
+// import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap-icons/font/bootstrap-icons.css";
+// import { useDispatch } from "react-redux";
+// import Navbar from "./Navbar/Navbar";
+// import { addStudentRequest } from "../Redux-Saga/Actions/AddStudentAction";
+
+// function Addstudents() {
+//   const [students, setStudents] = useState([
+//     { name: "", studentId: "", email: "", phone: "", yearOfStudy: "", mentor: "", cgpa: "", profilePhoto: null, errors: {} },
+//   ]);
+
+//   const [activeIndex, setActiveIndex] = useState(0); // Active form
+//   const inputRefs = useRef([]); // Refs for focusing first input
+//   const dispatch = useDispatch();
+
+//   const handleInputChange = (index, field, value) => {
+//     const updated = [...students];
+//     updated[index][field] = value;
+//     setStudents(updated);
+//   };
+
+//   const handleFileUpload = (index, file) => {
+//     const updated = [...students];
+//     updated[index].profilePhoto = file;
+//     setStudents(updated);
+//   };
+
+//   const validateFields = (student) => {
+//     const errors = {};
+//     if (!student.name.trim()) errors.name = "Name is required.";
+//     if (!student.studentId.trim()) errors.studentId = "Student ID is required.";
+//     if (!student.email.trim()) errors.email = "Email is required.";
+//     else if (!/\S+@\S+\.\S+/.test(student.email)) errors.email = "Invalid email format.";
+//     if (!student.phone.trim()) errors.phone = "Phone is required.";
+//     else if (!/^\d{10}$/.test(student.phone)) errors.phone = "Phone must be 10 digits.";
+//     if (!student.yearOfStudy) errors.yearOfStudy = "Select year.";
+//     if (!student.mentor) errors.mentor = "Select mentor.";
+//     if (!student.cgpa) errors.cgpa = "Enter CGPA.";
+//     else if (student.cgpa < 0 || student.cgpa > 10) errors.cgpa = "CGPA must be 0-10.";
+//     return errors;
+//   };
+
+//   const addAnotherStudent = () => {
+//     const newStudent = { name: "", studentId: "", email: "", phone: "", yearOfStudy: "", mentor: "", cgpa: "", profilePhoto: null, errors: {} };
+//     setStudents([...students, newStudent]);
+//     setActiveIndex(students.length); // New form active
+//   };
+
+
+// const handleSubmit = (e) => {
+//   e.preventDefault();
+
+//   const validated = students.map((s) => ({ ...s, errors: validateFields(s) }));
+//   setStudents(validated);
+//   const hasError = validated.some((s) => Object.keys(s.errors).length > 0);
+
+//   if (!hasError) {
+//     validated.forEach((student) => {
+//       const payload = {
+//         studentName: student.name.trim(),
+//         rollNumber: student.studentId.trim(),
+//         email: student.email.trim(),
+//         phoneNumber: student.phone.trim(),
+//         yearOfStudy: student.yearOfStudy.toString(),
+//         cgpa: Number(student.cgpa),
+//       };
+
+//       console.log("✅ Sending payload:", payload);
+//       dispatch(addStudentRequest(payload));
+//     });
+
+//     // ✅ Clear form after successful submit
+//     setStudents([
+//       {
+//         name: "",
+//         studentId: "",
+//         email: "",
+//         phone: "",
+//         yearOfStudy: "",
+//         mentor: "",
+//         cgpa: "",
+//         profilePhoto: null,
+//         errors: {},
+//       },
+//     ]);
+//     setActiveIndex(0);
+//   }
+// };
+
+
+
+//   const handleCancel = () => {
+//     if (students.length > 1) {
+//       const updated = [...students];
+//       updated.pop(); // remove last added form
+//       setStudents(updated);
+//       setActiveIndex(updated.length - 1);
+//     } else {
+//       console.log("No additional form to cancel.");
+//     }
+//   };
+
+//   return (
+//     <>
+//       <Navbar />
+//       <div className="container py-5">
+//         <h3 className=" fw-bold mb-5 " style={{marginLeft:"10px",fontSize:"25px",fontFamily:"sans-serif"}}>Add New Student</h3>
+//         <form onSubmit={handleSubmit}>
+//           {students.map((student, index) => (
+//             <div
+//               key={index}
+//               onClick={() => setActiveIndex(index)}
+//               className={`card mb-4 shadow border-0 rounded-5 p-4 ${index === activeIndex ? "border-primary border-3" : ""}`}
+//               style={{ backgroundColor: "#fff", transition: "all 0.3s ease", cursor: "pointer" }}
+//             >
+//               {students.length > 1 && (
+//                 <div className="d-flex justify-content-between align-items-center mb-3">
+//                   <h5 className="text-primary mb-0">Student #{index + 1}</h5>
+//                   <button
+//                     type="button"
+//                     className="btn btn-sm btn-outline-danger rounded-pill"
+//                     onClick={() => setStudents(students.filter((_, i) => i !== index))}
+//                   >
+//                     <i className="bi bi-trash me-1"></i> Remove
+//                   </button>
+//                 </div>
+//               )}
+
+//               <div className="row g-3" style={{fontFamily:"serif"}}>
+//                 <div className="col-md-6">
+//                   <label className="form-label fw-semibold">Name</label>
+//                   <input
+//                     type="text"
+//                     ref={(el) => (inputRefs.current[index] = el)}
+//                     className="form-control rounded-3 shadow-sm"
+//                     placeholder="Enter full name"
+//                     value={student.name}
+//                     onChange={(e) => handleInputChange(index, "name", e.target.value)}
+//                   />
+//                   {student.errors.name && <small className="text-danger">{student.errors.name}</small>}
+//                 </div>
+
+//                 <div className="col-md-6">
+//                   <label className="form-label fw-semibold">Student ID</label>
+//                   <input
+//                     type="text"
+//                     className="form-control rounded-3 shadow-sm"
+//                     placeholder="Enter student ID"
+//                     value={student.studentId}
+//                     onChange={(e) => handleInputChange(index, "studentId", e.target.value)}
+//                   />
+//                   {student.errors.studentId && <small className="text-danger">{student.errors.studentId}</small>}
+//                 </div>
+
+//                 <div className="col-md-6">
+//                   <label className="form-label fw-semibold">Email</label>
+//                   <input
+//                     type="email"
+//                     className="form-control rounded-3 shadow-sm"
+//                     placeholder="Enter email"
+//                     value={student.email}
+//                     onChange={(e) => handleInputChange(index, "email", e.target.value)}
+//                   />
+//                   {student.errors.email && <small className="text-danger">{student.errors.email}</small>}
+//                 </div>
+
+//                 <div className="col-md-6">
+//                   <label className="form-label fw-semibold">Phone</label>
+//                   <input
+//                     type="tel"
+//                     className="form-control rounded-3 shadow-sm"
+//                     placeholder="Enter phone number"
+//                     value={student.phone}
+//                     onChange={(e) => handleInputChange(index, "phone", e.target.value)}
+//                   />
+//                   {student.errors.phone && <small className="text-danger">{student.errors.phone}</small>}
+//                 </div>
+
+//                 <div className="col-md-6">
+//                   <label className="form-label fw-semibold">Year</label>
+//                   <select
+//                     className="form-select rounded-3 shadow-sm"
+//                     value={student.yearOfStudy}
+//                     onChange={(e) => handleInputChange(index, "yearOfStudy", e.target.value)}
+//                   >
+//                     <option value="">Select year</option>
+//                     <option value="1">Year 1</option>
+//                     <option value="2">Year 2</option>
+//                     <option value="3">Year 3</option>
+//                     <option value="4">Year 4</option>
+//                   </select>
+//                   {student.errors.yearOfStudy && <small className="text-danger">{student.errors.yearOfStudy}</small>}
+//                 </div>
+
+//                 <div className="col-md-6">
+//                   <label className="form-label fw-semibold">Mentor</label>
+//                   <select
+//                     className="form-select rounded34 shadow-sm"
+//                     value={student.mentor}
+//                     onChange={(e) => handleInputChange(index, "mentor", e.target.value)}
+//                   >
+//                     <option value="">Select mentor</option>
+//                     <option value="mentor1">Dr. Smith</option>
+//                     <option value="mentor2">Prof. Johnson</option>
+//                     <option value="mentor3">Dr. Williams</option>
+//                   </select>
+//                   {student.errors.mentor && <small className="text-danger">{student.errors.mentor}</small>}
+//                 </div>
+
+//                 <div className="col-md-6">
+//                   <label className="form-label fw-semibold">CGPA</label>
+//                   <input
+//                     type="number"
+//                     className="form-control rounded-3 shadow-sm"
+//                     placeholder="Enter CGPA"
+//                     value={student.cgpa}
+//                     onChange={(e) => handleInputChange(index, "cgpa", e.target.value)}
+//                   />
+//                   {student.errors.cgpa && <small className="text-danger">{student.errors.cgpa}</small>}
+//                 </div>
+
+//                 <div className="col-md-6">
+//                   <label className="form-label fw-semibold">Profile Photo</label>
+//                   <input
+//                     type="file"
+//                     className="form-control rounded-3 shadow-sm"
+//                     onChange={(e) => handleFileUpload(index, e.target.files[0])}
+//                   />
+//                   <small className="text-muted">Optional — JPG/PNG</small>
+//                 </div>
+//               </div>
+//             </div>
+//           ))}
+
+//           <div className="d-flex justify-content-between align-items-center mt-4">
+//             <button
+//               type="button"
+//               className="btn btn-outline-primary shadow-sm rounded-4"
+//               onClick={addAnotherStudent}
+//             >
+//               <i className="bi bi-person-plus me-1"></i> Add Another Student
+//             </button>
+
+//             <div>
+//               <button type="submit" className="btn btn-primary shadow-sm rounded-4 me-2">
+//                 Submit Details
+//               </button>
+//               <button
+//                 type="button"
+//                 className="btn btn-outline-primary shadow-sm rounded-4"
+//                 onClick={handleCancel}
+//               >
+//                 Cancel
+//               </button>
+//             </div>
+//           </div>
+//         </form>
+//       </div>
+//     </>
+//   );
+// }
+
+// export default Addstudents;
+
+
+
+import React, { useState, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { useDispatch } from "react-redux";
 import Navbar from "./Navbar/Navbar";
+import { addStudentRequest } from "../Redux-Saga/Actions/AddStudentAction";
 
 function Addstudents() {
   const [students, setStudents] = useState([
-    { name: "", studentId: "", email: "", phone: "", yearOfStudy: "", mentor: "", cgpa: "", profilePhoto: null, errors: {} },
+    {
+      name: "",
+      studentId: "",
+      email: "",
+      phone: "",
+      yearOfStudy: "",
+      mentor: "",
+      cgpa: "",
+      profilePhoto: null,
+      errors: {},
+    },
   ]);
 
-  const [activeIndex, setActiveIndex] = useState(0); // Active form
-  const inputRefs = useRef([]); // Refs for focusing first input
+  const [activeIndex, setActiveIndex] = useState(0);
+  const inputRefs = useRef([]);
+  const dispatch = useDispatch();
 
   const handleInputChange = (index, field, value) => {
     const updated = [...students];
     updated[index][field] = value;
-    setStudents(updated);
+    setStudents(updated); 
   };
 
   const handleFileUpload = (index, file) => {
@@ -738,30 +1018,75 @@ function Addstudents() {
   };
 
   const addAnotherStudent = () => {
-    const newStudent = { name: "", studentId: "", email: "", phone: "", yearOfStudy: "", mentor: "", cgpa: "", profilePhoto: null, errors: {} };
-    setStudents([...students, newStudent]);
-    setActiveIndex(students.length); // New form active
-  };
+    const newStudent = {
+      name: "",
+      studentId: "",
+      email: "",
+      phone: "",
+      yearOfStudy: "",
+      mentor: "",
+      cgpa: "",
+      profilePhoto: null,
+      errors: {},
+    };
 
-  useEffect(() => {
-    // Focus first input of active form
-    if (inputRefs.current[activeIndex]) {
-      inputRefs.current[activeIndex].focus();
-    }
-  }, [activeIndex, students]);
+    setStudents((prevStudents) => {
+      const updated = [...prevStudents, newStudent];
+      setActiveIndex(updated.length - 1); // highlight new form
+      return updated;
+    });
+
+    // Optional: Auto scroll to new form
+    setTimeout(() => {
+      const lastRef = inputRefs.current[inputRefs.current.length - 1];
+      if (lastRef) lastRef.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 200);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const validated = students.map((s) => ({ ...s, errors: validateFields(s) }));
     setStudents(validated);
     const hasError = validated.some((s) => Object.keys(s.errors).length > 0);
-    if (!hasError) alert("All students added successfully!");
+
+    if (!hasError) {
+      validated.forEach((student) => {
+        const payload = {
+          studentName: student.name.trim(),
+          rollNumber: student.studentId.trim(),
+          email: student.email.trim(),
+          phoneNumber: student.phone.trim(),
+          yearOfStudy: student.yearOfStudy.toString(),
+          cgpa: Number(student.cgpa),
+        };
+
+        console.log("✅ Sending payload:", payload);
+        dispatch(addStudentRequest(payload));
+      });
+
+      // Clear after submit
+      setStudents([
+        {
+          name: "",
+          studentId: "",
+          email: "",
+          phone: "",
+          yearOfStudy: "",
+          mentor: "",
+          cgpa: "",
+          profilePhoto: null,
+          errors: {},
+        },
+      ]);
+      setActiveIndex(0);
+    }
   };
 
   const handleCancel = () => {
     if (students.length > 1) {
       const updated = [...students];
-      updated.pop(); // remove last added form
+      updated.pop();
       setStudents(updated);
       setActiveIndex(updated.length - 1);
     } else {
@@ -773,14 +1098,20 @@ function Addstudents() {
     <>
       <Navbar />
       <div className="container py-5">
-        <h3 className=" fw-bold mb-5 " style={{marginLeft:"10px",fontSize:"25px",fontFamily:"sans-serif"}}>Add New Student</h3>
+        <h3 className="fw-bold mb-5" style={{ marginLeft: "10px", fontSize: "25px", fontFamily: "sans-serif" ,color: "cornflowerblue" }}>
+          Add New Student
+        </h3>
+
         <form onSubmit={handleSubmit}>
           {students.map((student, index) => (
             <div
               key={index}
+              ref={(el) => (inputRefs.current[index] = el)}
               onClick={() => setActiveIndex(index)}
-              className={`card mb-4 shadow border-0 rounded-5 p-4 ${index === activeIndex ? "border-primary border-3" : ""}`}
-              style={{ backgroundColor: "#fff", transition: "all 0.3s ease", cursor: "pointer" }}
+              className={`card mb-4 shadow border-0 rounded-5 p-4 ${
+                index === activeIndex ? "border-primary border-3" : ""
+              }`}
+              style={{ backgroundColor: "rgb(219, 228, 271", transition: "all 0.3s ease", cursor: "pointer"  }}
             >
               {students.length > 1 && (
                 <div className="d-flex justify-content-between align-items-center mb-3">
@@ -795,12 +1126,11 @@ function Addstudents() {
                 </div>
               )}
 
-              <div className="row g-3" style={{fontFamily:"serif"}}>
+              <div className="row g-3" style={{ fontFamily: "serif" }}>
                 <div className="col-md-6">
                   <label className="form-label fw-semibold">Name</label>
                   <input
                     type="text"
-                    ref={(el) => (inputRefs.current[index] = el)}
                     className="form-control rounded-3 shadow-sm"
                     placeholder="Enter full name"
                     value={student.name}
@@ -858,13 +1188,15 @@ function Addstudents() {
                     <option value="3">Year 3</option>
                     <option value="4">Year 4</option>
                   </select>
-                  {student.errors.yearOfStudy && <small className="text-danger">{student.errors.yearOfStudy}</small>}
+                  {student.errors.yearOfStudy && (
+                    <small className="text-danger">{student.errors.yearOfStudy}</small>
+                  )}
                 </div>
 
                 <div className="col-md-6">
                   <label className="form-label fw-semibold">Mentor</label>
                   <select
-                    className="form-select rounded34 shadow-sm"
+                    className="form-select rounded-3 shadow-sm"
                     value={student.mentor}
                     onChange={(e) => handleInputChange(index, "mentor", e.target.value)}
                   >
@@ -902,11 +1234,7 @@ function Addstudents() {
           ))}
 
           <div className="d-flex justify-content-between align-items-center mt-4">
-            <button
-              type="button"
-              className="btn btn-outline-primary shadow-sm rounded-4"
-              onClick={addAnotherStudent}
-            >
+            <button type="button" className="btn btn-outline-primary shadow-sm rounded-4" onClick={addAnotherStudent}>
               <i className="bi bi-person-plus me-1"></i> Add Another Student
             </button>
 
@@ -914,11 +1242,7 @@ function Addstudents() {
               <button type="submit" className="btn btn-primary shadow-sm rounded-4 me-2">
                 Submit Details
               </button>
-              <button
-                type="button"
-                className="btn btn-outline-primary shadow-sm rounded-4"
-                onClick={handleCancel}
-              >
+              <button type="button" className="btn btn-outline-primary shadow-sm rounded-4" onClick={handleCancel}>
                 Cancel
               </button>
             </div>
@@ -930,5 +1254,3 @@ function Addstudents() {
 }
 
 export default Addstudents;
-
-

@@ -239,6 +239,7 @@ function Navbar() {
                       padding: "8px 14px",
                       borderRadius: "8px",
                       transition: "all 0.3s ease",
+                      
                     }}
                     onMouseEnter={(e) => {
                       
@@ -292,6 +293,7 @@ function Navbar() {
                   backgroundColor: "#1c1f2b",
                   borderRadius: "10px",
                   overflow: "hidden",
+                   
                 }}
               >
                 <li>

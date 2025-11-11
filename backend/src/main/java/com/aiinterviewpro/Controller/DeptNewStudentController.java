@@ -24,23 +24,27 @@ public class DeptNewStudentController {
     @Autowired
     private DeptNewStudentService deptNewStudentService;
 
+
+    // ===== Add new student =====
     @PostMapping("/student")
     public ResponseEntity<?> createStudent(@RequestBody DeptNewStudentDto dto) {
         try {
-            // Service already returns DTO after saving
+            // Save student via service
             DeptNewStudentDto responseDto = deptNewStudentService.saveStudent(dto);
             return ResponseEntity.ok(responseDto);
-
         } catch (RuntimeException ex) {
-            // This will be caught by GlobalExceptionHandler if you remove try-catch
+            // Return 400 if validation or department error occurs
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
-    //get department name only
 
+    // ===== Get all departments =====
     @GetMapping("/names")
-    public List<DepartmentMaster> getAllDepartments() {
-        return deptNewStudentService.getAllDepartments();
+    public ResponseEntity<List<DepartmentMaster>> getAllDepartments() {
+        // Service must have getAllDepartments() method
+        List<DepartmentMaster> departments = deptNewStudentService.getAllDepartments();
+        return ResponseEntity.ok(departments);
     }
 }
+
 

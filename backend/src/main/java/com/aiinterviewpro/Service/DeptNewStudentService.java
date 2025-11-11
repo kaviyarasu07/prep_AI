@@ -27,67 +27,65 @@ public class DeptNewStudentService {
             Pattern.compile("^[A-Z]{2}\\d{4}\\d{3}$"); // DeptCode + Year + Seq
 
     public DeptNewStudentDto saveStudent(DeptNewStudentDto dto) {
+
         // ===== Validation =====
-        if (dto.getStudentName() == null || dto.getStudentName().trim().isEmpty()) {
+        if (dto.getStudentName() == null || dto.getStudentName().trim().isEmpty())
             throw new RuntimeException("Name cannot be empty");
-        }
-        if (dto.getRollNumber() == null || dto.getRollNumber().trim().isEmpty()) {
-            throw new RuntimeException("Roll Number cannot be empty");
-        }
 
-
-        if (dto.getYearOfStudy() == null || dto.getYearOfStudy().trim().isEmpty()) {
+        if (dto.getYearOfStudy() == null || dto.getYearOfStudy().trim().isEmpty())
             throw new RuntimeException("Year of Study cannot be empty");
-        }
-        if (dto.getCgpa() == null) {
-            throw new RuntimeException("CGPA cannot be empty");
-        }
-        if (dto.getCgpa() < 0 || dto.getCgpa() > 10) {
+
+        if (dto.getCgpa() == null || dto.getCgpa() < 0 || dto.getCgpa() > 10)
             throw new RuntimeException("CGPA must be between 0 and 10");
-        }
-        if (dto.getEmail() == null || !EMAIL_PATTERN.matcher(dto.getEmail()).matches()) {
+
+        if (dto.getEmail() == null || !EMAIL_PATTERN.matcher(dto.getEmail()).matches())
             throw new RuntimeException("Invalid email format");
-        }
-        if (dto.getPhoneNumber() == null || !dto.getPhoneNumber().matches("\\d{10}")) {
+
+        if (dto.getPhoneNumber() == null || !dto.getPhoneNumber().matches("\\d{10}"))
             throw new RuntimeException("Phone number must be 10 digits");
+
+        // ===== Department Assignment =====
+        DepartmentMaster dept;
+        if (dto.getDepartmentId() != null) {
+            // Use provided department
+            dept = departmentMasterRepo.findById(dto.getDepartmentId())
+                    .orElseThrow(() -> new RuntimeException("Department not found"));
+        } else {
+            // Assign default department (first one in DB)
+            List<DepartmentMaster> allDepts = departmentMasterRepo.findAll();
+            if (allDepts.isEmpty())
+                throw new RuntimeException("No departments available");
+            dept = allDepts.get(0);
         }
-        // ===== Create and Save Entity =====
-        StudentDetails student = new StudentDetails();
-        student.setStudentName(dto.getStudentName());
-        student.setRollNumber(dto.getRollNumber());
-        student.setEmail(dto.getEmail());
-        student.setPhoneNumber(dto.getPhoneNumber());
-        student.setYearOfStudy(dto.getYearOfStudy());
-        student.setCgpa(dto.getCgpa());
-        DepartmentMaster dept = departmentMasterRepo.findById(dto.getDepartmentId())
-                .orElseThrow(() -> new RuntimeException("Department not found"));
 
-        student.setDepartment(dept);
-
-
-        StudentDetails savedStudent = studentDetailsRepo.save(student);
-
-        // ===== Roll Number Generation
+        // ===== Roll Number Handling =====
         String rollNumber;
         if (dto.getRollNumber() == null || dto.getRollNumber().trim().isEmpty()) {
-            // Auto-generate
             rollNumber = generateRollNumber(dept.getDepartmentName());
         } else {
-            // User input validation
             if (!ROLL_PATTERN.matcher(dto.getRollNumber()).matches())
                 throw new RuntimeException("Roll Number must be in format: <DeptCode><Year><3-digit seq>");
             rollNumber = dto.getRollNumber();
         }
 
-        // ===== DB Uniqueness Check =====
+        // Ensure roll number is unique
         while (studentDetailsRepo.existsByRollNumber(rollNumber)) {
-            // Increment sequence if exists
             String prefix = rollNumber.substring(0, rollNumber.length() - 3);
             int seq = Integer.parseInt(rollNumber.substring(rollNumber.length() - 3)) + 1;
             rollNumber = prefix + String.format("%03d", seq);
         }
 
+        // ===== Create Student Entity =====
+        StudentDetails student = new StudentDetails();
+        student.setStudentName(dto.getStudentName());
+        student.setRollNumber(rollNumber);
+        student.setEmail(dto.getEmail());
+        student.setPhoneNumber(dto.getPhoneNumber());
+        student.setYearOfStudy(dto.getYearOfStudy());
+        student.setCgpa(dto.getCgpa());
+        student.setDepartment(dept);
 
+        StudentDetails savedStudent = studentDetailsRepo.save(student);
 
         // ===== Convert Entity back to DTO =====
         DeptNewStudentDto responseDto = new DeptNewStudentDto();
@@ -102,20 +100,16 @@ public class DeptNewStudentService {
 
         return responseDto;
     }
+
     // ===== Private Roll Number Generation Method =====
     private String generateRollNumber(String departmentName) {
         int year = java.time.Year.now().getValue();
-
-        // Split department name by space
         String[] words = departmentName.split(" ");
         String deptCode = "";
-
-        // Take first letter of first two words
         for (int i = 0; i < words.length && i < 2; i++) {
             deptCode += words[i].substring(0, 1).toUpperCase();
         }
 
-        // Get last roll number from DB
         String lastRoll = studentDetailsRepo.findLastRollNumber(deptCode + year);
         int seq = 1;
         if (lastRoll != null) {
@@ -124,9 +118,8 @@ public class DeptNewStudentService {
 
         return deptCode + year + String.format("%03d", seq);
     }
-    //get department datas
+
     public List<DepartmentMaster> getAllDepartments() {
         return departmentMasterRepo.findAll();
     }
-
 }
