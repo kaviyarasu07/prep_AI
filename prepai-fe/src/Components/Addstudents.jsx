@@ -1098,6 +1098,7 @@ function Addstudents() {
     <>
       <Navbar />
       <div className="container py-5">
+        
         <h3 className="fw-bold mb-5" style={{ marginLeft: "10px", fontSize: "25px", fontFamily: "sans-serif" ,color: "cornflowerblue" }}>
           Add New Student
         </h3>
